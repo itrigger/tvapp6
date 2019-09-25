@@ -1,7 +1,10 @@
 {
-  "name": "tvapp6 backend",
+  "name": "tvapp6_backend",
   "version": "1.0.0",
-  "private": true,
+  "description": "",
+  "main": "server.js",
+  "author": "",
+  "license": "ISC",
   "scripts": {
     "start": "node app.js",
     "devstart": "nodemon server.js",

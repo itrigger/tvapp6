@@ -15,7 +15,7 @@ const App = (props) =>{
                 <Header />
                 <MyNavbar />
                 <Route path="/"
-                       render={()=><Mainpage tvs={props.state} />} />
+                       render={()=><Mainpage tvs={props.tvs} />} />
             </div>
         </BrowserRouter>
     );
