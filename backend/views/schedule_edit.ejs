@@ -1,0 +1,41 @@
+<% layout('layout/page') -%>
+<% block('title', 'Редактирование события'); -%>
+<section class="container">
+    <div class="bs-docs-section clearfix">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <h1>Редактирование события</h1>
+                </div>
+                <form method="post" id="schedule-edit" action="/schedule/<%= schedule._id %>?_method=put">
+                    <input type='hidden' name='id' class="id" value='<%= schedule._id %>'/>
+                    <div class="form-group">
+                        Название:<br>
+                        <input type='text' name='name' class='form-control fu-place' value='<%= schedule.name %>'/>
+                    </div>
+                    <div class="form-group">
+                        Описание: <br>
+                        <input type='text' name='description' class='form-control' value='<%= schedule.description %>'/>
+                    </div>
+                    <div class="form-group">
+                        Локация: <br>
+                        <input type='text' name='place' class='form-control' value='<%= schedule.place %>'/>
+                    </div>
+                    <div class="form-group">
+                        ТВ: <br>
+                        <input type='text' name='tv' class='form-control' value='<%= schedule.tv %>'/>
+                    </div>
+                    <div class="form-group">
+                        Тайминг: <br>
+                        <input type='text' name='time' class='form-control' value='<%= schedule.time %>'/>
+                    </div>
+                    <div class="form-group">
+                        Активен (1 или 0): <br>
+                        <input type='text' name='isactive' class='form-control' value='<%= schedule.isactive %>'/>
+                    </div>
+                    <input type='submit' value='Сохранить' class='btn btn-primary'>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

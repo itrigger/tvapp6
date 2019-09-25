@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<body class="front">
+<head>
+    <title>Воспроизведение</title>
+    <link rel="stylesheet" href="/css/main.bundle.css"/>
+    <script src="/js/bundle.js"></script>
+    <script src="https://js.pusher.com/5.0/pusher.min.js"></script>
+    <script src="https://kit.fontawesome.com/de94465633.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://tv.sushihiro.kz/vendor/js/owl/owl.carousel.min.js"></script>
+    <link href="http://tv.sushihiro.kz/vendor/js/owl/assets/owl.carousel.min.css" rel='stylesheet' type='text/css'>
+    <style>
+        .front {
+            background: #000;
+            overflow: hidden;
+            color: #fff;
+            padding: 0;
+        }
+    </style>
+</head>
+
+
+                <div class="owl-carousel owl-theme">
+                    <% slides.forEach(function(slides) { %>
+                        <div class="item"><%- slides.slide_content %></div>
+                    <% }); %>
+                </div>
+
+
+
+<script>
+    $('document').ready(function () {
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('715c895bb7ce1e7fa171', {
+            cluster: 'ap2',
+            forceTLS: true
+        });
+
+        var channel = pusher.subscribe('<%= query %>');
+
+        channel.bind("my-event", function (data) {
+            $(".owl-carousel").html("").append(data.message);
+            $(".owl-carousel").trigger("destroy.owl.carousel");
+            $(".owl-carousel").owlCarousel({
+                loop: true,
+                margin: 0,
+                nav: false,
+                autoWidth: false,
+                autoplay: true,
+                autoplayTimeout: 10000,
+                animateOut: "fadeOut",
+                responsive: {
+                    0: {
+                        items: 1
+                    },
+                    600: {
+                        items: 1
+                    },
+                    1000: {
+                        items: 1
+                    }
+                }
+            });
+            return false;
+        });
+        var $owl = $('.owl-carousel').owlCarousel({
+            loop: true,
+            margin: 0,
+            nav: false,
+            autoWidth: false,
+            autoplay: true,
+            autoplayTimeout: 3000,
+            animateOut: 'fadeOut',
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 1
+                },
+                1000: {
+                    items: 1
+                }
+            }
+        })
+
+       /* channels_client.trigger('<%= query %>', 'my-event', {
+            'message': '<% slides.forEach(function(slides) { %><div class="item"><%- slides.slide_content %></div><% }); %>'
+        });*/
+
+    });
+</script>
+</body>
+</html>

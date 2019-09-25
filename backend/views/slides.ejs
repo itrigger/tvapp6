@@ -1,0 +1,56 @@
+<% layout('layout/page') -%>
+<% block('title', 'Слайды/Экраны'); -%>
+<section class="container">
+
+
+    <div class="bs-docs-section clearfix">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="page-header">
+                    <h1>Слайды</h1>
+                </div>
+
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <a href="/add_slide" class="btn btn-success"><i class="fas fa-plus"></i> Добавить новый
+                            слайд</a>
+                    </div>
+                </div>
+
+
+                <table class='table table-striped mytable table-dark'>
+                    <tr>
+                        <th>Id</th>
+                        <th>Локация</th>
+                        <th>Экран</th>
+                        <th>Номер слайда</th>
+                        <th>Активен?</th>
+                        <th>Контент</th>
+                        <th></th>
+                    </tr>
+                    <% slides.forEach(function(slides) { %>
+                        <tr>
+                            <td><%= slides._id %></td>
+                            <td><%= slides.place %></td>
+                            <td><%= slides.screen_num %></td>
+                            <td><%= slides.slide_num %></td>
+                            <td><%= slides.isactive %></td>
+                            <td><%- slides.slide_content %></td>
+                            <td>
+                                <div class="float-left m-1"><a href="/slides/<%= slides._id %>"
+                                                               class="btn btn-warning"><i
+                                                class="fas fa-edit"></i></a></div>
+                                <form class="slide-delete-form float-left m-1">
+                                    <input type="hidden" class="id" value="<%= slides._id %>">
+                                    <a href="#" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                </form>
+
+                            </td>
+                        </tr>
+                    <% }); %>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

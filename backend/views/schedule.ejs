@@ -1,0 +1,58 @@
+<% layout('layout/page') -%>
+<% block('title', 'Расписание событий'); -%>
+<section class="container">
+
+
+    <div class="bs-docs-section clearfix">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="page-header">
+                    <h1>События</h1>
+                </div>
+
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <a href="/add_schedule" class="btn btn-success"><i class="fas fa-plus"></i> Добавить новое
+                            событие</a>
+                    </div>
+                </div>
+
+
+                <table class='table table-striped mytable table-dark'>
+                    <tr>
+                        <th>Id</th>
+                        <th>Название</th>
+                        <th>Описание</th>
+                        <th>Локация</th>
+                        <th>Экран</th>
+                        <th>Тайминг</th>
+                        <th>Активен?</th>
+                        <th></th>
+                    </tr>
+                    <% schedule.forEach(function(schedule) { %>
+                        <tr>
+                            <td><%= schedule._id %></td>
+                            <td><%= schedule.name %></td>
+                            <td><%= schedule.description %></td>
+                            <td><%= schedule.place %></td>
+                            <td><%= schedule.tv %></td>
+                            <td><%- schedule.time %></td>
+                            <td><%- schedule.isactive %></td>
+                            <td>
+                                <div class="float-left m-1"><a href="/schedule/<%= schedule._id %>"
+                                                               class="btn btn-warning"><i
+                                                class="fas fa-edit"></i></a></div>
+                                <form class="schedule-delete-form float-left m-1">
+                                    <input type="hidden" class="id" value="<%= schedule._id %>">
+                                    <a href="#" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                </form>
+
+                            </td>
+                        </tr>
+                    <% }); %>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

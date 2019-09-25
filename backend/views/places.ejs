@@ -1,0 +1,46 @@
+<% layout('layout/page') -%>
+<% block('title', 'Точки'); -%>
+<section class="container">
+
+    <div class="bs-docs-section clearfix">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <h1>Точки</h1>
+                </div>
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <a href="/add_place" class="btn btn-success"><i class="fas fa-plus"></i> Добавить новую
+                            точку</a>
+                    </div>
+                </div>
+                <table class='table table-striped mytable table-dark'>
+                    <tr>
+                        <th>Id</th>
+                        <th>Название</th>
+                        <th>Описание</th>
+                        <th>Активен?</th>
+                        <th></th>
+                    </tr>
+                    <% place.forEach(function(place) { %>
+                        <tr>
+                            <td><%= place._id %></td>
+                            <td><%= place.name %></td>
+                            <td><%= place.description %></td>
+                            <td><%= place.isactive %></td>
+                            <td>
+                                <div class="float-left m-1"><a href="/places/<%= place._id %>"
+                                                               class="btn btn-warning"><i class="fas fa-edit"></i></a>
+                                </div>
+                                <form class="place-delete-form float-left m-1">
+                                    <input type="hidden" class="id" value="<%= place._id %>">
+                                    <a href="#" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,51 @@
+<% layout('layout/page') -%>
+<% block('title', 'ТВ панели'); -%>
+<section class="container">
+
+
+    <div class="bs-docs-section clearfix">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="page-header">
+                    <h1>ТВ панели</h1>
+                </div>
+
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <a href="/add_tv" class="btn btn-success"><i class="fas fa-plus"></i> Добавить новый экран</a>
+                    </div>
+                </div>
+
+
+                <table class='table table-striped mytable table-dark'>
+                    <tr>
+                        <th>Id</th>
+                        <th>Локация</th>
+                        <th>Номер</th>
+                        <th>Канал</th>
+                        <th></th>
+                    </tr>
+                    <% tvs.forEach(function(tvs) { %>
+                        <tr>
+                            <td><%= tvs._id %></td>
+                            <td><%= tvs.place %></td>
+                            <td><%= tvs.number %></td>
+                            <td><%= tvs.channel %></td>
+                            <td>
+                                <div class="float-left m-1"><a href="/tvs/<%= tvs._id %>" class="btn btn-warning"><i
+                                                class="fas fa-edit"></i></a></div>
+                                <form class="tvs-delete-form float-left m-1">
+                                    <input type="hidden" class="id" value="<%= tvs._id %>">
+                                    <a href="#" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                </form>
+                                <div class="float-left m-1"><a href="/update/<%= tvs.channel %>?place=<%= tvs.place %>&num=<%= tvs.number %>" target="_blank" class="btn btn-warning"><i
+                                                class="fas fa-sync-alt"></i></a></div>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
