@@ -1,17 +1,30 @@
 import React from 'react';
 /*import s from './Navbar.module.css'*/
 import {Navbar, Nav} from 'react-bootstrap';
+import { LinkContainer } from "react-router-bootstrap";
 
-const MyNavbar = (props) => {
+const MyNavbar = () => {
     return (
         <Navbar bg="dark" variant="dark">
             <div className="container">
                 <Navbar.Brand href="/">Главная</Navbar.Brand>
                 <Nav className="mr-auto">
-                    <Nav.Link href="/places">Точки</Nav.Link>
-                    <Nav.Link href="/tvss">Панели</Nav.Link>
-                    <Nav.Link href="/slides">Слайды</Nav.Link>
-                    <Nav.Link href="/schedule">События</Nav.Link>
+
+                    <LinkContainer to="/places">
+                        <Nav.Link href="/places" >Точки</Nav.Link>
+                    </LinkContainer>
+                    <LinkContainer to="/tvss">
+                        <Nav.Link href="/tvss">Панели</Nav.Link>
+                    </LinkContainer>
+                    <LinkContainer to="/slides">
+                        <Nav.Link href="/slides">Слайды</Nav.Link>
+                    </LinkContainer>
+                    <LinkContainer to="/slideadd">
+                        <Nav.Link href="/slideadd">Новый Слайд</Nav.Link>
+                    </LinkContainer>
+                    <LinkContainer to="/schedule">
+                        <Nav.Link href="/schedule">События</Nav.Link>
+                    </LinkContainer>
                 </Nav>
             </div>
         </Navbar>

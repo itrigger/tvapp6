@@ -125,3 +125,44 @@ exports.delete = function(req, res) {
         }
     );
 };
+
+/*API*/
+exports.APIall = function(req, res) {
+    Slides.all(function(err, docs) {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500);
+        }
+        res.send(docs);
+    });
+};
+
+exports.APIadd = function(req, res) {
+    let screen = {
+        place: req.body.slide.place,
+        screen_num: req.body.slide.screen_num,
+        slide_num: req.body.slide.slide_num,
+        isactive: req.body.slide.isactive,
+        slide_content: req.body.slide.slide_content
+    };
+    Slides.create(screen, function(err, result) {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500);
+        }
+        return res.sendStatus(200);
+    });
+};
+
+exports.APIdelete = function(req, res) {
+    Slides.delete(
+        req.params.id,
+        function(err, result) {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500);
+            }
+            res.sendStatus(200);
+        }
+    );
+};

@@ -8,7 +8,7 @@ import * as axios from "axios";
 export default class Mainpage extends React.Component {
     state = {
         tvs: []
-    }
+    };
 
     componentDidMount() {
         axios.get(`http://localhost:3012/api/tvs/all`)
@@ -17,7 +17,6 @@ export default class Mainpage extends React.Component {
                 this.setState({ tvs });
             })
     }
-
     render() {
         return (
             <section className="container">

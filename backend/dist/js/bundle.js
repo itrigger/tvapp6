@@ -17817,8 +17817,9 @@ jQuery(document).ready(function () {
         e.preventDefault();
         if (window.confirm("Удалить этот слайд?")) {
             var id = jQuery(this).find('.id').val();
+            console.log(id);
             jQuery.ajax({
-                url: '/screens/' + id,
+                url: '/slides/' + id,
                 type: 'DELETE',
                 success: function success(data) {
                     console.log(data);

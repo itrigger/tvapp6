@@ -1,23 +1,28 @@
 import React from 'react';
-import {Route, BrowserRouter} from 'react-router-dom';
-/*import logo from './logo.svg';*/
+import {Route} from 'react-router-dom';
 import 'bootswatch/dist/slate/bootstrap.min.css';
+import './App.css';
 import Header from './components/Header/Header';
 import MyNavbar from './components/Navbar/Navbar';
 import Mainpage from './components/Mainpage/Mainpage';
+import SlideAdd from "./components/Slides/SlideAdd";
+import Slides from "./components/Slides/Slides";
 
-import './App.css';
+
 
 const App = (props) =>{
     return (
-        <BrowserRouter>
+
             <div className="App">
                 <Header />
                 <MyNavbar />
-                <Route path="/"
+                <Route path="/" exact
                        render={()=><Mainpage tvs={props.tvs} />} />
+                <Route path="/slideadd"
+                       render={()=><SlideAdd />} />
+                <Route path="/slides"
+                       render={()=><Slides />} />
             </div>
-        </BrowserRouter>
     );
 }
 
