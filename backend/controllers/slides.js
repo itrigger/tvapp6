@@ -166,3 +166,25 @@ exports.APIdelete = function(req, res) {
         }
     );
 };
+
+exports.APIupdate = function(req, res) {
+    console.log(req.body.slide.place);
+    Slides.update(
+        req.params.id,
+        {
+            place: req.body.slide.place,
+            screen_num: req.body.slide.screen_num,
+            slide_num: req.body.slide.slide_num,
+            isactive: req.body.slide.isactive,
+            slide_content: req.body.slide.slide_content
+        },
+        function(err, result) {
+            if (err) {
+                console.log(err);
+
+                return res.sendStatus(500);
+            }
+            res.sendStatus(200);
+        }
+    );
+};

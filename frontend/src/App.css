@@ -27,6 +27,20 @@
   max-width: 100px;
 }
 
+.page-header h1{
+  margin: 30px 0;
+}
+
+form{
+  text-align: left;
+
+}
+form input[type=text],
+form textarea
+{
+  max-width: 450px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

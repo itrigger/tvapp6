@@ -1,10 +1,10 @@
 import React from 'react';
-import {faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faEdit, faTrash} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Parser from 'html-react-parser';
 
 const SlideTableItem = (props) => {
-    let path = "/slides/"+props.id;
+    let path = "/slideupdate/"+props.id;
     return (
         <tr>
             <td> {props.id} </td>
@@ -14,7 +14,7 @@ const SlideTableItem = (props) => {
             <td> {props.isactive}</td>
             <td>{Parser(props.slide_content)}</td>
             <td>
-                <div className="float-left m-1"><a href="/slides/" className="btn btn-warning"><FontAwesomeIcon icon={faPlus} /></a></div>
+                <div className="float-left m-1"><a href={path} className="btn btn-warning"><FontAwesomeIcon icon={faEdit} /></a></div>
                 <form className="slide-delete-form float-left m-1">
                     <input type="hidden" className="id" value={props.id} />
                         <a href="#" className="btn btn-danger"><FontAwesomeIcon icon={faTrash} /></a>

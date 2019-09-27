@@ -1,11 +1,10 @@
 import React from 'react';
 import * as axios from "axios";
-/*import state from "../../redux/state";*/
 import { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 
 
-export default class SlideAdd extends React.Component {
+export default class SlideUpdate extends React.Component {
     state = {
         place: '',
         screen_num: '',
@@ -31,11 +30,11 @@ export default class SlideAdd extends React.Component {
             slide_content: this.state.slide_content
         };
 
-        axios.post(`http://localhost:3012/api/slides/add`, { slide })
+        axios.put(`http://localhost:3012/api/slides/update/5d8de11868ccd81e20d59b5b`, { slide })
             .then(res => {
                 store.addNotification({
                     title: 'TVAPP',
-                    message: 'Слайд добавлен',
+                    message: 'Слайд обновлен',
                     type: 'success',                         // 'default', 'success', 'info', 'warning'
                     container: 'bottom-left',                // where to position the notifications
                     animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied

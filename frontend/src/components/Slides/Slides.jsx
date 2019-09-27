@@ -3,6 +3,8 @@ import * as axios from "axios";
 import SlideTableItem from "./SlideTableItem";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { LinkContainer } from "react-router-bootstrap";
+import {Button} from "react-bootstrap";
 
 export default class Slides extends React.Component {
     state = {
@@ -28,7 +30,9 @@ export default class Slides extends React.Component {
                             </div>
                             <div className="card mb-5">
                                 <div className="card-body">
-                                    <a href="/SlideAdd" className="btn btn-success"><FontAwesomeIcon icon={faPlus} /> Добавить новый слайд</a>
+                                    <LinkContainer to="/SlideAdd">
+                                        <Button variant="success"><FontAwesomeIcon icon={faPlus} /> Добавить новый слайд</Button>
+                                    </LinkContainer>
                                 </div>
                             </div>
                             <table className='table table-striped mytable table-dark'>

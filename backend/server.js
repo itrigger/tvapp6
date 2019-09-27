@@ -53,6 +53,7 @@ app.get('/add_schedule/', function (req, res) {
 app.get('/api/tvs/all', tvsController.APIall); /*Получить все экраны*/
 app.post('/api/slides/add', slidesController.APIadd); /*Добавить слайд*/
 app.get('/api/slides/all', slidesController.APIall); /*Список всех слайдов*/
+app.put('/api/slides/update/:id', slidesController.APIupdate); /*Список всех слайдов*/
 
 /*Роуты для локаций*/
 app.get('/places', placesController.all);

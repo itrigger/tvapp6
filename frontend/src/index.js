@@ -10,7 +10,7 @@ import state, {subscribe} from "./redux/state";
 let rerenderEntireTree = () => {
     ReactDOM.render(
         <BrowserRouter>
-            <App tvs=""/>
+            <App tvs="" id=""/>
         </BrowserRouter>, document.getElementById('root')
     );
 }
