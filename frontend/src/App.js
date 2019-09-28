@@ -21,11 +21,11 @@ const App = (props) =>{
                 <MyNavbar />
                 <Route path="/" exact
                        render={()=><Mainpage tvs={props.tvs} />} />
-                <Route path="/slideadd"
+                <Route path="/slides/add"
                        render={()=><SlideAdd />} />
-                <Route path="/slides"
+                <Route path="/slides" exact
                        render={()=><Slides />} />
-                <Route path="/slideupdate"
+                <Route path="/slides/update/"
                        render={()=><SlideUpdate id={props.id} />} />
                 <Footer />
             </div>

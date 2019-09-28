@@ -5,7 +5,7 @@ import Parser from 'html-react-parser';
 import {Button} from "react-bootstrap";
 
 const SlideTableItem = (props) => {
-    let path = "/slideupdate/"+props.id;
+    let path = "/slides/update/?id="+props.id;
     return (
         <tr>
             <td> {props.id} </td>
@@ -23,6 +23,6 @@ const SlideTableItem = (props) => {
             </td>
         </tr>
     )
-}
+};
 
 export default SlideTableItem;

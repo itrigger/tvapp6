@@ -188,3 +188,14 @@ exports.APIupdate = function(req, res) {
         }
     );
 };
+
+
+exports.APIfindById = function(req, res) {
+    Slides.findById(req.params.id, function(err, doc) {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500);
+        }
+        res.send(doc);
+    });
+};

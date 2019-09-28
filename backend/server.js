@@ -54,6 +54,8 @@ app.get('/api/tvs/all', tvsController.APIall); /*Получить все экр�
 app.post('/api/slides/add', slidesController.APIadd); /*Добавить слайд*/
 app.get('/api/slides/all', slidesController.APIall); /*Список всех слайдов*/
 app.put('/api/slides/update/:id', slidesController.APIupdate); /*Список всех слайдов*/
+app.get('/api/slides/:id', slidesController.APIfindById); /*OK Открыть один конкретный слайд*/
+
 
 /*Роуты для локаций*/
 app.get('/places', placesController.all);

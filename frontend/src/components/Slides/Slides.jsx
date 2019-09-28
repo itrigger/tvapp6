@@ -30,7 +30,7 @@ export default class Slides extends React.Component {
                             </div>
                             <div className="card mb-5">
                                 <div className="card-body">
-                                    <LinkContainer to="/SlideAdd">
+                                    <LinkContainer to="/slides/add">
                                         <Button variant="success"><FontAwesomeIcon icon={faPlus} /> Добавить новый слайд</Button>
                                     </LinkContainer>
                                 </div>
