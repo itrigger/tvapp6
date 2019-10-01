@@ -12,7 +12,7 @@ export default class Slides extends React.Component {
     };
 
     componentDidMount() {
-        axios.get(`http://localhost:3012/api/slides/all`)
+        axios.get(`http://localhost:3012/api/slides/`)
             .then(res => {
                 const slides = res.data;
                 this.setState({slides});

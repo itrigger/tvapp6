@@ -51,11 +51,12 @@ app.get('/add_schedule/', function (req, res) {
 
 /*Роуты для API*/
 app.get('/api/tvs/all', tvsController.APIall); /*Получить все экраны*/
-app.post('/api/slides/add', slidesController.APIadd); /*Добавить слайд*/
-app.get('/api/slides/all', slidesController.APIall); /*Список всех слайдов*/
-app.put('/api/slides/update/:id', slidesController.APIupdate); /*Список всех слайдов*/
-app.get('/api/slides/:id', slidesController.APIfindById); /*OK Открыть один конкретный слайд*/
 
+app.post('/api/slides/', slidesController.APIadd); /*Добавить слайд*/
+app.get('/api/slides/', slidesController.APIall); /*Список всех слайдов*/
+app.put('/api/slides/:id', slidesController.APIupdate); /*Список всех слайдов*/
+app.get('/api/slides/:id', slidesController.APIfindById); /*Открыть один конкретный слайд*/
+app.delete('/api/slides/:id', slidesController.APIdelete); /*Удалить слайд*/
 
 /*Роуты для локаций*/
 app.get('/places', placesController.all);

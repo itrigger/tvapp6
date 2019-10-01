@@ -31,7 +31,7 @@ export default class SlideAdd extends React.Component {
             slide_content: this.state.slide_content
         };
 
-        axios.post(`http://localhost:3012/api/slides/add`, { slide })
+        axios.post(`http://localhost:3012/api/slides/`, { slide })
             .then(res => {
                 store.addNotification({
                     title: 'TVAPP',

@@ -22,32 +22,48 @@ export default class SlideUpdate extends React.Component {
             .then(res => {
                 const cur_slide = res.data;
                 this.setState({cur_slide});
-            })
+               this.setState({ place: this.state.cur_slide.place });
+                this.setState({ screen_num: this.state.cur_slide.screen_num });
+                this.setState({ slide_num: this.state.cur_slide.slide_num });
+                this.setState({ isactive: this.state.cur_slide.isactive });
+                this.setState({ slide_content: this.state.cur_slide.slide_content }); /*для textarea надо так значение по умолчанию ставить*/
+            });
     }
 
-    handleChangePlace = event => {this.setState({ place: event.target.value });console.log(this.state.place)};
-    handleChangeScreenNum = event => {this.setState({ screen_num: event.target.value });};
-    handleChangeSlideNum = event => {this.setState({ slide_num: event.target.value });};
-    handleChangeIsActive = event => {this.setState({ isactive: event.target.value });};
-    handleChangeContent = event => {this.setState({ slide_content: event.target.value });};
+    constructor(props) {
+        super(props);
+        this.state.slide_content =  this.state.cur_slide.slide_content;
+
+    }
+
+    handleInputChange = event => {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+        this.setState({
+            [name]: value
+        });
+    }
+
 
     handleSubmit = event => {
         event.preventDefault();
         let slide = {
-            place: '',
-            screen_num: '',
-            slide_num: '',
-            isactive: '',
-            slide_content: ''
+            place: this.state.place,
+            screen_num: this.state.screen_num,
+            slide_num: this.state.slide_num,
+            isactive: this.state.isactive,
+            slide_content: this.state.slide_content
         };
 
-        (this.state.place) ? slide.place=this.state.place : slide.place =this.state.cur_slide.place;
+       /* (this.state.place) ? slide.place=this.state.place : slide.place =this.state.cur_slide.place;
         (this.state.screen_num) ? slide.screen_num = this.state.screen_num : slide.screen_num = this.state.cur_slide.screen_num;
         (this.state.slide_num) ? slide.slide_num = this.state.slide_num : slide.slide_num = this.state.cur_slide.slide_num;
         (this.state.isactive) ? slide.isactive = this.state.isactive : slide.isactive = this.state.cur_slide.isactive;
-        (this.state.slide_content) ? slide.slide_content=this.state.slide_content : slide.slide_content=this.state.cur_slide.slide_content;
+        (this.state.slide_content) ? slide.slide_content=this.state.slide_content : slide.slide_content=this.state.cur_slide.slide_content;*/
 
-            axios.put(`http://localhost:3012/api/slides/update/5d8de11868ccd81e20d59b5b`, { slide })
+            axios.put('http://localhost:3012/api/slides/'+param_id.id, { slide })
             .then(res => {
                 store.addNotification({
                     title: 'TVAPP',
@@ -60,6 +76,7 @@ export default class SlideUpdate extends React.Component {
                         duration: 3000
                     }
                 })
+                console.log(slide);
             })
     };
 
@@ -76,23 +93,23 @@ export default class SlideUpdate extends React.Component {
                             <form onSubmit={this.handleSubmit}>
                                 <div className="form-group">
                                     Локация:<br />
-                                    <input type='text' name='place' className='form-control fu-place' defaultValue={this.state.cur_slide.place} onChange={this.handleChangePlace}/>
+                                    <input type='text' name='place' className='form-control fu-place' defaultValue={this.state.cur_slide.place} onChange={this.handleInputChange}/>
                                 </div>
                                 <div className="form-group">
                                     Номер экрана: <br />
-                                    <input type='text' name='screen_num' className='form-control' defaultValue={this.state.cur_slide.screen_num} onChange={this.handleChangeScreenNum}/>
+                                    <input type='text' name='screen_num' className='form-control' defaultValue={this.state.cur_slide.screen_num} onChange={this.handleInputChange}/>
                                 </div>
                                 <div className="form-group">
                                     Номер слайда: <br />
-                                    <input type='text' name='slide_num' className='form-control' defaultValue={this.state.cur_slide.slide_num} onChange={this.handleChangeSlideNum}/>
+                                    <input type='text' name='slide_num' className='form-control' defaultValue={this.state.cur_slide.slide_num} onChange={this.handleInputChange}/>
                                 </div>
                                 <div className="form-group">
                                     Активен (1 или 0): <br />
-                                    <input type='text' name='isactive' className='form-control' defaultValue={this.state.cur_slide.isactive} onChange={this.handleChangeIsActive}/>
+                                    <input type='text' name='isactive' className='form-control' defaultValue={this.state.cur_slide.isactive} onChange={this.handleInputChange}/>
                                 </div>
                                 <div className="form-group">
                                     Контент слайда: <br />
-                                    <textarea name='slide_content' className='form-control' defaultValue={this.state.cur_slide.slide_content} onChange={this.handleChangeContent} />
+                                    <textarea name='slide_content' className='form-control' value={this.state.slide_content} onChange={this.handleInputChange} />
                                 </div>
                                 <Button type="submit" variant="success"><FontAwesomeIcon icon={faSave} /> Сохранить</Button>
                             </form>

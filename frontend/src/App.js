@@ -10,7 +10,8 @@ import SlideAdd from "./components/Slides/SlideAdd";
 import Slides from "./components/Slides/Slides";
 import Footer from "./components/Footer/Footer";
 import SlideUpdate from "./components/Slides/SlideUpdate";
-
+/*import Login from "./components/Login/Login";
+import store from "./redux/redux-store";*/
 
 const App = (props) =>{
     return (
