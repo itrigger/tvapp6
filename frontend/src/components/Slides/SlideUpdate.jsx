@@ -22,11 +22,11 @@ export default class SlideUpdate extends React.Component {
             .then(res => {
                 const cur_slide = res.data;
                 this.setState({cur_slide});
-               this.setState({ place: this.state.cur_slide.place });
+                this.setState({ place: this.state.cur_slide.place }); /*значениея по умолчанию для полей берем из базы по ИД слайда*/
                 this.setState({ screen_num: this.state.cur_slide.screen_num });
                 this.setState({ slide_num: this.state.cur_slide.slide_num });
                 this.setState({ isactive: this.state.cur_slide.isactive });
-                this.setState({ slide_content: this.state.cur_slide.slide_content }); /*для textarea надо так значение по умолчанию ставить*/
+                this.setState({ slide_content: this.state.cur_slide.slide_content });
             });
     }
 
@@ -57,11 +57,6 @@ export default class SlideUpdate extends React.Component {
             slide_content: this.state.slide_content
         };
 
-       /* (this.state.place) ? slide.place=this.state.place : slide.place =this.state.cur_slide.place;
-        (this.state.screen_num) ? slide.screen_num = this.state.screen_num : slide.screen_num = this.state.cur_slide.screen_num;
-        (this.state.slide_num) ? slide.slide_num = this.state.slide_num : slide.slide_num = this.state.cur_slide.slide_num;
-        (this.state.isactive) ? slide.isactive = this.state.isactive : slide.isactive = this.state.cur_slide.isactive;
-        (this.state.slide_content) ? slide.slide_content=this.state.slide_content : slide.slide_content=this.state.cur_slide.slide_content;*/
 
             axios.put('http://localhost:3012/api/slides/'+param_id.id, { slide })
             .then(res => {
