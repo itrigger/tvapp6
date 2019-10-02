@@ -6,19 +6,27 @@ import {Button} from "react-bootstrap";
 import {faSave} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as qs from 'query-string';
+import {myConfig} from "../../config/config";
+import {browserHistory} from "react-router";
+
+
+
 
 
 const param_id = qs.parse(window.location.search);
-
+console.log('log: '+window.location.search);
 
 export default class SlideUpdate extends React.Component {
 
     state = {
-        cur_slide: []
+        cur_slide: [],
+        id: null
     };
 
     componentDidMount() {
-        axios.get(`http://localhost:3012/api/slides/`+param_id.id)
+
+        const url = myConfig.API_URL+'/slides/'+param_id.id;
+        axios.get(url)
             .then(res => {
                 const cur_slide = res.data;
                 this.setState({cur_slide});
@@ -33,7 +41,6 @@ export default class SlideUpdate extends React.Component {
     constructor(props) {
         super(props);
         this.state.slide_content =  this.state.cur_slide.slide_content;
-
     }
 
     handleInputChange = event => {
@@ -57,8 +64,8 @@ export default class SlideUpdate extends React.Component {
             slide_content: this.state.slide_content
         };
 
-
-            axios.put('http://localhost:3012/api/slides/'+param_id.id, { slide })
+            const url = myConfig.API_URL+'/slides/'+param_id.id;
+            axios.put(url, { slide })
             .then(res => {
                 store.addNotification({
                     title: 'TVAPP',

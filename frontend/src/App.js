@@ -12,8 +12,11 @@ import Footer from "./components/Footer/Footer";
 import SlideUpdate from "./components/Slides/SlideUpdate";
 /*import Login from "./components/Login/Login";
 import store from "./redux/redux-store";*/
+import {browserHistory} from 'react-router-dom'
+
 
 const App = (props) =>{
+
     return (
 
             <div className="App">
@@ -21,13 +24,13 @@ const App = (props) =>{
                 <Header />
                 <MyNavbar />
                 <Route path="/" exact
-                       render={()=><Mainpage tvs={props.tvs} />} />
+                       render={()=><Mainpage />} />
                 <Route path="/slides/add"
                        render={()=><SlideAdd />} />
                 <Route path="/slides" exact
-                       render={()=><Slides />} />
+                       render={()=><Slides slides={props.state.slides}/>} />
                 <Route path="/slides/update/"
-                       render={()=><SlideUpdate id={props.id} />} />
+                       render={()=><SlideUpdate />} />
                 <Footer />
             </div>
     );
