@@ -38,7 +38,8 @@ export default class SlideTableItem extends React.Component {
                 <td> {this.props.screen_num}</td>
                 <td> {this.props.slide_num}</td>
                 <td> {this.props.isactive}</td>
-                <td>{Parser(this.props.slide_content)}</td>
+              {/*  <td>Parser(this.props.slide_content)</td>*/}
+                <td>{this.props.slide_content}</td>
                 <td>
                     <div className="float-left m-1">
 

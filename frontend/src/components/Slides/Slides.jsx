@@ -8,15 +8,10 @@ import {Button} from "react-bootstrap";
 import {myConfig} from "../../config/config";
 
 export default class Slides extends React.Component {
-    state = {
+/*    state = {
         slides: [],
         id: null
-    };
-
-
-   /* updateData = (value) => {
-        this.setState({ id: value })
-    }*/
+    };*/
 
 
 
@@ -32,8 +27,6 @@ export default class Slides extends React.Component {
 
     render() {
 
-        console.log('state: '+this.props.slides);
-        debugger;
         return (
             <section className="container">
                 <div className="bs-docs-section clearfix">
@@ -60,7 +53,7 @@ export default class Slides extends React.Component {
                                     <th>Контент</th>
                                     <th></th>
                                 </tr>
-                                {this.props.slides.map(e => <SlideTableItem key={e._id}
+                                {this.props.slides.slide.map(e => <SlideTableItem key={e._id}
                                                                             id={e._id}
                                                                             place={e.place}
                                                                             screen_num={e.screen_num}
