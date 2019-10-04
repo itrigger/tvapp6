@@ -24,7 +24,13 @@ const App = (props) =>{
                 <Route path="/" exact
                        render={()=><Mainpage />} />
                 <Route path="/slides/add"
-                       render={()=><SlideAdd addPost={props.addPost}/>} />
+                       render={({history})=><SlideAdd
+                           addPost={props.addPost}
+                           updateNewPostText={props.updateNewPostText}
+                           newPostText={props.state.slides.newPostText}
+                           history={history}
+                       />}
+                />
                 <Route path="/slides" exact
                        render={()=><Slides slides={props.state.slides}/>} />
                 <Route path="/slides/update/"

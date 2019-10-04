@@ -51,9 +51,14 @@ const SlideAdd = (props) => {
 
     let newPostElement = React.createRef();
     let addPost = () =>{
-        debugger;
         let text = newPostElement.current.value;
         props.addPost(text);
+        props.updateNewPostText('');
+        props.history.push('/slides');
+    };
+    let onPostChange = () => {
+        let text = newPostElement.current.value;
+        props.updateNewPostText(text);
     };
 
 
@@ -86,7 +91,7 @@ const SlideAdd = (props) => {
                                 </div>
                                 <div className="form-group">
                                     Контент слайда: <br />
-                                    <textarea ref={newPostElement} name='slide_content' className='form-control' /> {/*onChange={this.handleChangeContent}*/}
+                                    <textarea ref={newPostElement} name='slide_content' onChange={onPostChange} value={props.newPostText} className='form-control' /> {/*onChange={this.handleChangeContent}*/}
                                 </div>
                                 <button onClick={addPost}>Add</button>
                                 {/*<input type='submit' value='Сохранить' className='btn btn-primary' />*/}
