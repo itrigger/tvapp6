@@ -1,3 +1,5 @@
+import {switchCase} from "@babel/types";
+
 let store = {
     _state: {
         slides: {
@@ -13,28 +15,30 @@ let store = {
       return this._state;
     },
     _callSubscribes(){
-        console.log('state is changed');
-    },
-    addPost() {
-        let newSlide ={
-            _id: '5d806f5e1c9d440000de0f2b22',
-            place: 'zum',
-            slide_num: '2',
-            screen_num: '2',
-            isactive: '1',
-            slide_content: this._state.slides.newPostText
-        };
-
-        this._state.slides.slide.push(newSlide);
-        this._state.slides.newPostText='';
-        this._callSubscribes(this._state);
-    },
-    updateNewPostText(data){
-        this._state.slides.newPostText = data;
-        this._callSubscribes(this._state);
+        console.log(this._state.slides.newPostText);
     },
     subscribe(observer) {
         this._callSubscribes = observer; //паттерн observer
+    },
+
+    dispatch(action){
+        if (action.type === 'ADD-POST'){
+            let newSlide ={
+                _id: '5d806f5e1c9d440000de0f2b22',
+                place: 'zum',
+                slide_num: '2',
+                screen_num: '2',
+                isactive: '1',
+                slide_content: this._state.slides.newPostText
+            };
+
+            this._state.slides.slide.push(newSlide);
+            this._state.slides.newPostText='';
+            this._callSubscribes(this._state);
+        } else if (action.type === 'UPDATE-NEW-POST-TEXT'){
+            this._state.slides.newPostText = action.data;
+            this._callSubscribes(this._state);
+        }
     }
 };
 

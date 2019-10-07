@@ -52,13 +52,13 @@ const SlideAdd = (props) => {
     let newPostElement = React.createRef();
     let addPost = () =>{
         let text = newPostElement.current.value;
-        props.addPost(text);
+        props.dispatch('ADD-POST');
         props.updateNewPostText('');
         props.history.push('/slides');
     };
     let onPostChange = () => {
         let text = newPostElement.current.value;
-        props.updateNewPostText(text);
+        props.dispatch('UPDATE-NEW-POST-TEXT',text);
     };
 
 

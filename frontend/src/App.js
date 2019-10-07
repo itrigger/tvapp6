@@ -13,30 +13,28 @@ import SlideUpdate from "./components/Slides/SlideUpdate";
 /*import Login from "./components/Login/Login";*/
 
 
+const App = (props) => {
 
-
-const App = (props) =>{
     return (
-            <div className="App">
-                <ReactNotifications />
-                <Header />
-                <MyNavbar />
-                <Route path="/" exact
-                       render={()=><Mainpage />} />
-                <Route path="/slides/add"
-                       render={({history})=><SlideAdd
-                           addPost={props.addPost}
-                           updateNewPostText={props.updateNewPostText}
-                           newPostText={props.state.slides.newPostText}
-                           history={history}
-                       />}
-                />
-                <Route path="/slides" exact
-                       render={()=><Slides slides={props.state.slides}/>} />
-                <Route path="/slides/update/"
-                       render={()=><SlideUpdate />} />
-                <Footer />
-            </div>
+        <div className="App">
+            <ReactNotifications/>
+            <Header/>
+            <MyNavbar/>
+            <Route path="/" exact
+                   render={() => <Mainpage/>}/>
+            <Route path="/slides/add"
+                   render={({history}) => <SlideAdd
+                       dispatch={props.dispatch}
+                       newPostText={props.state.slides.newPostText}
+                       history={history}
+                   />}
+            />
+            <Route path="/slides" exact
+                   render={() => <Slides slides={props.state.slides}/>}/>
+            <Route path="/slides/update/"
+                   render={() => <SlideUpdate/>}/>
+            <Footer/>
+        </div>
     );
 }
 
