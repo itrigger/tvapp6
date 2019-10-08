@@ -3,7 +3,9 @@ import * as axios from "axios";
 /*import state from "../../redux/state";*/
 import { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
-import state from "../../redux/state";
+import state, {addPostActionCreator, updateNewPostTextActionCreator} from "../../redux/state";
+
+
 
 
 /*export default class SlideAdd extends React.Component {*/
@@ -51,14 +53,12 @@ const SlideAdd = (props) => {
 
     let newPostElement = React.createRef();
     let addPost = () =>{
-        let text = newPostElement.current.value;
-        props.dispatch('ADD-POST');
-        props.updateNewPostText('');
+        props.dispatch(addPostActionCreator());
         props.history.push('/slides');
     };
     let onPostChange = () => {
         let text = newPostElement.current.value;
-        props.dispatch('UPDATE-NEW-POST-TEXT',text);
+        props.dispatch(updateNewPostTextActionCreator(text));
     };
 
 
