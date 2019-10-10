@@ -10,6 +10,7 @@ import SlideAdd from "./components/Slides/SlideAdd";
 import Slides from "./components/Slides/Slides";
 import Footer from "./components/Footer/Footer";
 import SlideUpdate from "./components/Slides/SlideUpdate";
+import SlidesContainer from "./components/Slides/SlidesContainer";
 /*import Login from "./components/Login/Login";*/
 
 
@@ -30,7 +31,7 @@ const App = (props) => {
                    />}
             />
             <Route path="/slides" exact
-                   render={() => <Slides slides={props.state.sliderReducer}/>}/>
+                   render={() => <SlidesContainer slides={props.state.sliderReducer}/>}/>
             <Route path="/slides/update/"
                    render={() => <SlideUpdate/>}/>
             <Footer/>

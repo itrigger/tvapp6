@@ -5,25 +5,25 @@ import * as axios from "axios";
 import 'react-notifications-component/dist/theme.css';
 /*import state from "../../redux/state";*/
 import {addPostActionCreator, updateNewPostTextActionCreator} from "../../redux/reducers/slide-reducer";
-import SlideAdd from "./SlideAdd";
+import Slides from "./Slides";
 
 
 
 /*export default class SlideAdd extends React.Component {*/
 const SlidesContainer = (props) => {
 
-    let newPostElement = React.createRef();
+   // let newPostElement = React.createRef();
     let addPost = () =>{
-        props.dispatch(addPostActionCreator());
+        props.store.dispatch(addPostActionCreator());
         props.history.push('/slides');
     };
     let onPostChange = (text) => {
-        let text = newPostElement.current.value;
-        props.dispatch(updateNewPostTextActionCreator(text));
+        let action = updateNewPostTextActionCreator(text);
+        props.store.dispatch(action);
     };
 
 
-    return ( <SlideAdd updateNewPostText={onPostChange} addPost={addPost} /> )
+    return ( <Slides slides={props.slides} updateNewPostText={onPostChange} addPost={addPost} /> )
     // }
 };
 
