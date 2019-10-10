@@ -60,7 +60,6 @@ export default class Slides extends React.Component {
                                                                             slide_num={e.slide_num}
                                                                             isactive={e.isactive}
                                                                             slide_content={e.slide_content}/>)}
-
                                 </tbody>
                             </table>
                         </div>

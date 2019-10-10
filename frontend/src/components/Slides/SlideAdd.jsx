@@ -1,9 +1,10 @@
 import React from 'react';
 import * as axios from "axios";
 /*import state from "../../redux/state";*/
-import { store } from 'react-notifications-component';
+/*import { store } from 'react-notifications-component';*/
 import 'react-notifications-component/dist/theme.css';
-import state, {addPostActionCreator, updateNewPostTextActionCreator} from "../../redux/state";
+/*import state from "../../redux/state";*/
+import {addPostActionCreator, updateNewPostTextActionCreator} from "../../redux/reducers/slide-reducer";
 
 
 
@@ -53,12 +54,14 @@ const SlideAdd = (props) => {
 
     let newPostElement = React.createRef();
     let addPost = () =>{
-        props.dispatch(addPostActionCreator());
+        //props.dispatch(addPostActionCreator());
+        props.addPost();
         props.history.push('/slides');
     };
     let onPostChange = () => {
         let text = newPostElement.current.value;
-        props.dispatch(updateNewPostTextActionCreator(text));
+        props.updateNewPostText(text);
+        //props.dispatch(updateNewPostTextActionCreator(text));
     };
 
 

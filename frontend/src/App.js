@@ -25,12 +25,12 @@ const App = (props) => {
             <Route path="/slides/add"
                    render={({history}) => <SlideAdd
                        dispatch={props.dispatch}
-                       newPostText={props.state.slides.newPostText}
+                       newPostText={props.state.sliderReducer.newPostText}
                        history={history}
                    />}
             />
             <Route path="/slides" exact
-                   render={() => <Slides slides={props.state.slides}/>}/>
+                   render={() => <Slides slides={props.state.sliderReducer}/>}/>
             <Route path="/slides/update/"
                    render={() => <SlideUpdate/>}/>
             <Footer/>
