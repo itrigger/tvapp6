@@ -1,16 +1,14 @@
 import React from 'react';
 import * as axios from "axios";
-/*import state from "../../redux/state";*/
-/*import { store } from 'react-notifications-component';*/
 import 'react-notifications-component/dist/theme.css';
-/*import state from "../../redux/state";*/
-import {addPostActionCreator, updateNewPostTextActionCreator} from "../../redux/reducers/slide-reducer";
+
 
 
 
 
 /*export default class SlideAdd extends React.Component {*/
 const SlideAdd = (props) => {
+
     // state = {
     //     place: '',
     //     screen_num: '',
@@ -53,13 +51,13 @@ const SlideAdd = (props) => {
     // };
 
     let newPostElement = React.createRef();
-    let addPost = () =>{
-        props.dispatch(addPostActionCreator());
-        props.history.push('/slides');
+    let onAddPost = () =>{
+        props.addPost();
+       // props.history.push('/slides');
     };
     let onPostChange = () => {
         let text = newPostElement.current.value;
-        props.dispatch(updateNewPostTextActionCreator(text));
+        props.updateNewPostText(text);
     };
 
 
@@ -94,7 +92,7 @@ const SlideAdd = (props) => {
                                     Контент слайда: <br />
                                     <textarea ref={newPostElement} name='slide_content' onChange={onPostChange} value={props.newPostText} className='form-control' /> {/*onChange={this.handleChangeContent}*/}
                                 </div>
-                                <button onClick={addPost}>Add</button>
+                                <button onClick={onAddPost}>Add</button>
                                 {/*<input type='submit' value='Сохранить' className='btn btn-primary' />*/}
                           {/*  </form>*/}
                         </div>

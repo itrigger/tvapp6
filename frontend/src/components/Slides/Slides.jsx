@@ -23,6 +23,7 @@ export default class Slides extends React.Component {
                 const slides = res.data;
                 this.setState({slides});
             })*/
+
     }
 
     render() {
@@ -53,7 +54,7 @@ export default class Slides extends React.Component {
                                     <th>Контент</th>
                                     <th></th>
                                 </tr>
-                                {this.props.slides.slide.map(e => <SlideTableItem key={e._id}
+                                {this.props.slides.map(e => <SlideTableItem key={e._id}
                                                                             id={e._id}
                                                                             place={e.place}
                                                                             screen_num={e.screen_num}

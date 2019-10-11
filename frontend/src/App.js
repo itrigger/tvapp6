@@ -6,7 +6,7 @@ import './App.css';
 import Header from './components/Header/Header';
 import MyNavbar from './components/Navbar/Navbar';
 import Mainpage from './components/Mainpage/Mainpage';
-import SlideAdd from "./components/Slides/SlideAdd";
+import SlideAddContainer from "./components/Slides/SlideAddContainer";
 import Slides from "./components/Slides/Slides";
 import Footer from "./components/Footer/Footer";
 import SlideUpdate from "./components/Slides/SlideUpdate";
@@ -24,14 +24,12 @@ const App = (props) => {
             <Route path="/" exact
                    render={() => <Mainpage/>}/>
             <Route path="/slides/add"
-                   render={({history}) => <SlideAdd
-                       dispatch={props.dispatch}
-                       newPostText={props.state.sliderReducer.newPostText}
+                   render={({history}) => <SlideAddContainer
                        history={history}
                    />}
             />
             <Route path="/slides" exact
-                   render={() => <SlidesContainer slides={props.state.sliderReducer}/>}/>
+                   render={() => <SlidesContainer/>}/>
             <Route path="/slides/update/"
                    render={() => <SlideUpdate/>}/>
             <Footer/>
