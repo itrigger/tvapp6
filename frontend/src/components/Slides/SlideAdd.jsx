@@ -1,6 +1,7 @@
 import React from 'react';
 import * as axios from "axios";
 import 'react-notifications-component/dist/theme.css';
+import Button from "react-bootstrap/Button";
 
 
 
@@ -92,7 +93,7 @@ const SlideAdd = (props) => {
                                     Контент слайда: <br />
                                     <textarea ref={newPostElement} name='slide_content' onChange={onPostChange} value={props.newPostText} className='form-control' /> {/*onChange={this.handleChangeContent}*/}
                                 </div>
-                                <button onClick={onAddPost}>Add</button>
+                                <Button variant="success" onClick={onAddPost}>Add</Button>
                                 {/*<input type='submit' value='Сохранить' className='btn btn-primary' />*/}
                           {/*  </form>*/}
                         </div>

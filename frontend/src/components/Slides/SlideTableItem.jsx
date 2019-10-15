@@ -13,7 +13,7 @@ export default class SlideTableItem extends React.Component {
 
     handleSubmit = event => {
         event.preventDefault();
-        const url = myConfig.API_URL+'/slides/'+this.props.id;
+        const url = myConfig.API_URL + '/slides/' + this.props.id;
         axios.delete(url)
             .then(res => {
                 store.addNotification({
@@ -37,17 +37,22 @@ export default class SlideTableItem extends React.Component {
                 <td> {this.props.place} </td>
                 <td> {this.props.screen_num}</td>
                 <td> {this.props.slide_num}</td>
-                <td> {this.props.isactive}</td>
-              {/*  <td>Parser(this.props.slide_content)</td>*/}
+                <td> {
+
+
+                    }
+                </td>
+                {  <td>Parser(this.props.slide_content)</td>}
                 <td>{this.props.slide_content}</td>
                 <td>
                     <div className="float-left m-1">
 
-                        <LinkContainer to={'/slides/update/?id='+this.props.id}>
+                        <LinkContainer to={'/slides/update/?id=' + this.props.id}>
                             <Button variant="warning"><FontAwesomeIcon icon={faEdit}/></Button>
                         </LinkContainer>
 
-                        <a href={'/slides/update/?id='+this.props.id} className="btn btn-warning"><FontAwesomeIcon icon={faEdit}/></a>
+                        <a href={'/slides/update/?id=' + this.props.id} className="btn btn-warning"><FontAwesomeIcon
+                            icon={faEdit}/></a>
                     </div>
                     <form className="slide-delete-form float-left m-1" onSubmit={this.handleSubmit}>
                         <input type="hidden" className="id"/>
