@@ -1,8 +1,8 @@
 var ObjectID = require('mongodb').ObjectID;
 var db = require('../db');
 
-exports.all = function(cb) {
-    db.get().collection('slides').find().toArray(function(err, docs) {
+exports.all = function(skip,limit,cb) {
+    db.get().collection('slides').find().skip(skip).limit(limit).toArray(function(err, docs) {
         cb(err, docs);
     });
 };

@@ -9,7 +9,10 @@ import {activeOffAC, activeOnAC, setSlidesAC} from "../../redux/reducers/slide-r
 
 let mapStateToProps = (state) => {
     return {
-        slides: state.sliderReducer.slide
+        slides: state.sliderReducer.slide,
+        pageSize: state.sliderReducer.pageSize,
+        totalSlidesCount: state.sliderReducer.totalSlidesCount,
+        currentPage: state.sliderReducer.currentPage
     }
 };
 

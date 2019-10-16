@@ -5,32 +5,10 @@ const SET_SLIDES = 'SET_SLIDES';
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 
 let initialState = {
-    slide: [
-        {
-            _id: '5d806f5e1c9d440000de0f2b1',
-            place: "zum",
-            slide_num: "1",
-            screen_num: "1",
-            isactive: true,
-            slide_content: "content0000000"
-        },
-        {
-            _id: '5d806f5e1c9d440000de0f2b2',
-            place: "zum",
-            slide_num: "1",
-            screen_num: "1",
-            isactive: true,
-            slide_content: "content1111111"
-        },
-        {
-            _id: '5d806f5e1c9d440000de0f2b3',
-            place: "zum",
-            slide_num: "1",
-            screen_num: "1",
-            isactive: false,
-            slide_content: "content2222222"
-        }
-    ],
+    slide: [],
+    pageSize: 5,
+    totalSlidesCount: 20,
+    currentPage: 1,
     newPostText: "test"
 }
 

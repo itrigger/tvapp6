@@ -24,7 +24,6 @@ app.use(bodyParser.json());
 app.use(express.static('dist'));
 app.use(methodOverride('_method'));
 app.use(cors());
-app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/add_slide/', function (req, res) {
@@ -51,9 +50,8 @@ app.get('/add_schedule/', function (req, res) {
 
 /*Роуты для API*/
 app.get('/api/tvs/all', tvsController.APIall); /*Получить все экраны*/
-
+app.get('/api/slides/', slidesController.APIall); /*Список всех слайдов постранично*/
 app.post('/api/slides/', slidesController.APIadd); /*Добавить слайд*/
-app.get('/api/slides/', slidesController.APIall); /*Список всех слайдов*/
 app.put('/api/slides/:id', slidesController.APIupdate); /*Список всех слайдов*/
 app.get('/api/slides/:id', slidesController.APIfindById); /*Открыть один конкретный слайд*/
 app.delete('/api/slides/:id', slidesController.APIdelete); /*Удалить слайд*/

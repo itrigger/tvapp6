@@ -10,7 +10,26 @@ var channels_client = new Pusher({
 });
 
 exports.all = function(req, res) {
-    Slides.all(function(err, docs) {
+    let pageNo = parseInt(req.query.page);
+    let size = parseInt(req.query.size);
+    /*    if(pageNo < 0 || pageNo === 0) {
+            response = {"error" : true,"message" : "invalid page number, should start with 1"};
+            return res.json(response);
+        }*/
+    if(!(pageNo)){
+        pageNo=1
+    }
+    if(!(size)){
+        size=5
+    }
+    let skip = size * (pageNo - 1);
+    let limit = size;
+    console.log(size);
+    console.log(pageNo);
+    Slides.all(
+        skip,
+        limit,
+        function(err, docs) {
         if (err) {
             console.log(err);
             return res.sendStatus(500);
@@ -128,13 +147,36 @@ exports.delete = function(req, res) {
 
 /*API*/
 exports.APIall = function(req, res) {
-    Slides.all(function(err, docs) {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(500);
-        }
-        res.send(docs);
-    });
+    let pageNo = parseInt(req.query.page);
+    let size = parseInt(req.query.size);
+/*    if(pageNo < 0 || pageNo === 0) {
+        response = {"error" : true,"message" : "invalid page number, should start with 1"};
+        return res.json(response);
+    }*/
+    if(!(pageNo)){
+        pageNo=1
+    }
+    if(!(size)){
+        size=5
+    }
+    let skip = size * (pageNo - 1);
+    let limit = size;
+    console.log(size);
+    console.log(pageNo);
+    Slides.all(
+        skip,
+        limit,
+        function(err, docs) {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500);
+            }
+            let message = {
+              items: docs,
+              count: docs.length
+            };
+            res.send(message);
+        });
 };
 
 exports.APIadd = function(req, res) {
