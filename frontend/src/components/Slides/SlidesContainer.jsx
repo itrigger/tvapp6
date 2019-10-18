@@ -4,11 +4,11 @@ import s from './slides.module.css';
 import loader from '../../assets/img/loader.svg';
 import {connect} from 'react-redux';
 import {
-    activeOffAC,
-    activeOnAC,
-    setCurrentPageAC,
-    setSlidesAC,
-    setTotalSlidesCountAC, toggleIsFetchingAC
+    activeOff,
+    activeOn,
+    setCurrentPage,
+    setSlides,
+    setTotalSlidesCount, toggleIsFetching
 } from "../../redux/reducers/slide-reducer";
 import * as axios from "axios";
 import Slides from "./Slides";
@@ -40,7 +40,7 @@ class SlidesContainer extends React.Component {
 
     render() {
         return <>
-            {this.props.isFetching ? <Preloader/>: null}
+            {this.props.isFetching ? <Preloader/> : null}
             <Slides
                 totalSlidesCount={this.props.totalSlidesCount}
                 pageSize={this.props.pageSize}
@@ -65,27 +65,7 @@ let mapStateToProps = (state) => {
     }
 };
 
-let mapDispatchToProps = (dispatch) => {
-    return {
-        activeOn: (slideId) => {
-            dispatch(activeOnAC(slideId));
-        },
-        activeOff: (slideId) => {
-            dispatch(activeOffAC(slideId));
-        },
-        setSlides: (slide) => {
-            dispatch(setSlidesAC(slide));
-        },
-        setCurrentPage: (pageNumber) => {
-            dispatch(setCurrentPageAC(pageNumber));
-        },
-        setTotalSlidesCount: (totalSlidesCount) => {
-            dispatch(setTotalSlidesCountAC(totalSlidesCount));
-        },
-        toggleIsFetching: (isFetching) => {
-            dispatch(toggleIsFetchingAC(isFetching));
-        }
-    }
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(SlidesContainer);
+export default connect(mapStateToProps, {
+    activeOn, activeOff, setSlides, setCurrentPage, setTotalSlidesCount, toggleIsFetching
+})(SlidesContainer);

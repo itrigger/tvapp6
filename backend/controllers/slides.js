@@ -151,14 +151,10 @@ exports.APIall = function (req, res) {
         size = 5
     }
     let skip = size * (pageNo - 1);
-    let limit = size;
     let message = {};
-    console.log(size);
-    console.log(pageNo);
-
    Slides.all(
         skip,
-        limit,
+        size,
         function (err, docs) {
             if (err) {
                 console.log(err);
