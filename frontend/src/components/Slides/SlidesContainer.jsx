@@ -18,6 +18,7 @@ import Preloader from "../common/Preloader/Preloader";
 class SlidesContainer extends React.Component {
 
     componentDidMount() {
+        debugger;
         if (this.props.slides.length === 0) {
             this.props.toggleIsFetching(true);
             axios.get(`http://localhost:3012/api/slides?page=${this.props.currentPage}&size=${this.props.pageSize}`)
@@ -27,6 +28,7 @@ class SlidesContainer extends React.Component {
                     this.props.toggleIsFetching(false);
                 })
         }
+
     }
 
     onPageChanged = (pageNumber) => {

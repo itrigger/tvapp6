@@ -59,7 +59,7 @@ let Slides = (props) => {
                                     <td>{Parser(e.slide_content)}</td>
                                     <td>
                                         <div className="float-left m-1">
-                                            <LinkContainer to={'/slides/update/?id=' + e._id}>
+                                            <LinkContainer to={'/slides/update/' + e._id}>
                                                 <Button variant="warning"><FontAwesomeIcon icon={faEdit}/></Button>
                                             </LinkContainer>
                                         </div>

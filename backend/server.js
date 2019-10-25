@@ -52,7 +52,7 @@ app.get('/add_schedule/', function (req, res) {
 app.get('/api/tvs/all', tvsController.APIall); /*Получить все экраны*/
 app.get('/api/slides/', slidesController.APIall); /*Список всех слайдов постранично*/
 app.post('/api/slides/', slidesController.APIadd); /*Добавить слайд*/
-app.put('/api/slides/:id', slidesController.APIupdate); /*Список всех слайдов*/
+app.put('/api/slides/:id', slidesController.APIupdate); /**/
 app.get('/api/slides/:id', slidesController.APIfindById); /*Открыть один конкретный слайд*/
 app.delete('/api/slides/:id', slidesController.APIdelete); /*Удалить слайд*/
 

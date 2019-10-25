@@ -9,8 +9,9 @@ import Mainpage from './components/Mainpage/Mainpage';
 import SlideAddContainer from "./components/Slides/SlideAddContainer";
 import Slides from "./components/Slides/Slides";
 import Footer from "./components/Footer/Footer";
-import SlideUpdate from "./components/Slides/SlideUpdate";
+import SlideUpdate from "./components/Slides/update/SlideUpdate";
 import SlidesContainer from "./components/Slides/SlidesContainer";
+import SlideUpdateContainer from "./components/Slides/update/SlideUpdateContainer";
 /*import Login from "./components/Login/Login";*/
 
 
@@ -30,8 +31,8 @@ const App = (props) => {
             />
             <Route path="/slides" exact
                    render={() => <SlidesContainer/>}/>
-            <Route path="/slides/update/"
-                   render={() => <SlideUpdate/>}/>
+            <Route path="/slides/update/:id?"
+                   render={() => <SlideUpdateContainer/>}/>
             <Footer/>
         </div>
     );
