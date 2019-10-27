@@ -8,7 +8,7 @@ const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 
 let initialState = {
-    slide: [],
+    slides: [],
     pageSize: 4,
     totalSlidesCount: 0,
     currentPage: 1,
@@ -22,7 +22,7 @@ const sliderReducer = (state = initialState, action) => {
         case ACTIVE_ON:
             return{
                 ...state,
-                slide: state.slide.map(s=>{
+                slides: state.slides.map(s=>{
                     if(s._id === action.slideId){
                         return {...s, isactive:true}
                     }
@@ -32,7 +32,7 @@ const sliderReducer = (state = initialState, action) => {
         case ACTIVE_OFF:
             return{
                 ...state,
-                slide: state.slide.map(s=>{
+                slides: state.slides.map(s=>{
                     if(s._id === action.slideId){
                         return {...s, isactive:false}
                     }
@@ -41,7 +41,7 @@ const sliderReducer = (state = initialState, action) => {
             }
         case SET_SLIDES:
             return{
-                ...state, slide: action.slide
+                ...state, slides: action.slides
             }
         case SET_CURRENT_PAGE:
             return{
@@ -59,7 +59,7 @@ const sliderReducer = (state = initialState, action) => {
             return {
                 ...state,
                 newPostText: '',
-                slide: [...state.slide, {
+                slides: [...state.slides, {
                     _id: '5d806f5e1c9d440000de0f2b22',
                     place: 'zum',
                     slide_num: '2',
@@ -80,14 +80,13 @@ const sliderReducer = (state = initialState, action) => {
 
 };
 
+export const setSlides = (slides) => {return {type: SET_SLIDES, slides}};
 export const addPostActionCreator = () => {return {type: ADD_SLIDE}};
 export const activeOn = (slideId) => {return {type: ACTIVE_ON, slideId}};
 export const activeOff = (slideId) => {return {type: ACTIVE_OFF, slideId}};
-export const setSlides = (slide) => {return {type: SET_SLIDES, slide}};
 export const setCurrentPage = (currentPage) => {return {type: SET_CURRENT_PAGE, currentPage}};
 export const setTotalSlidesCount = (totalSlidesCount) => {return {type: SET_TOTAL_SLIDES_COUNT, totalSlidesCount}};
 export const toggleIsFetching = (isFetching) => {return {type: TOGGLE_IS_FETCHING, isFetching}};
-
 export const updateNewPostTextActionCreator = (text) => {return {type: UPDATE_NEW_POST_TEXT, data: text}};
 
 export default sliderReducer;

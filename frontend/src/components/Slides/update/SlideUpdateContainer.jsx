@@ -1,6 +1,6 @@
 import React from 'react';
 import * as axios from "axios";
-import { store } from 'react-notifications-component';
+import {store} from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import * as qs from 'query-string';
 import {myConfig} from "../../../config/config";
@@ -19,25 +19,20 @@ import {withRouter} from "react-router-dom";
 
 
 const param_id = qs.parse(window.location.search);
-console.log('log: '+window.location.search);
+console.log('log: ' + window.location.search);
 
 class SlideUpdateContainer extends React.Component {
 
 
     componentDidMount() {
-        const url = myConfig.API_URL+'/slides/'+this.props.match.params.id; //формируем ссылку на апи
-        console.log(url);
-        /*console.log(this.props);*/
-        /*Если слайд пустой, то делаем запрос на сервер*/
-
-            console.log('get request');
-            axios.get(url)
-                .then(res => {
-                    this.props.setSlide(res.data);
-                    console.log(this.props.slide);
-                });
-
-    }
+        const url = myConfig.API_URL + '/slides/' + this.props.match.params.id; //формируем ссылку на апи
+        console.log('get request');
+        axios.get(url)
+            .then(res => {
+                this.props.setSlide(res.data);
+                console.log(this.props.slide);
+            });
+    };
 
     handleInputChange = event => {
         const target = event.target;
@@ -47,7 +42,7 @@ class SlideUpdateContainer extends React.Component {
         this.setSlide({
             [name]: value
         });
-    }
+    };
 
 
     handleSubmit = event => {
@@ -60,8 +55,8 @@ class SlideUpdateContainer extends React.Component {
             slide_content: this.props.state.slide_content
         };
 
-        const url = myConfig.API_URL+'/slides/'+param_id.id;
-        axios.put(url, { slide })
+        const url = myConfig.API_URL + '/slides/' + param_id.id;
+        axios.put(url, {slide})
             .then(res => {
                 store.addNotification({
                     title: 'TVAPP',
@@ -80,11 +75,11 @@ class SlideUpdateContainer extends React.Component {
 
     render() {
         return (
-           <SlideUpdate
-               handleInputChange={this.handleInputChange}
-               handleSubmit={this.handleSubmit}
-               slide={this.props.slide}
-           />
+                <SlideUpdate
+                handleInputChange={this.handleInputChange}
+                handleSubmit={this.handleSubmit}
+                slide={this.props.slide}
+            />
         )
     }
 }
@@ -95,9 +90,13 @@ let mapStateToProps = (state) => {
     }
 };
 
-let WithUrlDataContainerComponent = withRouter(SlideUpdateContainer);
-
+let WithUrlDataContainerComponent2 = withRouter(SlideUpdateContainer);
 
 export default connect(mapStateToProps, {
-    setSlide, slideNewUpdatePlaceInputAC, slideNewUpdateScreenNumInputAC, slideNewUpdateSlideNumInputAC, slideNewUpdateIsActiveInputAC, slideNewUpdateContentInputAC
-})(WithUrlDataContainerComponent);
+    setSlide,
+    slideNewUpdatePlaceInputAC,
+    slideNewUpdateScreenNumInputAC,
+    slideNewUpdateSlideNumInputAC,
+    slideNewUpdateIsActiveInputAC,
+    slideNewUpdateContentInputAC
+})(WithUrlDataContainerComponent2);
