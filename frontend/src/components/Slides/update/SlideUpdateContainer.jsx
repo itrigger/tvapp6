@@ -2,24 +2,15 @@ import React from 'react';
 import * as axios from "axios";
 import {store} from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
-import * as qs from 'query-string';
 import {myConfig} from "../../../config/config";
-import SlideUpdate from "./SlideUpdate";
 import {connect} from "react-redux";
 import {
-    setSlide,
-    slideNewUpdatePlaceInputAC,
-    slideNewUpdateScreenNumInputAC,
-    slideNewUpdateSlideNumInputAC,
-    slideNewUpdateIsActiveInputAC,
-    slideNewUpdateContentInputAC
+    setSlide
 } from "../../../redux/reducers/slideUpdate-reducer";
 import {withRouter} from "react-router-dom";
+import SlideUpdateForm from "./SlideUpdateForm";
 /*import {browserHistory} from "react-router";*/
 
-
-const param_id = qs.parse(window.location.search);
-console.log('log: ' + window.location.search);
 
 class SlideUpdateContainer extends React.Component {
 
@@ -34,28 +25,8 @@ class SlideUpdateContainer extends React.Component {
             });
     };
 
-    handleInputChange = event => {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-
-        this.setSlide({
-            [name]: value
-        });
-    };
-
-
-    handleSubmit = event => {
-        event.preventDefault();
-        let slide = {
-            place: this.props.state.place,
-            screen_num: this.props.state.screen_num,
-            slide_num: this.props.state.slide_num,
-            isactive: this.props.state.isactive,
-            slide_content: this.props.state.slide_content
-        };
-
-        const url = myConfig.API_URL + '/slides/' + param_id.id;
+    onSubmit = (slide) => {
+        const url = myConfig.API_URL + '/slides/' + this.props.match.params.id;
         axios.put(url, {slide})
             .then(res => {
                 store.addNotification({
@@ -69,17 +40,13 @@ class SlideUpdateContainer extends React.Component {
                         duration: 3000
                     }
                 })
-                console.log(slide);
             })
     };
 
     render() {
         return (
-                <SlideUpdate
-                handleInputChange={this.handleInputChange}
-                handleSubmit={this.handleSubmit}
-                slide={this.props.slide}
-            />
+                <SlideUpdateForm initialValues={this.props.slide} url={this.props.match.params.id} onSubmit={this.onSubmit}/>
+
         )
     }
 }
@@ -93,10 +60,5 @@ let mapStateToProps = (state) => {
 let WithUrlDataContainerComponent2 = withRouter(SlideUpdateContainer);
 
 export default connect(mapStateToProps, {
-    setSlide,
-    slideNewUpdatePlaceInputAC,
-    slideNewUpdateScreenNumInputAC,
-    slideNewUpdateSlideNumInputAC,
-    slideNewUpdateIsActiveInputAC,
-    slideNewUpdateContentInputAC
+    setSlide
 })(WithUrlDataContainerComponent2);

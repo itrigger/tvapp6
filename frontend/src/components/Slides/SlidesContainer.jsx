@@ -19,7 +19,8 @@ import {withRouter} from "react-router-dom";
 class SlidesContainer extends React.Component {
 
     componentDidMount() {
-        if (this.props.slides.length === 0) {
+
+        /*if (this.props.slides.length === 0) {*/
             this.props.toggleIsFetching(true);
             axios.get(`http://localhost:3012/api/slides?page=${this.props.currentPage}&size=${this.props.pageSize}`)
                 .then(res => {
@@ -27,7 +28,7 @@ class SlidesContainer extends React.Component {
                     this.props.setTotalSlidesCount(res.data.count);
                     this.props.toggleIsFetching(false);
                 })
-        }
+        /*}*/
 
     }
 

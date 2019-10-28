@@ -29,7 +29,13 @@
 .page-header h1{
   margin: 30px 0;
 }
-
+.slide-preview{
+  width: 100%;
+  margin-top: 20px;
+}
+.slide-preview img{
+  max-width: 100%;
+}
 form{
   text-align: left;
 

@@ -6,7 +6,7 @@ import './App.css';
 import Header from './components/Header/Header';
 import MyNavbar from './components/Navbar/Navbar';
 import Mainpage from './components/Mainpage/Mainpage';
-import SlideAddContainer from "./components/Slides/SlideAddContainer";
+import SlideAddContainer from "./components/Slides/add/SlideAddContainer";
 import Footer from "./components/Footer/Footer";
 import SlidesContainer from "./components/Slides/SlidesContainer";
 import SlideUpdateContainer from "./components/Slides/update/SlideUpdateContainer";

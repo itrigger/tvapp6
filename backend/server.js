@@ -48,7 +48,7 @@ app.get('/add_schedule/', function (req, res) {
 });
 
 
-/*Роуты для API*/
+/*Роуты для API (СДЕЛАТЬ ВЕРСИЮ 1,0)*/
 app.get('/api/tvs/all', tvsController.APIall); /*Получить все экраны*/
 app.get('/api/slides/', slidesController.APIall); /*Список всех слайдов постранично*/
 app.post('/api/slides/', slidesController.APIadd); /*Добавить слайд*/
