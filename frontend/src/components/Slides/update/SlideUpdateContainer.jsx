@@ -4,11 +4,10 @@ import {store} from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import {myConfig} from "../../../config/config";
 import {connect} from "react-redux";
-import {
-    setSlide
-} from "../../../redux/reducers/slideUpdate-reducer";
+import {setSlide} from "../../../redux/reducers/slideUpdate-reducer";
 import {withRouter} from "react-router-dom";
 import SlideUpdateForm from "./SlideUpdateForm";
+
 /*import {browserHistory} from "react-router";*/
 
 
@@ -21,7 +20,6 @@ class SlideUpdateContainer extends React.Component {
         axios.get(url)
             .then(res => {
                 this.props.setSlide(res.data);
-                console.log(this.props.slide);
             });
     };
 
@@ -44,9 +42,10 @@ class SlideUpdateContainer extends React.Component {
     };
 
     render() {
+        console.log('render');
+        console.log(this.props.slide);
         return (
                 <SlideUpdateForm initialValues={this.props.slide} url={this.props.match.params.id} onSubmit={this.onSubmit}/>
-
         )
     }
 }
@@ -57,8 +56,7 @@ let mapStateToProps = (state) => {
     }
 };
 
+
 let WithUrlDataContainerComponent2 = withRouter(SlideUpdateContainer);
 
-export default connect(mapStateToProps, {
-    setSlide
-})(WithUrlDataContainerComponent2);
+export default connect(mapStateToProps, {setSlide})(WithUrlDataContainerComponent2);

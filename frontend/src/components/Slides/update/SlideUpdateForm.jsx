@@ -6,18 +6,20 @@ import {Button} from "react-bootstrap";
 import {faSave} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Parser from "html-react-parser";
+import {loadAC} from "../../../redux/reducers/slideUpdate-reducer";
 
 
 let SlideUpdateForm = (props) => {
-    const {handleSubmit, load, pristine, reset, submitting} = props;
+    const {handleSubmit, initialValues, load, pristine, reset, submitting} = props;
 
     /*******************/
     /*Parser for html content*/
-    let html = '';
+   let html = '';
     if (props.initialValues.slide_content) {
         html = Parser(props.initialValues.slide_content)
     }
     /******************/
+
 
     return (<section className="container">
             <div className="bs-docs-section clearfix">
@@ -27,7 +29,6 @@ let SlideUpdateForm = (props) => {
                             <h1>Редактирование слайда</h1>
                         </div>
                         <form onSubmit={handleSubmit}>
-
                             <div className="form-group">
                                 Локация:<br/>
                                 <Field
@@ -89,20 +90,10 @@ let SlideUpdateForm = (props) => {
             </div>
         </section>
     )
-
 };
 
 
-SlideUpdateForm = reduxForm({
-    form: 'slideUpdateForm' // a unique identifier for this form
+export default SlideUpdateForm = reduxForm({
+    form: 'slideUpdateForm', // a unique identifier for this form
+    enableReinitialize : true
 })(SlideUpdateForm)
-
-// You have to connect() to any reducers that you wish to connect to yourself
-SlideUpdateForm = connect(
-    state => ({
-        initialValues: state.sliderUpdateReducer.slide // pull initial values from account reducer
-    }),
-    {} // bind account loading action creator
-)(SlideUpdateForm);
-
-export default SlideUpdateForm

@@ -1,10 +1,14 @@
 const SET_SLIDE = 'SET_SLIDE';
-
-const UPDATE_NEW_SLIDE_PLACE_TEXT = 'UPDATE_NEW_SLIDE_PLACE_TEXT';
-
+const LOAD = 'redux-form-examples/account/LOAD'
 
 let initialState = {
-    slide:[]
+    slide:[{
+        place: 'zum',
+        slide_num: '1',
+        screen_num: '1',
+        isactive: '1',
+        slide_content: 'werqwerqwe'
+    }]
 }
 
 const sliderUpdateReducer = (state = initialState, action) => {
@@ -14,10 +18,9 @@ const sliderUpdateReducer = (state = initialState, action) => {
             return{
                 ...state, slide: action.slide
             }
-        case UPDATE_NEW_SLIDE_PLACE_TEXT:
+        case LOAD:
             return {
-                ...state,
-                slideUpdatePlaceInput: action.data
+                slide: action.slide
             }
         default:
             return state;
@@ -27,5 +30,6 @@ const sliderUpdateReducer = (state = initialState, action) => {
 
 
 export const setSlide = (slide) => {return {type: SET_SLIDE, slide}};
+export const loadAC = (slide) => {return {type: LOAD, slide}};
 
 export default sliderUpdateReducer;
