@@ -7,7 +7,7 @@ var errorhandler = require('errorhandler');
 var MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID;
 var db = require('./db');
-
+const jwt = require('jsonwebtoken');
 var placesController = require('./controllers/places');
 var slidesController = require('./controllers/slides');
 var tvsController = require('./controllers/tvs');
@@ -15,6 +15,8 @@ var scheduleController = require('./controllers/scheduler');
 
 var app = express();
 var methodOverride = require('method-override');
+
+
 
 // view engine setup
 app.engine('ejs', require('ejs-locals'));
@@ -25,6 +27,35 @@ app.use(express.static('dist'));
 app.use(methodOverride('_method'));
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
+
+
+
+/*auth*/
+let UserController = require('./controllers/user');
+let AuthController = require('./controllers/auth');
+
+global.__root   = __dirname + '/';
+app.get('/api', function (req, res) {
+    res.status(200).send('API works.');
+});
+
+
+/*app.use('/api/users', UserController);
+
+app.use('/api/auth', AuthController);*/
+/**/
+
+app.get('/me', function(req, res) {
+    let token = req.headers['x-access-token'];
+    if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
+
+    jwt.verify(token, config.secret, function(err, decoded) {
+        if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+
+        res.status(200).send(decoded);
+    });
+    //https://www.freecodecamp.org/news/securing-node-js-restful-apis-with-json-web-tokens-9f811a92bb52/
+});
 
 app.get('/add_slide/', function (req, res) {
     res.render('slide_add', {
@@ -49,6 +80,8 @@ app.get('/add_schedule/', function (req, res) {
 
 
 /*Роуты для API (СДЕЛАТЬ ВЕРСИЮ 1,0)*/
+app.post('/api/auth/register', UserController.APIadd); /*создать юзера*/
+
 app.get('/api/tvs/all', tvsController.APIall); /*Получить все экраны*/
 app.get('/api/slides/', slidesController.APIall); /*Список всех слайдов постранично*/
 app.post('/api/slides/', slidesController.APIadd); /*Добавить слайд*/
