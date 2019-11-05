@@ -1,21 +1,21 @@
-var express = require('express');
-var cors = require('cors');
-var bodyParser = require('body-parser');
-var http = require('http');
-var path = require('path');
-var errorhandler = require('errorhandler');
-var MongoClient = require('mongodb').MongoClient;
-var ObjectID = require('mongodb').ObjectID;
-var db = require('./db');
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const http = require('http');
+const path = require('path');
+const errorhandler = require('errorhandler');
+const MongoClient = require('mongodb').MongoClient;
+const ObjectID = require('mongodb').ObjectID;
+const db = require('./db');
 const jwt = require('jsonwebtoken');
-var placesController = require('./controllers/places');
-var slidesController = require('./controllers/slides');
-var tvsController = require('./controllers/tvs');
-var scheduleController = require('./controllers/scheduler');
+const placesController = require('./controllers/places');
+const slidesController = require('./controllers/slides');
+const tvsController = require('./controllers/tvs');
+const scheduleController = require('./controllers/scheduler');
 
-var app = express();
-var methodOverride = require('method-override');
-
+const app = express();
+const methodOverride = require('method-override');
+let VerifyToken = require('./verifyToken');
 
 
 // view engine setup
@@ -34,6 +34,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 let UserController = require('./controllers/user');
 let AuthController = require('./controllers/auth');
 
+
+
+const config = require('./config');
 global.__root   = __dirname + '/';
 app.get('/api', function (req, res) {
     res.status(200).send('API works.');
@@ -45,17 +48,9 @@ app.get('/api', function (req, res) {
 app.use('/api/auth', AuthController);*/
 /**/
 
-app.get('/me', function(req, res) {
-    let token = req.headers['x-access-token'];
-    if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
 
-    jwt.verify(token, config.secret, function(err, decoded) {
-        if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+//https://www.freecodecamp.org/news/securing-node-js-restful-apis-with-json-web-tokens-9f811a92bb52/
 
-        res.status(200).send(decoded);
-    });
-    //https://www.freecodecamp.org/news/securing-node-js-restful-apis-with-json-web-tokens-9f811a92bb52/
-});
 
 app.get('/add_slide/', function (req, res) {
     res.render('slide_add', {
@@ -81,6 +76,9 @@ app.get('/add_schedule/', function (req, res) {
 
 /*Роуты для API (СДЕЛАТЬ ВЕРСИЮ 1,0)*/
 app.post('/api/auth/register', UserController.APIadd); /*создать юзера*/
+app.get('/api/me', VerifyToken, UserController.APIgetMe); /*получить юзера*/
+app.post('/api/login', UserController.APIlogin); /*получить юзера*/
+app.get('/api/logout', UserController.APIlogout); /*получить юзера*/
 
 app.get('/api/tvs/all', tvsController.APIall); /*Получить все экраны*/
 app.get('/api/slides/', slidesController.APIall); /*Список всех слайдов постранично*/
@@ -90,7 +88,7 @@ app.get('/api/slides/:id', slidesController.APIfindById); /*Открыть од�
 app.delete('/api/slides/:id', slidesController.APIdelete); /*Удалить слайд*/
 
 /*Роуты для локаций*/
-app.get('/places', placesController.all);
+app.get('/places', VerifyToken, placesController.all);
 app.get('/places/:id', placesController.findById);
 app.post('/places', placesController.create);
 app.put('/places/:id', placesController.update);
