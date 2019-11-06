@@ -4,7 +4,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const config = require('../config');
 
-
+const LocalStorage = require('node-localstorage').LocalStorage,
+    localStorage = new LocalStorage('./scratch');
 
 //router.use(bodyParser.urlencoded({ extended: true }));
 
@@ -31,7 +32,8 @@ exports.APIadd = function(req, res) {
 };
 
 exports.APIgetMe = function(req, res, next) {
-    let token = req.headers['x-access-token'];
+    let token = localStorage.getItem('token');
+
     if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
 
     jwt.verify(token, config.secret, function(err, decoded) {
@@ -42,11 +44,9 @@ exports.APIgetMe = function(req, res, next) {
             if (!user) return res.status(404).send("No user found.");
             user.password = '0';
             res.status(200).send(user);
-
         });
     });
 };
-
 
 
 
@@ -62,6 +62,8 @@ exports.APIlogin = function (req, res) {
             expiresIn: 86400 // expires in 24 hours
         });
 
+        localStorage.setItem('token', token);
+        console.log(localStorage.getItem('token'));
         res.status(200).send({ auth: true, token: token });
     });
 };
