@@ -40,10 +40,20 @@ exports.APIgetMe = function(req, res, next) {
         if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
 
         User.APIgetMe(decoded.id, function (err, user) {
-            if (err) return res.status(500).send("There was a problem finding the user.");
-            if (!user) return res.status(404).send("No user found.");
+            let data = {
+                resultCode: '1',
+                user: user
+            }
+            if (err){
+                data.resultCode = '1'; //resultCode = 1 ERROR
+            }
+            if (!user) {
+                data.resultCode = '2'; //resultCode = 1 NOT FOUND
+            }
             user.password = '0';
-            res.status(200).send(user);
+            data.resultCode = 0;
+            data.user = user;
+            res.status(200).send(data);
         });
     });
 };

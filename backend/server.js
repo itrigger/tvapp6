@@ -24,7 +24,11 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(express.static('dist'));
 app.use(methodOverride('_method'));
-app.use(cors());
+app.use('*', cors({
+    credentials: true,
+    origin: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS'
+}));
 app.use(bodyParser.urlencoded({extended: true}));
 
 
@@ -43,7 +47,7 @@ app.get('/api', function (req, res) {
 
 app.get('/add_slide/', function (req, res) {
     res.render('slide_add', {
-        // id: req.params.id
+        // id: req.params.id+
     });
 });
 app.get('/add_place/', function (req, res) {
