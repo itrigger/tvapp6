@@ -82,7 +82,7 @@ app.get('/login', function (req, res) {
 
 
 app.get('/api/tvs/all', tvsController.APIall); /*Получить все экраны*/
-app.get('/api/slides/', slidesController.APIall); /*Список всех слайдов постранично*/
+app.get('/api/slides/',VerifyToken, slidesController.APIall); /*Список всех слайдов постранично*/
 app.post('/api/slides/', slidesController.APIadd); /*Добавить слайд*/
 app.put('/api/slides/:id', slidesController.APIupdate); /**/
 app.get('/api/slides/:id', slidesController.APIfindById); /*Открыть один конкретный слайд*/

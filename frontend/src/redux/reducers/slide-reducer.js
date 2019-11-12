@@ -24,7 +24,7 @@ const sliderReducer = (state = initialState, action) => {
                 ...state,
                 slides: state.slides.map(s=>{
                     if(s._id === action.slideId){
-                        return {...s, isactive:true}
+                        return {...s, isactive:'1'}
                     }
                     return s;
                 })
@@ -34,7 +34,7 @@ const sliderReducer = (state = initialState, action) => {
                 ...state,
                 slides: state.slides.map(s=>{
                     if(s._id === action.slideId){
-                        return {...s, isactive:false}
+                        return {...s, isactive:'0'}
                     }
                     return s;
                 })

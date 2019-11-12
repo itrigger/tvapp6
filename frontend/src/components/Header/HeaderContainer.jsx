@@ -1,8 +1,9 @@
 import React from 'react';
-import Header from "./Header";
 import * as axios from "axios";
 import {connect} from 'react-redux';
 import {setUserDataAC} from "../../redux/reducers/auth-reducer";
+import HeaderAuthTrue from "./HeaderAuthTrue";
+import HeaderAuthFalse from "./HeaderAuthFalse";
 
 class HeaderContainer extends React.Component {
 
@@ -18,7 +19,11 @@ class HeaderContainer extends React.Component {
     }
 
     render() {
-        return <Header {...this.props}/>
+        if(this.props.isAuth){
+            return <HeaderAuthTrue {...this.props}/>
+        } else {
+            return <HeaderAuthFalse {...this.props}/>
+        }
 
     }
 }

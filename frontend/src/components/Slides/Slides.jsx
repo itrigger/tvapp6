@@ -4,6 +4,9 @@ import {Button, Pagination} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import Parser from "html-react-parser";
+import {myConfig} from "../../config/config";
+import * as axios from "axios";
+import {Notify} from "../common/Notificator/notificator";
 
 
 let Slides = (props) => {
@@ -48,13 +51,29 @@ let Slides = (props) => {
                                     <td>{e.screen_num}</td>
                                     <td>{e.slide_num}</td>
                                     <td>{
-                                        e.isactive
+                                        e.isactive === '1'
                                             ? <button onClick={() => {
+
+                                                const url = myConfig.API_URL + '/slides/' + e._id;
+                                                let slide = {place: e.place,screen_num: e.screen_num,slide_num: e.slide_num,isactive: '0',slide_content: e.slide_content}
+                                                axios.put(url, {slide}, {withCredentials: true})
+                                                    .then(res => {
+                                                        Notify('TVAPP', 'Слайд обновлен', 'success');
+                                                    })
                                                 props.activeOff(e._id)
-                                            }}>Active on</button>
+
+                                            }}>Выключить</button>
                                             : <button onClick={() => {
+
+                                                const url = myConfig.API_URL + '/slides/' + e._id;
+                                                let slide = {place: e.place,screen_num: e.screen_num,slide_num: e.slide_num,isactive: '1',slide_content: e.slide_content}
+                                                axios.put(url, {slide}, {withCredentials: true})
+                                                    .then(res => {
+                                                        Notify('TVAPP', 'Слайд обновлен', 'success');
+                                                    })
                                                 props.activeOn(e._id)
-                                            }}>Active off</button>
+
+                                            }}>Включить</button>
                                     }</td>
                                     <td>{Parser(e.slide_content)}</td>
                                     <td>

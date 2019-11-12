@@ -1,12 +1,11 @@
 import React from 'react';
-import * as axios from "axios";
-import {store} from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
-import {myConfig} from "../../../config/config";
 import {connect} from "react-redux";
 import {setSlide} from "../../../redux/reducers/slideUpdate-reducer";
 import {withRouter} from "react-router-dom";
 import SlideUpdateForm from "./SlideUpdateForm";
+import {getSlideViaAPI, putSlidesViaAPI} from "../../../api/api";
+import {Notify} from "../../common/Notificator/notificator";
 
 /*import {browserHistory} from "react-router";*/
 
@@ -15,37 +14,23 @@ class SlideUpdateContainer extends React.Component {
 
 
     componentDidMount() {
-        const url = myConfig.API_URL + '/slides/' + this.props.match.params.id; //формируем ссылку на апи
-        console.log('get request');
-        axios.get(url)
-            .then(res => {
-                this.props.setSlide(res.data);
-            });
+        getSlideViaAPI(this.props.match.params.id).then(res => {
+            this.props.setSlide(res.data);
+        });
     };
 
     onSubmit = (slide) => {
-        const url = myConfig.API_URL + '/slides/' + this.props.match.params.id;
-        axios.put(url, {slide})
-            .then(res => {
-                store.addNotification({
-                    title: 'TVAPP',
-                    message: 'Слайд обновлен',
-                    type: 'success',                         // 'default', 'success', 'info', 'warning'
-                    container: 'bottom-left',                // where to position the notifications
-                    animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
-                    animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
-                    dismiss: {
-                        duration: 3000
-                    }
-                })
-            })
+        putSlidesViaAPI(this.props.match.params.id, {slide}).then(res => {
+            Notify('TVAPP', 'Слайд обновлен', 'success');
+        })
     };
 
     render() {
-        console.log('render');
-        console.log(this.props.slide);
+        //console.log('render');
+        //console.log(this.props.slide);
         return (
-                <SlideUpdateForm initialValues={this.props.slide} url={this.props.match.params.id} onSubmit={this.onSubmit}/>
+            <SlideUpdateForm initialValues={this.props.slide} url={this.props.match.params.id}
+                             onSubmit={this.onSubmit}/>
         )
     }
 }

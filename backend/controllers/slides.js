@@ -12,8 +12,12 @@ const channels_client = new Pusher({
 exports.all = function (req, res) {
     let pageNo = parseInt(req.query.page);
     let size = parseInt(req.query.size);
-    if (!(pageNo)) {pageNo = 1}
-    if (!(size)) {size = 5}
+    if (!(pageNo)) {
+        pageNo = 1
+    }
+    if (!(size)) {
+        size = 5
+    }
     let skip = size * (pageNo - 1);
     let limit = size;
     let message = {};
@@ -152,7 +156,7 @@ exports.APIall = function (req, res) {
     }
     let skip = size * (pageNo - 1);
     let message = {};
-   Slides.all(
+    Slides.all(
         skip,
         size,
         function (err, docs) {
@@ -177,11 +181,15 @@ exports.APIadd = function (req, res) {
         slide_content: req.body.slide.slide_content
     };
     Slides.create(screen, function (err, result) {
+        let data = {
+            resultCode: 1
+        }
         if (err) {
             console.log(err);
             return res.sendStatus(500);
         }
-        return res.sendStatus(200);
+        data.resultCode = 0;
+        res.status(200).send(data);
     });
 };
 
@@ -200,6 +208,9 @@ exports.APIdelete = function (req, res) {
 
 exports.APIupdate = function (req, res) {
     console.log(req.body.slide.place);
+    let data = {
+        resultCode: 1
+    }
     Slides.update(
         req.params.id,
         {
@@ -215,7 +226,8 @@ exports.APIupdate = function (req, res) {
 
                 return res.sendStatus(500);
             }
-            res.sendStatus(200);
+            data.resultCode = 0;
+            res.status(200).send(data);
         }
     );
 };

@@ -1,0 +1,17 @@
+import {myConfig} from "../config/config";
+import * as axios from "axios";
+
+/*Получаем 1 слайд по ID через АПИ*/
+export const getSlideViaAPI = (id) =>{
+    const url = myConfig.API_URL + '/slides/' + id; //формируем ссылку на апи
+    return axios.get(url, {withCredentials: true});
+};
+
+/*Обвноляем 1 слайд по ID через АПИ*/
+export const putSlidesViaAPI = (id, slide) =>{
+    const url = myConfig.API_URL + '/slides/' + id; //формируем ссылку на апи
+    return  axios.put(url, {slide}, {withCredentials: true});
+}
+
+
+
