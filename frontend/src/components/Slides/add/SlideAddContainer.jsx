@@ -1,5 +1,4 @@
 import React from 'react';
-import * as axios from "axios";
 import 'react-notifications-component/dist/theme.css';
 import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/reducers/slide-reducer";
 import SlideAdd from "./SlideAdd";

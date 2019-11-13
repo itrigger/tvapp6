@@ -30,7 +30,7 @@ const App = (props) => {
             <Route path="/slides" exact
                    render={() => <SlidesContainer/>}/>
             <Route path="/slide/update/:id?"
-                   render={() => <SlideUpdateContainer/>}/>
+                   render={() => <SlideUpdateContainer history={history}/>}/>
             <Footer/>
         </div>
     );

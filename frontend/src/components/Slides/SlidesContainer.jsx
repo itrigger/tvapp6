@@ -1,7 +1,5 @@
 import React from 'react';
 import 'react-notifications-component/dist/theme.css';
-import s from './slides.module.css';
-import loader from '../../assets/img/loader.svg';
 import {connect} from 'react-redux';
 import {
     activeOff,
@@ -10,39 +8,33 @@ import {
     setSlides,
     setTotalSlidesCount, toggleIsFetching
 } from "../../redux/reducers/slide-reducer";
-import * as axios from "axios";
 import Slides from "./Slides";
 import Preloader from "../common/Preloader/Preloader";
 import {withRouter} from "react-router-dom";
+import {slidesAPI} from "../../api/api";
 
 
 class SlidesContainer extends React.Component {
 
     componentDidMount() {
-
-        /*if (this.props.slides.length === 0) {*/
-            this.props.toggleIsFetching(true);
-            axios.get(`http://localhost:3012/api/slides?page=${this.props.currentPage}&size=${this.props.pageSize}`)
-                .then(res => {
-                    this.props.setSlides(res.data.items);
-                    this.props.setTotalSlidesCount(res.data.count);
-                    this.props.toggleIsFetching(false);
-                })
-        /*}*/
-
+        this.props.toggleIsFetching(true);
+        slidesAPI.getSlides(this.props.currentPage, this.props.pageSize).then(data => {
+            this.props.setSlides(data.items);
+            this.props.setTotalSlidesCount(data.count);
+            this.props.toggleIsFetching(false);
+        });
     }
 
     onPageChanged = (pageNumber) => {
         this.props.setCurrentPage(pageNumber);
         this.props.toggleIsFetching(true);
-        axios.get(`http://localhost:3012/api/slides?page=${pageNumber}&size=${this.props.pageSize}`).then(res => {
-            this.props.setSlides(res.data.items);
+        slidesAPI.getSlides(pageNumber, this.props.pageSize).then(data => {
+            this.props.setSlides(data.items);
             this.props.toggleIsFetching(false);
-        })
-    }
+        });
+    };
 
     render() {
-
         return <>
             {this.props.isFetching ? <Preloader/> : null}
             <Slides
@@ -55,7 +47,6 @@ class SlidesContainer extends React.Component {
                 activeOn={this.props.activeOn}
             />
         </>
-
     }
 }
 

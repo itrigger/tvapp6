@@ -1,17 +1,52 @@
+/*
+* Работа с АПИ сервера с помощью AXIOS
+*/
 import {myConfig} from "../config/config";
 import * as axios from "axios";
 
-/*Получаем 1 слайд по ID через АПИ*/
-export const getSlideViaAPI = (id) =>{
-    const url = myConfig.API_URL + '/slides/' + id; //формируем ссылку на апи
-    return axios.get(url, {withCredentials: true});
+const instance = axios.create({
+    withCredentials: true,
+    baseURL: myConfig.API_URL
+});
+
+
+
+this.props.toggleIsFetching(true);
+axios.get(`http://localhost:3012/api/slides?page=${this.props.currentPage}&size=${this.props.pageSize}`)
+    .then(res => {
+        this.props.setSlides(res.data.items);
+        this.props.setTotalSlidesCount(res.data.count);
+        this.props.toggleIsFetching(false);
+    })
+
+
+export const slidesAPI = {
+    /*Получаем слайды постранично*/
+    getSlides(currentPage, pageSize) {
+        return instance.get(`/slides?page=${currentPage}&size=${pageSize}`)
+            .then(response => {return response.data});
+    },
+    /*Получаем 1 слайд по ID*/
+    getSlide(id) {
+        return instance.get(`/slides/`+id)
+            .then(response => {return response.data});
+    },
+    /*Обвноляем 1 слайд по ID*/
+    putSlide(id, slide){
+        return  instance.put(`/slides/`+id, {slide})
+            .then(response => {return response.data});
+    },
+    deleteSlide(id) {
+        return instance.delete(`/slides/`+id)
+            .then(response => {return response.data});
+    },
+
+
 };
 
-/*Обвноляем 1 слайд по ID через АПИ*/
-export const putSlidesViaAPI = (id, slide) =>{
-    const url = myConfig.API_URL + '/slides/' + id; //формируем ссылку на апи
-    return  axios.put(url, {slide}, {withCredentials: true});
-}
+
+
+
 
 
 

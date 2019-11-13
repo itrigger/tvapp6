@@ -7,6 +7,7 @@ import Parser from "html-react-parser";
 import {myConfig} from "../../config/config";
 import * as axios from "axios";
 import {Notify} from "../common/Notificator/notificator";
+import {slidesAPI} from "../../api/api";
 
 
 let Slides = (props) => {
@@ -53,24 +54,18 @@ let Slides = (props) => {
                                     <td>{
                                         e.isactive === '1'
                                             ? <button onClick={() => {
-
-                                                const url = myConfig.API_URL + '/slides/' + e._id;
                                                 let slide = {place: e.place,screen_num: e.screen_num,slide_num: e.slide_num,isactive: '0',slide_content: e.slide_content}
-                                                axios.put(url, {slide}, {withCredentials: true})
-                                                    .then(res => {
-                                                        Notify('TVAPP', 'Слайд обновлен', 'success');
-                                                    })
+                                                slidesAPI.putSlide(e._id,slide).then(data =>{
+                                                    Notify('TVAPP', 'Слайд обновлен', 'success');
+                                                });
                                                 props.activeOff(e._id)
 
                                             }}>Выключить</button>
                                             : <button onClick={() => {
-
-                                                const url = myConfig.API_URL + '/slides/' + e._id;
                                                 let slide = {place: e.place,screen_num: e.screen_num,slide_num: e.slide_num,isactive: '1',slide_content: e.slide_content}
-                                                axios.put(url, {slide}, {withCredentials: true})
-                                                    .then(res => {
-                                                        Notify('TVAPP', 'Слайд обновлен', 'success');
-                                                    })
+                                                slidesAPI.putSlide(e._id,slide).then(data =>{
+                                                    Notify('TVAPP', 'Слайд обновлен', 'success');
+                                                });
                                                 props.activeOn(e._id)
 
                                             }}>Включить</button>
