@@ -7,7 +7,6 @@ import SlideUpdateForm from "./SlideUpdateForm";
 import {Notify} from "../../common/Notificator/notificator";
 import {slidesAPI} from "../../../api/api";
 
-import {browserHistory} from "react-router";
 
 
 class SlideUpdateContainer extends React.Component {
@@ -21,7 +20,7 @@ class SlideUpdateContainer extends React.Component {
     onSubmit = (slide) => {
         slidesAPI.putSlide(this.props.match.params.id, {slide}).then(data => {
             Notify('TVAPP', 'Слайд обновлен', 'success');
-
+            //history: this.props.history.push('/slides')
         })
     };
 

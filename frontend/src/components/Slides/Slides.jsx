@@ -4,8 +4,6 @@ import {Button, Pagination} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import Parser from "html-react-parser";
-import {myConfig} from "../../config/config";
-import * as axios from "axios";
 import {Notify} from "../common/Notificator/notificator";
 import {slidesAPI} from "../../api/api";
 
@@ -53,21 +51,26 @@ let Slides = (props) => {
                                     <td>{e.slide_num}</td>
                                     <td>{
                                         e.isactive === '1'
-                                            ? <button onClick={() => {
+                                            ? <button disabled={props.isSlidesUpdating.some(id => id === e._id.toString)} onClick={() => {
+
+                                                props.toggleIsSlidesUpdating(true, e._id.toString);
+                                                console.log('1' + props.isSlidesUpdating);
                                                 let slide = {place: e.place,screen_num: e.screen_num,slide_num: e.slide_num,isactive: '0',slide_content: e.slide_content}
                                                 slidesAPI.putSlide(e._id,slide).then(data =>{
                                                     Notify('TVAPP', 'Слайд обновлен', 'success');
                                                 });
                                                 props.activeOff(e._id)
-
+                                                props.toggleIsSlidesUpdating(false, e._id.toString);
+                                                console.log('2' + props.isSlidesUpdating);
                                             }}>Выключить</button>
-                                            : <button onClick={() => {
+                                            : <button disabled={props.isSlidesUpdating.some(id => id === e._id.toString)} onClick={() => {
+                                                props.toggleIsSlidesUpdating(true, e._id.toString);
                                                 let slide = {place: e.place,screen_num: e.screen_num,slide_num: e.slide_num,isactive: '1',slide_content: e.slide_content}
                                                 slidesAPI.putSlide(e._id,slide).then(data =>{
                                                     Notify('TVAPP', 'Слайд обновлен', 'success');
                                                 });
                                                 props.activeOn(e._id)
-
+                                                props.toggleIsSlidesUpdating(false, e._id.toString);
                                             }}>Включить</button>
                                     }</td>
                                     <td>{Parser(e.slide_content)}</td>

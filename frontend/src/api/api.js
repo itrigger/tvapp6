@@ -1,6 +1,3 @@
-/*
-* Работа с АПИ сервера с помощью AXIOS
-*/
 import {myConfig} from "../config/config";
 import * as axios from "axios";
 
@@ -8,16 +5,6 @@ const instance = axios.create({
     withCredentials: true,
     baseURL: myConfig.API_URL
 });
-
-
-
-this.props.toggleIsFetching(true);
-axios.get(`http://localhost:3012/api/slides?page=${this.props.currentPage}&size=${this.props.pageSize}`)
-    .then(res => {
-        this.props.setSlides(res.data.items);
-        this.props.setTotalSlidesCount(res.data.count);
-        this.props.toggleIsFetching(false);
-    })
 
 
 export const slidesAPI = {
@@ -39,14 +26,8 @@ export const slidesAPI = {
     deleteSlide(id) {
         return instance.delete(`/slides/`+id)
             .then(response => {return response.data});
-    },
-
-
+    }
 };
-
-
-
-
 
 
 

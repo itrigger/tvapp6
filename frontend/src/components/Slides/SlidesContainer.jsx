@@ -6,12 +6,16 @@ import {
     activeOn,
     setCurrentPage,
     setSlides,
-    setTotalSlidesCount, toggleIsFetching
+    setTotalSlidesCount,
+    toggleIsFetching,
+    toggleIsSlidesUpdating
 } from "../../redux/reducers/slide-reducer";
 import Slides from "./Slides";
 import Preloader from "../common/Preloader/Preloader";
 import {withRouter} from "react-router-dom";
 import {slidesAPI} from "../../api/api";
+
+
 
 
 class SlidesContainer extends React.Component {
@@ -45,6 +49,9 @@ class SlidesContainer extends React.Component {
                 slides={this.props.slides}
                 activeOff={this.props.activeOff}
                 activeOn={this.props.activeOn}
+                isFetching = {this.props.isFetching}
+                isSlidesUpdating = {this.props.isSlidesUpdating}
+                toggleIsSlidesUpdating = {this.props.toggleIsSlidesUpdating}
             />
         </>
     }
@@ -56,12 +63,13 @@ let mapStateToProps = (state) => {
         pageSize: state.sliderReducer.pageSize,
         totalSlidesCount: state.sliderReducer.totalSlidesCount,
         currentPage: state.sliderReducer.currentPage,
-        isFetching: state.sliderReducer.isFetching
+        isFetching: state.sliderReducer.isFetching,
+        isSlidesUpdating: state.sliderReducer.isSlidesUpdating
     }
 };
 
 let WithUrlDataContainerComponent = withRouter(SlidesContainer);
 
 export default connect(mapStateToProps, {
-    activeOn, activeOff, setSlides, setCurrentPage, setTotalSlidesCount, toggleIsFetching
+    activeOn, activeOff, setSlides, setCurrentPage, setTotalSlidesCount, toggleIsFetching, toggleIsSlidesUpdating
 })(WithUrlDataContainerComponent);
