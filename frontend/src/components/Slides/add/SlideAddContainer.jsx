@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import React from 'react';
 import 'react-notifications-component/dist/theme.css';
 import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/reducers/slide-reducer";

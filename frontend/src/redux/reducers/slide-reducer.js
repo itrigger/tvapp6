@@ -63,8 +63,8 @@ const sliderReducer = (state = initialState, action) => {
                 ...state,
                 isSlidesUpdating:  action.isFetching
                     ? [...state.isSlidesUpdating, action.slideID]
-                    : [state.isSlidesUpdating.filter(id => id !== action.slideID)]
-            }
+                    : [...state.isSlidesUpdating.filter(id => id !== action.slideID)]
+              }
         case ADD_SLIDE:
             return {
                 ...state,
@@ -87,7 +87,6 @@ const sliderReducer = (state = initialState, action) => {
         default:
             return state;
     }
-
 };
 
 export const setSlides = (slides) => {return {type: SET_SLIDES, slides}};

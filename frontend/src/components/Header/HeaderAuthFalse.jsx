@@ -1,6 +1,5 @@
 import React from 'react';
-import {Button, Navbar, Nav} from 'react-bootstrap';
-import NavLink from "react-bootstrap/NavLink";
+import {Navbar, Nav} from 'react-bootstrap';
 import {LinkContainer} from "react-router-bootstrap";
 
 const HeaderAuthFalse = (props) => {

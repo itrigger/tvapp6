@@ -51,26 +51,18 @@ let Slides = (props) => {
                                     <td>{e.slide_num}</td>
                                     <td>{
                                         e.isactive === '1'
-                                            ? <button disabled={props.isSlidesUpdating.some(id => id === e._id.toString)} onClick={() => {
+                                            ? <button disabled={props.isSlidesUpdating.some(id => id === e._id) } onClick={() => {
 
-                                                props.toggleIsSlidesUpdating(true, e._id.toString);
-                                                console.log('1' + props.isSlidesUpdating);
+                                                props.toggleIsSlidesUpdating(true, e._id);
                                                 let slide = {place: e.place,screen_num: e.screen_num,slide_num: e.slide_num,isactive: '0',slide_content: e.slide_content}
-                                                slidesAPI.putSlide(e._id,slide).then(data =>{
-                                                    Notify('TVAPP', 'Слайд обновлен', 'success');
-                                                });
-                                                props.activeOff(e._id)
-                                                props.toggleIsSlidesUpdating(false, e._id.toString);
-                                                console.log('2' + props.isSlidesUpdating);
+                                                slidesAPI.putSlide(e._id,slide).then(data =>{Notify('TVAPP', 'Слайд обновлен', 'success');props.toggleIsSlidesUpdating(false, e._id);});
+                                                props.activeOff(e._id);
                                             }}>Выключить</button>
-                                            : <button disabled={props.isSlidesUpdating.some(id => id === e._id.toString)} onClick={() => {
-                                                props.toggleIsSlidesUpdating(true, e._id.toString);
+                                            : <button disabled={props.isSlidesUpdating.some(id => id === e._id)} onClick={() => {
+                                                props.toggleIsSlidesUpdating(true, e._id);
                                                 let slide = {place: e.place,screen_num: e.screen_num,slide_num: e.slide_num,isactive: '1',slide_content: e.slide_content}
-                                                slidesAPI.putSlide(e._id,slide).then(data =>{
-                                                    Notify('TVAPP', 'Слайд обновлен', 'success');
-                                                });
-                                                props.activeOn(e._id)
-                                                props.toggleIsSlidesUpdating(false, e._id.toString);
+                                                slidesAPI.putSlide(e._id,slide).then(data =>{Notify('TVAPP', 'Слайд обновлен', 'success');props.toggleIsSlidesUpdating(false, e._id);});
+                                                props.activeOn(e._id);
                                             }}>Включить</button>
                                     }</td>
                                     <td>{Parser(e.slide_content)}</td>

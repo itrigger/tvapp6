@@ -1,5 +1,4 @@
 import React from 'react';
-import * as axios from "axios";
 import 'react-notifications-component/dist/theme.css';
 import Button from "react-bootstrap/Button";
 

@@ -1,7 +1,5 @@
 import React from 'react';
 import {Button, Navbar, Nav} from 'react-bootstrap';
-import NavLink from "react-bootstrap/NavLink";
-import {LinkContainer} from "react-router-bootstrap";
 
 const HeaderAuthTrue = (props) => {
 

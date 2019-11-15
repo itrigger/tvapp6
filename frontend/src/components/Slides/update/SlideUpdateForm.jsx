@@ -1,16 +1,17 @@
 import React from 'react';
 import {Field, reduxForm} from 'redux-form';
-import {connect} from 'react-redux';
+/*import {connect} from 'react-redux';*/
 import 'react-notifications-component/dist/theme.css';
 import {Button} from "react-bootstrap";
 import {faSave} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Parser from "html-react-parser";
-import {loadAC} from "../../../redux/reducers/slideUpdate-reducer";
+/*import {loadAC} from "../../../redux/reducers/slideUpdate-reducer";*/
 
 
 let SlideUpdateForm = (props) => {
-    const {handleSubmit, initialValues, load, pristine, reset, submitting} = props;
+    //const {handleSubmit, initialValues, load, pristine, reset, submitting} = props;
+    const {handleSubmit} = props;
 
     /*******************/
     /*Parser for html content*/
