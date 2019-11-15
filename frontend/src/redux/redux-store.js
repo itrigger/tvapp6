@@ -1,10 +1,9 @@
-import {combineReducers, createStore} from "redux";
+import {applyMiddleware, combineReducers, createStore} from "redux";
 import sliderReducer from "./reducers/slide-reducer";
 import sliderUpdateReducer from "./reducers/slideUpdate-reducer";
 import authReducer from "./reducers/auth-reducer";
 import { reducer as reduxFormReducer } from 'redux-form';
-
-
+import thunkMiddleware from 'redux-thunk';
 
 let reducers = combineReducers(
     {
@@ -15,7 +14,7 @@ let reducers = combineReducers(
     }
 )
 
-let store = createStore(reducers);
+let store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
 window.store = store;
 export default store;

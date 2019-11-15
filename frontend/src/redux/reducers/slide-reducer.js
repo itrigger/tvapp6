@@ -1,3 +1,5 @@
+import {slidesAPI} from "../../api/api";
+
 const ADD_SLIDE = 'ADD_SLIDE';
 const ACTIVE_ON = 'ACTIVE_ON';
 const ACTIVE_OFF = 'ACTIVE_OFF';
@@ -98,5 +100,16 @@ export const setTotalSlidesCount = (totalSlidesCount) => {return {type: SET_TOTA
 export const toggleIsFetching = (isFetching) => {return {type: TOGGLE_IS_FETCHING, isFetching}};
 export const toggleIsSlidesUpdating = (isFetching, slideID) => {return {type: TOGGLE_IS_SLIDES_UPDATING, isFetching, slideID}};
 export const updateNewPostTextActionCreator = (text) => {return {type: UPDATE_NEW_POST_TEXT, data: text}};
+
+export const getSlides = (currentPage, pageSize) => {
+    return (dispatch) =>  {
+        dispatch(toggleIsFetching(true));
+        slidesAPI.getSlides(currentPage, pageSize).then(data => {
+            dispatch(toggleIsFetching(false));
+            dispatch(setSlides(data.items));
+            dispatch(setTotalSlidesCount(data.count));
+        });
+    }
+};
 
 export default sliderReducer;

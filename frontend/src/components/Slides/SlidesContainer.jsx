@@ -3,9 +3,8 @@ import 'react-notifications-component/dist/theme.css';
 import {connect} from 'react-redux';
 import {
     activeOff,
-    activeOn,
+    activeOn, getSlides,
     setCurrentPage,
-    setSlides,
     setTotalSlidesCount,
     toggleIsFetching,
     toggleIsSlidesUpdating
@@ -13,7 +12,7 @@ import {
 import Slides from "./Slides";
 import Preloader from "../common/Preloader/Preloader";
 import {withRouter} from "react-router-dom";
-import {slidesAPI} from "../../api/api";
+
 
 
 
@@ -21,21 +20,12 @@ import {slidesAPI} from "../../api/api";
 class SlidesContainer extends React.Component {
 
     componentDidMount() {
-        this.props.toggleIsFetching(true);
-        slidesAPI.getSlides(this.props.currentPage, this.props.pageSize).then(data => {
-            this.props.setSlides(data.items);
-            this.props.setTotalSlidesCount(data.count);
-            this.props.toggleIsFetching(false);
-        });
+        this.props.getSlides(this.props.currentPage, this.props.pageSize);
     }
 
     onPageChanged = (pageNumber) => {
         this.props.setCurrentPage(pageNumber);
-        this.props.toggleIsFetching(true);
-        slidesAPI.getSlides(pageNumber, this.props.pageSize).then(data => {
-            this.props.setSlides(data.items);
-            this.props.toggleIsFetching(false);
-        });
+        this.props.getSlides(pageNumber, this.props.pageSize);
     };
 
     render() {
@@ -71,5 +61,5 @@ let mapStateToProps = (state) => {
 let WithUrlDataContainerComponent = withRouter(SlidesContainer);
 
 export default connect(mapStateToProps, {
-    activeOn, activeOff, setSlides, setCurrentPage, setTotalSlidesCount, toggleIsFetching, toggleIsSlidesUpdating
+    activeOn, activeOff, getSlides, setCurrentPage, setTotalSlidesCount, toggleIsFetching, toggleIsSlidesUpdating
 })(WithUrlDataContainerComponent);
