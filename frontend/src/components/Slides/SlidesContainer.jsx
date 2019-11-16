@@ -3,7 +3,7 @@ import 'react-notifications-component/dist/theme.css';
 import {connect} from 'react-redux';
 import {
     activeOff,
-    activeOn, getSlides,
+    activeOn, getSlides, putSlide,
     setCurrentPage,
     setTotalSlidesCount,
     toggleIsFetching,
@@ -42,6 +42,7 @@ class SlidesContainer extends React.Component {
                 isFetching = {this.props.isFetching}
                 isSlidesUpdating = {this.props.isSlidesUpdating}
                 toggleIsSlidesUpdating = {this.props.toggleIsSlidesUpdating}
+                putSlide = {this.props.putSlide}
             />
         </>
     }
@@ -61,5 +62,5 @@ let mapStateToProps = (state) => {
 let WithUrlDataContainerComponent = withRouter(SlidesContainer);
 
 export default connect(mapStateToProps, {
-    activeOn, activeOff, getSlides, setCurrentPage, setTotalSlidesCount, toggleIsFetching, toggleIsSlidesUpdating
+    activeOn, activeOff, getSlides, putSlide, setCurrentPage, setTotalSlidesCount, toggleIsFetching, toggleIsSlidesUpdating
 })(WithUrlDataContainerComponent);

@@ -51,19 +51,17 @@ let Slides = (props) => {
                                     <td>{e.slide_num}</td>
                                     <td>{
                                         e.isactive === '1'
-                                            ? <button disabled={props.isSlidesUpdating.some(id => id === e._id) } onClick={() => {
 
-                                                props.toggleIsSlidesUpdating(true, e._id);
+                                            ? <button disabled={props.isSlidesUpdating.some(id => id === e._id) } onClick={() => {
                                                 let slide = {place: e.place,screen_num: e.screen_num,slide_num: e.slide_num,isactive: '0',slide_content: e.slide_content}
-                                                slidesAPI.putSlide(e._id,slide).then(data =>{Notify('TVAPP', 'Слайд обновлен', 'success');props.toggleIsSlidesUpdating(false, e._id);});
-                                                props.activeOff(e._id);
+                                                props.putSlide(e._id, slide, true);
                                             }}>Выключить</button>
+
                                             : <button disabled={props.isSlidesUpdating.some(id => id === e._id)} onClick={() => {
-                                                props.toggleIsSlidesUpdating(true, e._id);
                                                 let slide = {place: e.place,screen_num: e.screen_num,slide_num: e.slide_num,isactive: '1',slide_content: e.slide_content}
-                                                slidesAPI.putSlide(e._id,slide).then(data =>{Notify('TVAPP', 'Слайд обновлен', 'success');props.toggleIsSlidesUpdating(false, e._id);});
-                                                props.activeOn(e._id);
+                                                props.putSlide(e._id, slide, false);
                                             }}>Включить</button>
+
                                     }</td>
                                     <td>{Parser(e.slide_content)}</td>
                                     <td>

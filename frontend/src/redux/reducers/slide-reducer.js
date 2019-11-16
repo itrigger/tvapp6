@@ -1,4 +1,5 @@
 import {slidesAPI} from "../../api/api";
+import {Notify} from "../../components/common/Notificator/notificator";
 
 const ADD_SLIDE = 'ADD_SLIDE';
 const ACTIVE_ON = 'ACTIVE_ON';
@@ -109,6 +110,19 @@ export const getSlides = (currentPage, pageSize) => {
             dispatch(setSlides(data.items));
             dispatch(setTotalSlidesCount(data.count));
         });
+    }
+};
+
+export const putSlide = (id, slide, active) => {
+    return (dispatch) =>  {
+        dispatch(toggleIsSlidesUpdating(true, id));
+        slidesAPI.putSlide(id,slide)
+            .then(data =>{
+                Notify('TVAPP', 'Слайд обновлен', 'success');
+                dispatch(toggleIsSlidesUpdating(false, id));
+            });
+        active ? dispatch(activeOff(id)) : dispatch(activeOn(id));
+
     }
 };
 
