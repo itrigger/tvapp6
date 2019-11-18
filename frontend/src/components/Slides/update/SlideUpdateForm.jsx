@@ -6,8 +6,6 @@ import {Button} from "react-bootstrap";
 import {faSave} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Parser from "html-react-parser";
-/*import {loadAC} from "../../../redux/reducers/slideUpdate-reducer";*/
-
 
 let SlideUpdateForm = (props) => {
     //const {handleSubmit, initialValues, load, pristine, reset, submitting} = props;

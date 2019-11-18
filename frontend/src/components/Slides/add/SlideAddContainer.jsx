@@ -1,31 +1,42 @@
-// eslint-disable-next-line
 import React from 'react';
 import 'react-notifications-component/dist/theme.css';
-import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/reducers/slide-reducer";
-import SlideAdd from "./SlideAdd";
-import { connect } from 'react-redux';
+import {connect} from "react-redux";
+import {setSlide} from "../../../redux/reducers/slideUpdate-reducer";
+import {withRouter} from "react-router-dom";
+import {Notify} from "../../common/Notificator/notificator";
+import {slidesAPI} from "../../../api/api";
+import SlideAddForm from "./SlideAddForm";
 
+
+
+class SlideAddContainer extends React.Component {
+
+    componentDidMount() {
+
+    };
+
+    onSubmit = (slide) => {
+        slidesAPI.putSlide(this.props.match.params.id, {slide}).then(data => {
+            Notify('TVAPP', 'Слайд обновлен', 'success');
+            //history: this.props.history.push('/slides')
+        })
+    };
+
+    render() {
+        return (
+            <SlideAddForm initialValues={this.props.slide} url={this.props.match.params.id}
+                             onSubmit={this.onSubmit}/>
+        )
+    }
+}
 
 let mapStateToProps = (state) => {
     return {
-        newPostText: state.sliderReducer.newPostText
-        //history: props.history.push('/slides')
+        slide: state.sliderUpdateReducer.slide
     }
 };
 
-let mapDispatchToProps = (dispatch) => {
-    return {
-        addPost: () => {
-            dispatch(addPostActionCreator());
 
-        },
-        updateNewPostText: (text) => {
-            let action = updateNewPostTextActionCreator(text);
-            dispatch(action);
-        }
-    }
-};
+let WithUrlDataContainerComponent2 = withRouter(SlideAddContainer);
 
-const SlideAddContainer = connect(mapStateToProps, mapDispatchToProps)(SlideAdd);
-
-export default SlideAddContainer;
+export default connect(mapStateToProps, {setSlide})(WithUrlDataContainerComponent2);

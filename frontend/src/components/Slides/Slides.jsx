@@ -4,8 +4,7 @@ import {Button, Pagination} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import Parser from "html-react-parser";
-import {Notify} from "../common/Notificator/notificator";
-import {slidesAPI} from "../../api/api";
+
 
 
 let Slides = (props) => {

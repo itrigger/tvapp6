@@ -25,8 +25,6 @@ class SlideUpdateContainer extends React.Component {
     };
 
     render() {
-        //console.log('render');
-        //console.log(this.props.slide);
         return (
             <SlideUpdateForm initialValues={this.props.slide} url={this.props.match.params.id}
                              onSubmit={this.onSubmit}/>

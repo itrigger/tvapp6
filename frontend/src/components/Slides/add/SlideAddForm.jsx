@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 
 
 /*export default class SlideAdd extends React.Component {*/
-const SlideAdd = (props) => {
+const SlideAddForm = (props) => {
 
     // state = {
     //     place: '',
@@ -103,4 +103,4 @@ const SlideAdd = (props) => {
     // }
 };
 
-export default SlideAdd;
+export default SlideAddForm;

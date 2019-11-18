@@ -29,5 +29,9 @@ export const slidesAPI = {
     }
 };
 
-
+export const authAPI = {
+    me() {
+       return instance.get(`/me`).then(response => {return response.data});
+    }
+}
 
