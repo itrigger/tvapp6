@@ -1,38 +1,37 @@
 import React from 'react';
 import 'react-notifications-component/dist/theme.css';
 import {connect} from "react-redux";
-import {setSlide} from "../../../redux/reducers/slideUpdate-reducer";
+import {setSlide} from "../../../redux/reducers/slide-reducer";
 import {withRouter} from "react-router-dom";
 import {Notify} from "../../common/Notificator/notificator";
 import {slidesAPI} from "../../../api/api";
 import SlideAddForm from "./SlideAddForm";
+import sliderReducer, {createSlide} from "../../../redux/reducers/slide-reducer";
 
 
 
 class SlideAddContainer extends React.Component {
 
-    componentDidMount() {
-
-    };
 
     onSubmit = (slide) => {
-        slidesAPI.putSlide(this.props.match.params.id, {slide}).then(data => {
+        /*this.props.createSlide({slide}).then(data => {   })*/
+        slidesAPI.createSlide({slide}).then(data => {
             Notify('TVAPP', 'Слайд обновлен', 'success');
             //history: this.props.history.push('/slides')
         })
+
     };
 
     render() {
         return (
-            <SlideAddForm initialValues={this.props.slide} url={this.props.match.params.id}
-                             onSubmit={this.onSubmit}/>
+            <SlideAddForm onSubmit={this.onSubmit}/>
         )
     }
 }
 
 let mapStateToProps = (state) => {
     return {
-        slide: state.sliderUpdateReducer.slide
+        slide: state.sliderReducer.slide
     }
 };
 

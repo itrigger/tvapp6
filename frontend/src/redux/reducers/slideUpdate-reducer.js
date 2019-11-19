@@ -3,11 +3,11 @@ const LOAD = 'redux-form-examples/account/LOAD'
 
 let initialState = {
     slide:[{
-        place: 'zum',
-        slide_num: '1',
-        screen_num: '1',
-        isactive: '1',
-        slide_content: 'werqwerqwe'
+        place: null,
+        slide_num: null,
+        screen_num: null,
+        isactive: null,
+        slide_content: null
     }]
 }
 

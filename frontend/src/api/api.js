@@ -23,6 +23,11 @@ export const slidesAPI = {
         return  instance.put(`/slides/`+id, {slide})
             .then(response => {return response.data});
     },
+    createSlide(slide){
+        debugger
+        return  instance.post(`/slides/`, {slide})
+            .then(response => {return response.data});
+    },
     deleteSlide(id) {
         return instance.delete(`/slides/`+id)
             .then(response => {return response.data});
