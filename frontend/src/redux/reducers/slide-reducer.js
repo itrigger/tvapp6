@@ -18,11 +18,11 @@ let initialState = {
     totalSlidesCount: 0,
     currentPage: 1,
     slide: {
-        place: null,
-        slide_num: null,
-        screen_num: null,
-        isactive: null,
-        slide_content: null
+        place: '1',
+        slide_num: '2',
+        screen_num: '3',
+        isactive: '4',
+        slide_content: '5'
     },
     isFetching: false,
     isSlidesUpdating: []
@@ -52,7 +52,6 @@ const sliderReducer = (state = initialState, action) => {
                 })
             }
         case SET_SLIDE:
-            debugger
             return {
                 ...state, slide: action.slide
             }

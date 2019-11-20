@@ -71,9 +71,6 @@ let SlideAddForm = (props) => {
 
                             <Button type="submit" variant="success"><FontAwesomeIcon icon={faSave}/> Сохранить</Button>
                         </form>
-                        <div className="slide-preview">
-
-                        </div>
                     </div>
                 </div>
             </div>

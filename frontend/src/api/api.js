@@ -24,8 +24,7 @@ export const slidesAPI = {
             .then(response => {return response.data});
     },
     createSlide(slide){
-        debugger
-        return  instance.post(`/slides/`, {slide})
+        return  instance.post(`/slides/`, slide)
             .then(response => {return response.data});
     },
     deleteSlide(id) {

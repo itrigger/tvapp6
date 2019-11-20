@@ -1,25 +1,18 @@
 import React from 'react';
 import 'react-notifications-component/dist/theme.css';
 import {connect} from "react-redux";
-import {setSlide} from "../../../redux/reducers/slide-reducer";
+import {createSlide, setSlide} from "../../../redux/reducers/slide-reducer";
 import {withRouter} from "react-router-dom";
+import SlideAddForm from "./SlideAddForm";
 import {Notify} from "../../common/Notificator/notificator";
 import {slidesAPI} from "../../../api/api";
-import SlideAddForm from "./SlideAddForm";
-import sliderReducer, {createSlide} from "../../../redux/reducers/slide-reducer";
 
 
 
 class SlideAddContainer extends React.Component {
 
-
     onSubmit = (slide) => {
-        /*this.props.createSlide({slide}).then(data => {   })*/
-        slidesAPI.createSlide({slide}).then(data => {
-            Notify('TVAPP', 'Слайд обновлен', 'success');
-            //history: this.props.history.push('/slides')
-        })
-
+        this.props.createSlide({slide});
     };
 
     render() {
@@ -36,6 +29,6 @@ let mapStateToProps = (state) => {
 };
 
 
-let WithUrlDataContainerComponent2 = withRouter(SlideAddContainer);
+let WithUrlDataContainerComponent = withRouter(SlideAddContainer);
 
-export default connect(mapStateToProps, {setSlide})(WithUrlDataContainerComponent2);
+export default connect(mapStateToProps, {createSlide, setSlide})(WithUrlDataContainerComponent);

@@ -180,6 +180,7 @@ exports.APIadd = function (req, res) {
         isactive: req.body.slide.isactive,
         slide_content: req.body.slide.slide_content
     };
+
     Slides.create(screen, function (err, result) {
         let data = {
             resultCode: 1
