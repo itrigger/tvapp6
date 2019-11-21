@@ -1,19 +1,19 @@
-var express = require('express');
-var router = express.Router();
-var bodyParser = require('body-parser');
+const express = require('express');
+const router = express.Router();
+const bodyParser = require('body-parser');
 
-var VerifyToken = require('../verifyToken');
+const VerifyToken = require('../verifyToken');
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
-var User = require('../controllers/user');
+const User = require('../controllers/user');
 
 /**
  * Configure JWT
  */
-var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
-var bcrypt = require('bcryptjs');
-var config = require('../config'); // get config file
+const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
+const bcrypt = require('bcryptjs');
+const config = require('../config'); // get config file
 
 router.post('/login', function(req, res) {
 
@@ -22,13 +22,13 @@ router.post('/login', function(req, res) {
         if (!user) return res.status(404).send('No user found.');
 
         // check if the password is valid
-        var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+        let passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
         if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
 
         // if user is found and password is valid
         // create a token
-        var token = jwt.sign({ id: user._id }, config.secret, {
-            expiresIn: 86400 // expires in 24 hours
+        let token = jwt.sign({ id: user._id }, config.secret, {
+            expiresIn: 60 // expires in 24 hours 86400
         });
 
         // return the information including token as JSON

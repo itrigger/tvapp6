@@ -25,7 +25,7 @@ exports.APIadd = function(req, res) {
         }
         //res.redirect('/places');
         let token = jwt.sign({ id: user._id }, config.secret, {
-            expiresIn: 86400 // expires in 24 hours
+            expiresIn: 60 // expires in 24 hours 86400
         });
         res.status(200).send({ auth: true, token: token });
     });
@@ -37,18 +37,18 @@ exports.APIgetMe = function(req, res, next) {
     if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
 
     jwt.verify(token, config.secret, function(err, decoded) {
-        if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+        if (err) return res.send({ auth: false, message: 'Failed to authenticate token.', resultCode: 1 });
 
         User.APIgetMe(decoded.id, function (err, user) {
             let data = {
-                resultCode: '1',
+                resultCode: 1,
                 user: user
             }
             if (err){
-                data.resultCode = '1'; //resultCode = 1 ERROR
+                data.resultCode = 1; //resultCode = 1 ERROR
             }
             if (!user) {
-                data.resultCode = '2'; //resultCode = 1 NOT FOUND
+                data.resultCode = 2; //resultCode = 2 NOT FOUND
             }
             user.password = '0';
             data.resultCode = 0;
@@ -69,11 +69,11 @@ exports.APIlogin = function (req, res) {
         if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
 
         let token = jwt.sign({ id: user._id }, config.secret, {
-            expiresIn: 86400 // expires in 24 hours
+            expiresIn: 60 // expires in 24 hours 86400
         });
 
         localStorage.setItem('token', token);
-        console.log(localStorage.getItem('token'));
+        //console.log(localStorage.getItem('token'));
         res.status(200).send({ auth: true, token: token });
     });
 };

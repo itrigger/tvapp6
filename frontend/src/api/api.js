@@ -19,8 +19,12 @@ export const slidesAPI = {
             .then(response => {return response.data});
     },
     /*Обвноляем 1 слайд по ID*/
-    putSlide(id, slide){
+    putSlideActive(id, slide){
         return  instance.put(`/slides/`+id, {slide})
+            .then(response => {return response.data});
+    },
+    putSlide(id, slide){
+        return  instance.put(`/slides/`+id, slide)
             .then(response => {return response.data});
     },
     createSlide(slide){
@@ -35,7 +39,9 @@ export const slidesAPI = {
 
 export const authAPI = {
     me() {
-       return instance.get(`/me`).then(response => {return response.data});
+       return instance.get(`/me`)
+           .then(response => {return response.data})
+           .catch(error => {console.log('auth error')});
     }
 }
 

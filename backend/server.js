@@ -70,8 +70,8 @@ app.get('/add_schedule/', function (req, res) {
 /*Роуты для API (СДЕЛАТЬ ВЕРСИЮ 1,0)*/
 app.post('/api/auth/register', UserController.APIadd); /*создать юзера*/
 app.get('/api/me', VerifyToken, UserController.APIgetMe); /*получить юзера*/
-app.post('/api/login', UserController.APIlogin); /*получить юзера*/
-app.get('/api/logout', UserController.APIlogout); /*получить юзера*/
+app.post('/api/login', UserController.APIlogin); /*войти*/
+app.get('/api/logout', UserController.APIlogout); /*выйти*/
 
 
 app.get('/login', function (req, res) {
@@ -83,9 +83,9 @@ app.get('/login', function (req, res) {
 
 app.get('/api/tvs/all', tvsController.APIall); /*Получить все экраны*/
 app.get('/api/slides/',VerifyToken, slidesController.APIall); /*Список всех слайдов постранично*/
-app.post('/api/slides/', slidesController.APIadd); /*Добавить слайд*/
-app.put('/api/slides/:id', slidesController.APIupdate); /**/
-app.get('/api/slides/:id', slidesController.APIfindById); /*Открыть один конкретный слайд*/
+app.post('/api/slides/',VerifyToken, slidesController.APIadd); /*Добавить слайд*/
+app.put('/api/slides/:id',VerifyToken, slidesController.APIupdate); /**/
+app.get('/api/slides/:id',VerifyToken, slidesController.APIfindById); /*Открыть один конкретный слайд*/
 app.delete('/api/slides/:id', slidesController.APIdelete); /*Удалить слайд*/
 
 /*Роуты для локаций*/

@@ -30,6 +30,8 @@ export const setUserDataAC = (_id, name, email, password) => ({type: SET_USER_DA
 export const getMe = () => {
     return (dispatch) => {
         authAPI.me().then(data => {
+            console.log('auth returned');
+            console.log(data);
             if (data.resultCode === 0) {
                 let {_id, name, email, password} = data.user;
                 dispatch(setUserDataAC(_id, name, email, password));

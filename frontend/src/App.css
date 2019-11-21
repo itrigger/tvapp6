@@ -41,7 +41,8 @@ form{
 
 }
 form input[type=text],
-form textarea
+form textarea,
+form input[type=password]
 {
   max-width: 450px;
 }

@@ -14,7 +14,7 @@ let SlideUpdateForm = (props) => {
     /*******************/
     /*Parser for html content*/
    let html = '';
-    if (props.initialValues.slide_content) {
+    if (props.initialValues.slide_content && props.initialValues.slide_content !== null) {
         html = Parser(props.initialValues.slide_content)
     }
     /******************/

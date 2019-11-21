@@ -1,45 +1,45 @@
 import React from 'react';
 import 'react-notifications-component/dist/theme.css';
 import {connect} from "react-redux";
-import {setSlide} from "../../../redux/reducers/slideUpdate-reducer";
-import {withRouter} from "react-router-dom";
 import SlideUpdateForm from "./SlideUpdateForm";
-import {Notify} from "../../common/Notificator/notificator";
-import {slidesAPI} from "../../../api/api";
+import {setSlide} from "../../../redux/reducers/slideUpdate-reducer";
+import {Redirect, withRouter} from "react-router-dom";
+import {getSlide, putSlide} from "../../../redux/reducers/slide-reducer";
+import Preloader from "../../common/Preloader/Preloader";
 
 
 
 class SlideUpdateContainer extends React.Component {
 
     componentDidMount() {
-        slidesAPI.getSlide(this.props.match.params.id).then(data => {
-            this.props.setSlide(data);
-        });
+        this.props.getSlide(this.props.match.params.id);
     };
 
     onSubmit = (slide) => {
-        slidesAPI.putSlide(this.props.match.params.id, {slide}).then(data => {
-            Notify('TVAPP', 'Слайд обновлен', 'success');
-            //history: this.props.history.push('/slides')
-        })
+        this.props.putSlide(this.props.match.params.id, {slide});
     };
 
     render() {
-        return (
+        if (this.props.isAuth === false) return <Redirect to={"/login"} />;
+        return <>
+            {this.props.isFetching ? <Preloader/> : null}
             <SlideUpdateForm initialValues={this.props.slide}
                              url={this.props.match.params.id}
-                             onSubmit={this.onSubmit} />
-        )
+                             onSubmit={this.onSubmit}
+                             isAuth = {this.props.isAuth}
+            />
+        </>
     }
 }
 
 let mapStateToProps = (state) => {
     return {
-        slide: state.sliderUpdateReducer.slide
+        slide: state.sliderUpdateReducer.slide,
+        isAuth: state.authReducer.isAuth
     }
 };
 
 
 let WithUrlDataContainerComponent2 = withRouter(SlideUpdateContainer);
 
-export default connect(mapStateToProps, {setSlide})(WithUrlDataContainerComponent2);
+export default connect(mapStateToProps, {setSlide, putSlide, getSlide})(WithUrlDataContainerComponent2);

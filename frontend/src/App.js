@@ -10,6 +10,7 @@ import SlideAddContainer from "./components/Slides/add/SlideAddContainer";
 import Footer from "./components/Footer/Footer";
 import SlidesContainer from "./components/Slides/SlidesContainer";
 import SlideUpdateContainer from "./components/Slides/update/SlideUpdateContainer";
+import LoginContainer from "./components/Login/LoginContainer";
 
 
 
@@ -31,6 +32,7 @@ const App = (props) => {
                    render={() => <SlidesContainer/>}/>
             <Route path="/slide/update/:id?"
                    render={({history}) => <SlideUpdateContainer history={history}/>}/>
+            <Route path="/login" render={()=><LoginContainer />}/>
             <Footer/>
         </div>
     );

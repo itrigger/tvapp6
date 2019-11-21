@@ -8,7 +8,6 @@ const SET_SLIDE = 'SET_SLIDE';
 const SET_SLIDES = 'SET_SLIDES';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const SET_TOTAL_SLIDES_COUNT = 'SET_TOTAL_SLIDES_COUNT';
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 const TOGGLE_IS_SLIDES_UPDATING = 'TOGGLE_IS_SLIDES_UPDATING';
 
@@ -99,7 +98,6 @@ const sliderReducer = (state = initialState, action) => {
 
 export const setSlides = (slides) => {  return {type: SET_SLIDES, slides}};
 export const setSlide = (slide) => {    return {type: SET_SLIDE, slide}};
-export const addPostActionCreator = () => {    return {type: ADD_SLIDE}};
 export const activeOn = (slideId) => {    return {type: ACTIVE_ON, slideId}};
 export const activeOff = (slideId) => {    return {type: ACTIVE_OFF, slideId}};
 export const setCurrentPage = (currentPage) => {    return {type: SET_CURRENT_PAGE, currentPage}};
@@ -107,21 +105,35 @@ export const setTotalSlidesCount = (totalSlidesCount) => {    return {type: SET_
 export const toggleIsFetching = (isFetching) => {    return {type: TOGGLE_IS_FETCHING, isFetching}};
 export const toggleIsSlidesUpdating = (isFetching, slideID) => {    return {type: TOGGLE_IS_SLIDES_UPDATING, isFetching, slideID}};
 
-export const getSlides = (currentPage, pageSize) => {
+
+export const getSlide = (id) => {
     return (dispatch) => {
         dispatch(toggleIsFetching(true));
-        slidesAPI.getSlides(currentPage, pageSize).then(data => {
+        slidesAPI.getSlide(id).then(data => {
             dispatch(toggleIsFetching(false));
-            dispatch(setSlides(data.items));
-            dispatch(setTotalSlidesCount(data.count));
+            dispatch(setSlide(data));
         });
     }
 };
 
-export const putSlide = (id, slide, active) => {
+export const getSlides = (currentPage, pageSize) => {
+    return (dispatch) => {
+        dispatch(toggleIsFetching(true));
+        slidesAPI.getSlides(currentPage, pageSize).then(data => {
+            console.log(data);
+            if(data){
+                dispatch(setSlides(data.items));
+                dispatch(setTotalSlidesCount(data.count));
+            }
+            dispatch(toggleIsFetching(false));
+        });
+    }
+};
+
+export const putSlideActive = (id, slide, active) => {
     return (dispatch) => {
         dispatch(toggleIsSlidesUpdating(true, id));
-        slidesAPI.putSlide(id, slide)
+        slidesAPI.putSlideActive(id, slide)
             .then(data => {
                 Notify('TVAPP', 'Слайд обновлен', 'success');
                 dispatch(toggleIsSlidesUpdating(false, id));
@@ -130,7 +142,16 @@ export const putSlide = (id, slide, active) => {
 
     }
 };
-
+export const putSlide = (id, slide) => {
+    return (dispatch) => {
+        dispatch(toggleIsSlidesUpdating(true, id));
+        slidesAPI.putSlide(id, slide)
+            .then(data => {
+                Notify('TVAPP', 'Слайд обновлен', 'success');
+                dispatch(toggleIsSlidesUpdating(false, id));
+            });
+    }
+};
 export const createSlide = (slide) => {
     return (dispatch) => {
         slidesAPI.createSlide(slide)

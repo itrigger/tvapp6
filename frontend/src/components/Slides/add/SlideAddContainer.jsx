@@ -1,12 +1,9 @@
 import React from 'react';
 import 'react-notifications-component/dist/theme.css';
 import {connect} from "react-redux";
-import {createSlide, setSlide} from "../../../redux/reducers/slide-reducer";
+import {createSlide} from "../../../redux/reducers/slide-reducer";
 import {withRouter} from "react-router-dom";
 import SlideAddForm from "./SlideAddForm";
-import {Notify} from "../../common/Notificator/notificator";
-import {slidesAPI} from "../../../api/api";
-
 
 
 class SlideAddContainer extends React.Component {
@@ -31,4 +28,4 @@ let mapStateToProps = (state) => {
 
 let WithUrlDataContainerComponent = withRouter(SlideAddContainer);
 
-export default connect(mapStateToProps, {createSlide, setSlide})(WithUrlDataContainerComponent);
+export default connect(mapStateToProps, {createSlide})(WithUrlDataContainerComponent);

@@ -4,6 +4,7 @@ import {Button, Pagination} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import Parser from "html-react-parser";
+import {Redirect} from "react-router-dom";
 
 
 
@@ -14,6 +15,8 @@ let Slides = (props) => {
     for (let i = 1; i <= pagesCount; i++) {
         pages.push(i);
     }
+
+    if (props.isAuth === false) return <Redirect to={"/login"} />;
 
     return (
         <section className="container">
@@ -53,16 +56,16 @@ let Slides = (props) => {
 
                                             ? <button disabled={props.isSlidesUpdating.some(id => id === e._id) } onClick={() => {
                                                 let slide = {place: e.place,screen_num: e.screen_num,slide_num: e.slide_num,isactive: '0',slide_content: e.slide_content}
-                                                props.putSlide(e._id, slide, true);
+                                                props.putSlideActive(e._id, slide, true);
                                             }}>Выключить</button>
 
                                             : <button disabled={props.isSlidesUpdating.some(id => id === e._id)} onClick={() => {
                                                 let slide = {place: e.place,screen_num: e.screen_num,slide_num: e.slide_num,isactive: '1',slide_content: e.slide_content}
-                                                props.putSlide(e._id, slide, false);
+                                                props.putSlideActive(e._id, slide, false);
                                             }}>Включить</button>
 
                                     }</td>
-                                    <td>{Parser(e.slide_content)}</td>
+                                    <td>{!e.slide_content || null ? '' : Parser(e.slide_content)}</td>
                                     <td>
                                         <div className="float-left m-1">
                                             <LinkContainer to={'/slide/update/' + e._id}>

@@ -161,8 +161,9 @@ exports.APIall = function (req, res) {
         size,
         function (err, docs) {
             if (err) {
-                console.log(err);
-                return res.sendStatus(500);
+                /*return res.sendStatus(500);*/
+                message = {resultCode: 1}
+                return res.send(message);
             }
             message = {
                 count: docs.totalCount,
@@ -186,7 +187,6 @@ exports.APIadd = function (req, res) {
             resultCode: 1
         }
         if (err) {
-            console.log(err);
             return res.sendStatus(500);
         }
         data.resultCode = 0;
@@ -211,7 +211,7 @@ exports.APIupdate = function (req, res) {
     console.log(req.body.slide.place);
     let data = {
         resultCode: 1
-    }
+    };
     Slides.update(
         req.params.id,
         {
