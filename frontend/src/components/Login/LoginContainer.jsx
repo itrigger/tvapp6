@@ -3,13 +3,15 @@ import 'react-notifications-component/dist/theme.css';
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import Login from "./Login";
-import {setUserDataAC} from "../../redux/reducers/auth-reducer";
+import {goLogin} from "../../redux/reducers/auth-reducer";
+import {compose} from "redux";
+import {loginSuccessRedirect} from "../../hoc/withAuthRedirect";
 
 
 class LoginContainer extends React.Component {
 
-    onSubmit = (slide) => {
-        this.props.createSlide({slide});
+    onSubmit = (email, password) => {
+        this.props.goLogin(email, password);
     };
 
     render() {
@@ -24,11 +26,13 @@ let mapStateToProps = (state) => {
         _id: state.authReducer._id,
         name: state.authReducer.name,
         email: state.authReducer.email,
-        password: state.authReducer.password
+        password: state.authReducer.password,
+        isAuth: state.authReducer.isAuth
     }
 };
 
-
-let WithUrlDataContainerComponent = withRouter(LoginContainer);
-
-export default connect(mapStateToProps, {setUserDataAC})(WithUrlDataContainerComponent);
+export default compose(
+    connect(mapStateToProps, {goLogin}),
+    withRouter,
+    loginSuccessRedirect
+)(LoginContainer);

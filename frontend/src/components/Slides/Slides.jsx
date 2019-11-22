@@ -4,8 +4,6 @@ import {Button, Pagination} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import Parser from "html-react-parser";
-import {Redirect} from "react-router-dom";
-
 
 
 let Slides = (props) => {
@@ -16,7 +14,6 @@ let Slides = (props) => {
         pages.push(i);
     }
 
-    if (props.isAuth === false) return <Redirect to={"/login"} />;
 
     return (
         <section className="container">

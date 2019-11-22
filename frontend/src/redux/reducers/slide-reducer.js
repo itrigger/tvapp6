@@ -120,7 +120,6 @@ export const getSlides = (currentPage, pageSize) => {
     return (dispatch) => {
         dispatch(toggleIsFetching(true));
         slidesAPI.getSlides(currentPage, pageSize).then(data => {
-            console.log(data);
             if(data){
                 dispatch(setSlides(data.items));
                 dispatch(setTotalSlidesCount(data.count));

@@ -12,6 +12,8 @@ import {
 import Slides from "./Slides";
 import Preloader from "../common/Preloader/Preloader";
 import {withRouter} from "react-router-dom";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 
 
@@ -41,7 +43,6 @@ class SlidesContainer extends React.Component {
                 isSlidesUpdating = {this.props.isSlidesUpdating}
                 toggleIsSlidesUpdating = {this.props.toggleIsSlidesUpdating}
                 putSlideActive = {this.props.putSlideActive}
-                isAuth = {this.props.isAuth}
             />
         </>
     }
@@ -54,13 +55,12 @@ let mapStateToProps = (state) => {
         totalSlidesCount: state.sliderReducer.totalSlidesCount,
         currentPage: state.sliderReducer.currentPage,
         isFetching: state.sliderReducer.isFetching,
-        isSlidesUpdating: state.sliderReducer.isSlidesUpdating,
-        isAuth: state.authReducer.isAuth
+        isSlidesUpdating: state.sliderReducer.isSlidesUpdating
     }
 };
 
-let WithUrlDataContainerComponent = withRouter(SlidesContainer);
-
-export default connect(mapStateToProps, {
-    activeOn, activeOff, getSlides, putSlideActive, setCurrentPage, setTotalSlidesCount, toggleIsFetching, toggleIsSlidesUpdating
-})(WithUrlDataContainerComponent);
+export default compose(
+    connect(mapStateToProps, {activeOn, activeOff, getSlides, putSlideActive, setCurrentPage, setTotalSlidesCount, toggleIsFetching, toggleIsSlidesUpdating}),
+    withRouter,
+    withAuthRedirect
+)(SlidesContainer);

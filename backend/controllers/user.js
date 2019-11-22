@@ -25,7 +25,7 @@ exports.APIadd = function(req, res) {
         }
         //res.redirect('/places');
         let token = jwt.sign({ id: user._id }, config.secret, {
-            expiresIn: 60 // expires in 24 hours 86400
+            expiresIn: 120 // expires in 24 hours 86400
         });
         res.status(200).send({ auth: true, token: token });
     });
@@ -62,19 +62,27 @@ exports.APIgetMe = function(req, res, next) {
 
 exports.APIlogin = function (req, res) {
     User.APIlogin({email: req.body.email}, function (err, user) {
+        let resultCode = 0;
+
         if (err) return res.status(500).send('Error on the server.');
         if (!user) return res.status(404).send('No user found.');
 
         let passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
-        if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
+        if (!passwordIsValid) return res.status(401).send({ auth: false, token: null, resultCode: 2 });
 
         let token = jwt.sign({ id: user._id }, config.secret, {
-            expiresIn: 60 // expires in 24 hours 86400
+            expiresIn: 120 // expires in 24 hours 86400
         });
-
+        if (err){
+           resultCode = 1; //resultCode = 1 ERROR
+        }
+        if (!user) {
+            resultCode = 2; //resultCode = 2 NOT FOUND
+        }
         localStorage.setItem('token', token);
         //console.log(localStorage.getItem('token'));
-        res.status(200).send({ auth: true, token: token });
+        user.password = '0';
+        res.status(200).send({ auth: true, token: token, resultCode, user});
     });
 };
 

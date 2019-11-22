@@ -42,6 +42,12 @@ export const authAPI = {
        return instance.get(`/me`)
            .then(response => {return response.data})
            .catch(error => {console.log('auth error')});
+    },
+    login(email, password) {
+        return instance.post(`/login`, email, password)
+            .then(response => {return response.data})
+            .catch(error => {console.log('login error')});
     }
 }
+
 

@@ -3,9 +3,11 @@ import 'react-notifications-component/dist/theme.css';
 import {connect} from "react-redux";
 import SlideUpdateForm from "./SlideUpdateForm";
 import {setSlide} from "../../../redux/reducers/slideUpdate-reducer";
-import {Redirect, withRouter} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 import {getSlide, putSlide} from "../../../redux/reducers/slide-reducer";
 import Preloader from "../../common/Preloader/Preloader";
+import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 
 
@@ -20,7 +22,6 @@ class SlideUpdateContainer extends React.Component {
     };
 
     render() {
-        if (this.props.isAuth === false) return <Redirect to={"/login"} />;
         return <>
             {this.props.isFetching ? <Preloader/> : null}
             <SlideUpdateForm initialValues={this.props.slide}
@@ -32,14 +33,15 @@ class SlideUpdateContainer extends React.Component {
     }
 }
 
+
 let mapStateToProps = (state) => {
     return {
-        slide: state.sliderUpdateReducer.slide,
-        isAuth: state.authReducer.isAuth
+        slide: state.sliderUpdateReducer.slide
     }
 };
 
-
-let WithUrlDataContainerComponent2 = withRouter(SlideUpdateContainer);
-
-export default connect(mapStateToProps, {setSlide, putSlide, getSlide})(WithUrlDataContainerComponent2);
+export default compose(
+    connect(mapStateToProps, {setSlide, putSlide, getSlide}),
+    withRouter,
+    withAuthRedirect
+)(SlideUpdateContainer);
