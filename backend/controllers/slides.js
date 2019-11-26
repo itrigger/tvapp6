@@ -167,7 +167,8 @@ exports.APIall = function (req, res) {
             }
             message = {
                 count: docs.totalCount,
-                items: docs.items
+                items: docs.items,
+                resultCode: 0
             };
             res.send(message);
         });

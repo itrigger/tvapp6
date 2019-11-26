@@ -1,5 +1,6 @@
 import {slidesAPI} from "../../api/api";
 import {Notify} from "../../components/common/Notificator/notificator";
+import {setAuthFalse} from "./auth-reducer";
 
 const ADD_SLIDE = 'ADD_SLIDE';
 const ACTIVE_ON = 'ACTIVE_ON';
@@ -120,9 +121,11 @@ export const getSlides = (currentPage, pageSize) => {
     return (dispatch) => {
         dispatch(toggleIsFetching(true));
         slidesAPI.getSlides(currentPage, pageSize).then(data => {
-            if(data){
+            if(data.resultCode === 0){
                 dispatch(setSlides(data.items));
                 dispatch(setTotalSlidesCount(data.count));
+            } else {
+                dispatch(setAuthFalse());
             }
             dispatch(toggleIsFetching(false));
         });

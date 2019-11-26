@@ -158,4 +158,11 @@ db.connect('mongodb://trigger_kst:yakm1712@cluster0-shard-00-00-c2fuc.mongodb.ne
 * 5. Таймеры и время показа
 * */
 
+/*
+ERROR CODES
+1 - DATABASE ERROR
+2 - NOT FOUND
+10- AUTH ERROR
+*/
+
 module.exports = app;

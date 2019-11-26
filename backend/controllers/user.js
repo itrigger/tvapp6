@@ -45,10 +45,10 @@ exports.APIgetMe = function(req, res, next) {
                 user: user
             }
             if (err){
-                data.resultCode = 1; //resultCode = 1 ERROR
+                data.resultCode = 1; //resultCode = 1 ERROR DATABASE
             }
             if (!user) {
-                data.resultCode = 2; //resultCode = 2 NOT FOUND
+                data.resultCode = 2; //resultCode = 2 USER NOT FOUND
             }
             user.password = '0';
             data.resultCode = 0;
@@ -64,21 +64,23 @@ exports.APIlogin = function (req, res) {
     User.APIlogin({email: req.body.email}, function (err, user) {
         let resultCode = 0;
 
-        if (err) return res.status(500).send('Error on the server.');
-        if (!user) return res.status(404).send('No user found.');
-
+        /*if (err) return res.status(500).send('Error on the server.');
+        if (!user) return res.status(404).send('No user found.');*/
+        if (err){
+            resultCode = 1; //resultCode = 1 ERROR
+            return res.status(200).send({ auth: false, resultCode});
+        }
+        if (!user) {
+            resultCode = 2; //resultCode = 2 USER NOT FOUND
+            return res.status(200).send({ auth: false, resultCode});
+        }
         let passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
-        if (!passwordIsValid) return res.status(401).send({ auth: false, token: null, resultCode: 2 });
+        if (!passwordIsValid) return res.status(200).send({ auth: false, token: null, resultCode: 3 });
 
         let token = jwt.sign({ id: user._id }, config.secret, {
             expiresIn: 120 // expires in 24 hours 86400
         });
-        if (err){
-           resultCode = 1; //resultCode = 1 ERROR
-        }
-        if (!user) {
-            resultCode = 2; //resultCode = 2 NOT FOUND
-        }
+
         localStorage.setItem('token', token);
         //console.log(localStorage.getItem('token'));
         user.password = '0';

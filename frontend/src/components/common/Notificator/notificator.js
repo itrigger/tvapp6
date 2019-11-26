@@ -1,6 +1,6 @@
 import {store} from "react-notifications-component";
 
-export const Notify = (title, message, type) => {
+export const Notify = (title='TVApp', message='', type='success') => {
     return store.addNotification({
         title: title,
         message: message,

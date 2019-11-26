@@ -11,7 +11,7 @@ export const slidesAPI = {
     /*Получаем слайды постранично*/
     getSlides(currentPage, pageSize) {
         return instance.get(`/slides?page=${currentPage}&size=${pageSize}`)
-            .then(response => {return response.data});
+            .then(response => { return response.data });
     },
     /*Получаем 1 слайд по ID*/
     getSlide(id) {
@@ -41,12 +41,14 @@ export const authAPI = {
     me() {
        return instance.get(`/me`)
            .then(response => {return response.data})
-           .catch(error => {console.log('auth error')});
+           .catch(error => {
+               console.log('auth error')
+               return error.data
+           });
     },
     login(email, password) {
         return instance.post(`/login`, email, password)
-            .then(response => {return response.data})
-            .catch(error => {console.log('login error')});
+            .then(response => {console.log(response.data); return response.data;});
     }
 }
 
