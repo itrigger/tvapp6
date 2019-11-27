@@ -50,6 +50,16 @@ export const authAPI = {
         return instance.post(`/login`, email, password)
             .then(response => {console.log(response.data); return response.data;});
     }
-}
+};
 
 
+export const tvsAPI = {
+    getTVs(){
+        return instance.get(`/tvs/all`)
+            .then(response=>{return response.data})
+            .catch(error=>{
+                console.log('TVS getting error')
+                return error.data
+            });
+    }
+};

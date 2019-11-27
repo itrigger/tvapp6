@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import {Field, reduxForm} from "redux-form";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSave} from "@fortawesome/free-solid-svg-icons";
+import {renderField, required} from "../../common/Validator/Validator";
 
 
 let SlideAddForm = (props) => {
@@ -19,57 +20,21 @@ let SlideAddForm = (props) => {
                         </div>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
-                                Локация:<br/>
-                                <Field
-                                    name="place"
-                                    component="input"
-                                    type="text"
-                                    placeholder="zum, mart"
-                                    className="form-control"
-                                />
+                                <Field name="place" component={renderField} type="text" label={"Локация"} placeholder={"zum, mart"} validate={[required]}/>
                             </div>
                             <div className="form-group">
-                                Номер экрана: <br/>
-                                <Field
-                                    name="screen_num"
-                                    component="input"
-                                    type="text"
-                                    placeholder="1"
-                                    className="form-control"
-                                />
-
+                                <Field name="screen_num" component={renderField} type="text" label={"Номер экрана"} placeholder={"1"} validate={[required]}/>
                             </div>
                             <div className="form-group">
-                                Номер слайда: <br/>
-                                <Field
-                                    name="slide_num"
-                                    component="input"
-                                    type="text"
-                                    placeholder="1"
-                                    className="form-control"
-                                />
+                                <Field name="slide_num" component={renderField} type="text" label={"Номер слайда"} placeholder={"1"} validate={[required]}/>
                             </div>
                             <div className="form-group">
-                                Активен (1 или 0): <br/>
-                                <Field
-                                    name="isactive"
-                                    component="input"
-                                    type="text"
-                                    placeholder="1"
-                                    className="form-control"
-                                />
+                                <Field name="isactive" component={renderField} type="text" label={"Активен (1 или 0)"} placeholder={"1"} validate={[required]}/>
                             </div>
                             <div className="form-group">
-                                Контент слайда: <br/>
-                                <Field
-                                    name="slide_content"
-                                    component="textarea"
-                                    placeholder="<img />"
-                                    className="form-control"
-                                />
+                                <Field name="slide_content" component={renderField} type="text" label={"Контент слайда"} placeholder={"<img src='' alt=''/>"} validate={[required]}/>
                             </div>
-
-                            <Button type="submit" variant="success"><FontAwesomeIcon icon={faSave}/> Сохранить</Button>
+                            <Button type="submit" variant="success"><FontAwesomeIcon icon={faSave}/> Добавить</Button>
                         </form>
                     </div>
                 </div>

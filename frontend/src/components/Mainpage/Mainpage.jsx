@@ -1,21 +1,15 @@
 import React from 'react';
 import MpTableItem from "./MpTableItem";
-import * as axios from "axios";
+import {Pagination} from "react-bootstrap";
 
 
-export default class Mainpage extends React.Component {
-    state = {
-        tvs: []
-    };
-
-    componentDidMount() {
-        axios.get(`http://localhost:3012/api/tvs/all`)
-            .then(res => {
-                const tvs = res.data;
-                this.setState({ tvs });
-            })
+let Mainpage = (props) => {
+    let pagesCount = Math.ceil(props.totalSlidesCount / props.pageSize);
+    let pages = [];
+    for (let i = 1; i <= pagesCount; i++) {
+        pages.push(i);
     }
-    render() {
+
         return (
             <section className="container">
                 <div className="bs-docs-section clearfix">
@@ -33,13 +27,25 @@ export default class Mainpage extends React.Component {
                                     <th>Канал</th>
                                     <th></th>
                                 </tr>
-                                { this.state.tvs.map(e => <MpTableItem key={e._id} id={e._id} place={e.place} num={e.number} channel={e.channel} isactive={e.isactive}/>)}
+                                { props.tvs.map(e => <MpTableItem key={e._id} id={e._id} place={e.place} num={e.number} channel={e.channel} isactive={e.isactive}/>)}
                                 </tbody>
                             </table>
+                            <div className={"pagination"}>
+                                <Pagination>
+                                    {pages.map(p => {
+                                        return <Pagination.Item key={p} active={props.currentPage === p && 'active'}
+                                                                onClick={() => {
+                                                                    props.onPageChanged(p);
+                                                                }}
+                                        >{p}</Pagination.Item>
+                                    })}
+                                </Pagination>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
         )
-    }
-}
+};
+
+export default Mainpage;

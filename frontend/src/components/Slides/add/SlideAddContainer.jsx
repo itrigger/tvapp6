@@ -5,6 +5,7 @@ import {createSlide} from "../../../redux/reducers/slide-reducer";
 import {withRouter} from "react-router-dom";
 import SlideAddForm from "./SlideAddForm";
 import {compose} from "redux";
+import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
 
 
 class SlideAddContainer extends React.Component {
@@ -29,5 +30,6 @@ let mapStateToProps = (state) => {
 
 export default compose(
     connect(mapStateToProps, {createSlide}),
-    withRouter
+    withRouter,
+    withAuthRedirect
 )(SlideAddContainer);

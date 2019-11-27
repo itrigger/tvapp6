@@ -81,7 +81,7 @@ app.get('/login', function (req, res) {
 });
 
 
-app.get('/api/tvs/all', tvsController.APIall); /*Получить все экраны*/
+app.get('/api/tvs/all',VerifyToken, tvsController.APIall); /*Получить все экраны*/
 app.get('/api/slides/',VerifyToken, slidesController.APIall); /*Список всех слайдов постранично*/
 app.post('/api/slides/',VerifyToken, slidesController.APIadd); /*Добавить слайд*/
 app.put('/api/slides/:id',VerifyToken, slidesController.APIupdate); /**/

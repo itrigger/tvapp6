@@ -1,24 +1,24 @@
 var Tvs = require('../models/tvs');
 
 exports.all = function(req, res) {
-    Tvs.all(function(err, docs) {
+    Tvs.all(0,10,function(err, docs) {
         if (err) {
             console.log(err);
             return res.sendStatus(500);
         }
         res.render('tvs',{
-            tvs:docs
+            tvs:docs.items
         })
     });
 };
 exports.indexall = function(req, res) {
-    Tvs.all(function(err, docs) {
+    Tvs.all(0,10,function(err, docs) {
         if (err) {
             console.log(err);
             return res.sendStatus(500);
         }
         res.render('index',{
-            tvs:docs
+            tvs:docs.items
         })
     });
 };
@@ -84,11 +84,30 @@ exports.delete = function(req, res) {
 };
 
 exports.APIall = function(req, res) {
-    Tvs.all(function(err, docs) {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(500);
-        }
-        res.send(docs);
-    });
+    let pageNo = parseInt(req.query.page);
+    let size = parseInt(req.query.size);
+    if (!(pageNo)) {
+        pageNo = 1
+    }
+    if (!(size)) {
+        size = 5
+    }
+    let skip = size * (pageNo - 1);
+    let message = {};
+    Tvs.all(
+        skip,
+        size,
+        function (err, docs) {
+            if (err) {
+                /*return res.sendStatus(500);*/
+                message = {resultCode: 1}
+                return res.send(message);
+            }
+            message = {
+                count: docs.totalCount,
+                items: docs.items,
+                resultCode: 0
+            };
+            res.send(message);
+        });
 };

@@ -2,8 +2,10 @@
   <dictionary name="Konstantin">
     <words>
       <w>axios</w>
+      <w>clearfix</w>
       <w>isactive</w>
       <w>mainpage</w>
+      <w>tvapp</w>
     </words>
   </dictionary>
 </component>

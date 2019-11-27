@@ -3,24 +3,9 @@ import {Field, reduxForm} from 'redux-form'
 import Form from 'react-bootstrap/Form';
 import Button from "react-bootstrap/Button";
 import {Redirect} from "react-router-dom";
-import {email, required} from '../common/Validator/Validator';
+import {email, renderField, required} from '../common/Validator/Validator';
 
-const renderField = ({
-                         input,
-                         label,
-                         type,
-                         meta: { touched, error, warning }
-                     }) => (
-    <div>
-        <label>{label}</label>
-        <div>
-            <input {...input} placeholder={label} type={type} className="form-control"/>
-            {touched &&
-            ((error && <span>{error}</span>) ||
-                (warning && <span>{warning}</span>))}
-        </div>
-    </div>
-)
+
 
 let LoginForm = (props) => {
 
@@ -40,14 +25,11 @@ let LoginForm = (props) => {
                         </div>
                         <Form onSubmit={handleSubmit}>
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Label> Email address </Form.Label>
-                                <Field name="email" component={renderField} type="text"  validate={[required, email]} warn={email}/>
-                                <Form.Text className="text-muted">Если у вас нет этих данных, обратитесь к администратору</Form.Text>
+                                <Field name="email" component={renderField} type="text" label={"Ваш email"} validate={[required, email]}/>
                             </Form.Group>
 
                             <Form.Group controlId="formBasicPassword">
-                                <Form.Label>Password</Form.Label>
-                                <Field name="password" component={renderField} type="password" validate={required}/>
+                                <Field name="password" component={renderField} label={"Пароль"} type="password" validate={required}/>
                             </Form.Group>
 
                             <Button variant="primary" type="submit" disabled={submitting}>Отправить</Button>

@@ -5,12 +5,12 @@ import 'bootswatch/dist/slate/bootstrap.min.css';
 import './App.css';
 import HeaderContainer from './components/Header/HeaderContainer';
 import MyNavbar from './components/Navbar/Navbar';
-import Mainpage from './components/Mainpage/Mainpage';
 import SlideAddContainer from "./components/Slides/add/SlideAddContainer";
 import Footer from "./components/Footer/Footer";
 import SlidesContainer from "./components/Slides/SlidesContainer";
 import SlideUpdateContainer from "./components/Slides/update/SlideUpdateContainer";
 import LoginContainer from "./components/Login/LoginContainer";
+import MainpageContainer from "./components/Mainpage/MainpageContainer";
 
 
 
@@ -22,7 +22,7 @@ const App = (props) => {
             <HeaderContainer />
             <MyNavbar/>
             <Route path="/" exact
-                   render={() => <Mainpage/>}/>
+                   render={() => <MainpageContainer/>}/>
             <Route path="/slides/add"
                    render={({history}) => <SlideAddContainer
                        history={history}

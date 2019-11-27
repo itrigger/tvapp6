@@ -149,8 +149,13 @@ export const putSlide = (id, slide) => {
         dispatch(toggleIsSlidesUpdating(true, id));
         slidesAPI.putSlide(id, slide)
             .then(data => {
-                Notify('TVAPP', 'Слайд обновлен', 'success');
-                dispatch(toggleIsSlidesUpdating(false, id));
+                if(data.resultCode === 0){
+                    Notify('TVAPP', 'Слайд обновлен', 'success');
+                    dispatch(toggleIsSlidesUpdating(false, id));
+                } else {
+                    Notify('TVAPP', 'Ошибка', 'warning');
+                    dispatch(setAuthFalse());
+                }
             });
     }
 };
@@ -158,8 +163,13 @@ export const createSlide = (slide) => {
     return (dispatch) => {
         slidesAPI.createSlide(slide)
             .then(data => {
-                Notify('TVAPP', 'Слайд добавлен', 'success');
-                dispatch(setSlide(slide));
+                if(data.resultCode === 0) {
+                    Notify('TVAPP', 'Слайд добавлен', 'success');
+                    dispatch(setSlide(slide));
+                } else {
+                    Notify('TVAPP', 'Ощибка', 'warning');
+                    dispatch(setAuthFalse());
+                }
             });
     }
 };
