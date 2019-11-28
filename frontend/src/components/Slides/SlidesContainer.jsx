@@ -3,7 +3,9 @@ import 'react-notifications-component/dist/theme.css';
 import {connect} from 'react-redux';
 import {
     activeOff,
-    activeOn, getSlides, putSlideActive,
+    activeOn,
+    getSlides,
+    putSlideActive,
     setCurrentPage,
     setTotalSlidesCount,
     toggleIsFetching,

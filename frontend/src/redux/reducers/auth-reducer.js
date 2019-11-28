@@ -1,5 +1,6 @@
 import {authAPI} from "../../api/api";
 import {Notify} from "../../components/common/Notificator/notificator";
+import {stopSubmit} from "redux-form";
 
 const SET_USER_DATA = 'SET_USER_DATA';
 const SET_AUTH_FALSE = 'SET_AUTH_FALSE';
@@ -24,6 +25,7 @@ const authReducer = (state = initialState, action) => {
         case SET_AUTH_FALSE:
             return {
                 ...state,
+                ...action.payload,
                 isAuth: false
             }
         default:
@@ -36,30 +38,38 @@ export const setUserDataAC = (_id, name, email, password) => ({
     type: SET_USER_DATA,
     data: {_id, name, email, password}
 });
-export const setAuthFalse = () => ({type: SET_AUTH_FALSE});
+export const setAuthFalse = () => ({type: SET_AUTH_FALSE, payload: {_id:null,name:null,email:null,password:null}});
 
-export const getMe = () => {
-    return (dispatch) => {
-        authAPI.me().then(data => {
+/*thunk*/
+export const getMe = () => (dispatch) => {
+        return authAPI.me().then(data => {
             if (data.resultCode === 0) {
                 let {_id, name, email, password} = data.user;
                 dispatch(setUserDataAC(_id, name, email, password));
+                Notify('TVApp', 'Вы авторизованы', 'success');
             } else {
-                console.log('error getting profile');
+                Notify('TVApp', 'Вы не авторизованы', 'warning');
             }
         })
-    }
 };
-
+/*thunk*/
 export const goLogin = (email, password) => {
     return (dispatch) => {
         authAPI.login(email, password).then(data => {
             if (data.resultCode === 0) {
                 dispatch(getMe());
-            } else if(data.resultCode === 3) {
-                Notify('TVApp', 'Password incorrect', 'warning');
-            } else if(data.resultCode === 2){
-                Notify('TVApp', 'User not found', 'warning');
+                /* } else if(data.resultCode === 3) {
+                     Notify('TVApp', 'Неправильный пароль', 'warning');
+                     let action = stopSubmit('login', {_error: 'Проверьте еще раз введенные данные'});
+                     dispatch(action);
+                 } else if(data.resultCode === 2){
+                     Notify('TVApp', 'Пользователь не найден', 'warning');
+                     let action = stopSubmit('login', {_error: 'Проверьте еще раз введенные данные'});
+                     dispatch(action);
+                 }*/
+            } else {
+                dispatch(stopSubmit('login', {_error: 'Проверьте еще раз введенные данные'}));
+                Notify('TVApp', 'Ошибка', 'warning');
             }
         })
     }

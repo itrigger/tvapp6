@@ -87,7 +87,7 @@ export const getTVs = (currentPage, pageSize) => {
                 dispatch(setTVs(data.items));
                 dispatch(setTotalTVsCount(data.count));
             } else {
-                Notify('TVAPP', 'Ошибка', 'warning');
+                Notify('TVAPP', 'Ошибка получения данных', 'warning');
                 dispatch(setAuthFalse());
             }
             dispatch(toggleIsFetching(false));

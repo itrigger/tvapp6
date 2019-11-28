@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from "react-bootstrap/Button";
 import {Redirect} from "react-router-dom";
 import {email, renderField, required} from '../common/Validator/Validator';
+import Alert from "react-bootstrap/Alert";
 
 
 
@@ -31,7 +32,7 @@ let LoginForm = (props) => {
                             <Form.Group controlId="formBasicPassword">
                                 <Field name="password" component={renderField} label={"Пароль"} type="password" validate={required}/>
                             </Form.Group>
-
+                            {props.error && <Alert variant={"danger"}>{props.error}</Alert>}
                             <Button variant="primary" type="submit" disabled={submitting}>Отправить</Button>
                         </Form>
                     </div>
