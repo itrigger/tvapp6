@@ -11,6 +11,13 @@ import {
     setCurrentPage,
     toggleIsFetching
 } from "../../redux/reducers/tvs-reducer";
+import {
+    getCurrentPageSel,
+    getIsFetchingSel, getIsTVsUpdatingSel,
+    getPageSizeSel,
+    getTotalTVsCountSel,
+    getTVsSelSorted
+} from "../../redux/reducers/tvs-selector";
 
 
 class MainpageContainer extends React.Component {
@@ -43,12 +50,12 @@ class MainpageContainer extends React.Component {
 
 let mapStateToProps = (state) => {
     return {
-        tvs: state.tvsReducer.tvs,
-        pageSize: state.tvsReducer.pageSize,
-        totalTVsCount: state.tvsReducer.totalTVsCount,
-        currentPage: state.tvsReducer.currentPage,
-        isFetching: state.tvsReducer.isFetching,
-        isTVsUpdating: state.tvsReducer.isTVsUpdating
+        tvs: getTVsSelSorted(state),
+        pageSize: getPageSizeSel(state),
+        totalTVsCount: getTotalTVsCountSel(state),
+        currentPage: getCurrentPageSel(state),
+        isFetching: getIsFetchingSel(state),
+        isTVsUpdating: getIsTVsUpdatingSel(state)
     }
 };
 

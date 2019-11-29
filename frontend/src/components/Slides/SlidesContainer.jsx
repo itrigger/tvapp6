@@ -16,6 +16,7 @@ import Preloader from "../common/Preloader/Preloader";
 import {withRouter} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
+import {currentPageSel, getSlidesSortedSel, isFetchingSel, isSlidesUpdatingSel, pageSizeSel, totalSlidesCountSel} from "../../redux/reducers/slide-selector";
 
 
 
@@ -52,15 +53,16 @@ class SlidesContainer extends React.Component {
 
 let mapStateToProps = (state) => {
     return {
-        slides: state.sliderReducer.slides,
-        pageSize: state.sliderReducer.pageSize,
-        totalSlidesCount: state.sliderReducer.totalSlidesCount,
-        currentPage: state.sliderReducer.currentPage,
-        isFetching: state.sliderReducer.isFetching,
-        isSlidesUpdating: state.sliderReducer.isSlidesUpdating
+        slides: getSlidesSortedSel(state),
+        pageSize: pageSizeSel(state),
+        totalSlidesCount: totalSlidesCountSel(state),
+        currentPage: currentPageSel(state),
+        isFetching: isFetchingSel(state),
+        isSlidesUpdating: isSlidesUpdatingSel(state)
     }
 };
 
+/*Compose служит для комбинации всех оберток над компонентой*/
 export default compose(
     connect(mapStateToProps, {activeOn, activeOff, getSlides, putSlideActive, setCurrentPage, setTotalSlidesCount, toggleIsFetching, toggleIsSlidesUpdating}),
     withRouter,

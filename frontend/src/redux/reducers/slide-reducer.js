@@ -2,7 +2,6 @@ import {slidesAPI} from "../../api/api";
 import {Notify} from "../../components/common/Notificator/notificator";
 import {setAuthFalse} from "./auth-reducer";
 
-const ADD_SLIDE = 'ADD_SLIDE';
 const ACTIVE_ON = 'ACTIVE_ON';
 const ACTIVE_OFF = 'ACTIVE_OFF';
 const SET_SLIDE = 'SET_SLIDE';
@@ -18,11 +17,11 @@ let initialState = {
     totalSlidesCount: 0,
     currentPage: 1,
     slide: {
-        place: '1',
-        slide_num: '2',
-        screen_num: '3',
-        isactive: '4',
-        slide_content: '5'
+        place: null,
+        slide_num: null,
+        screen_num: null,
+        isactive: null,
+        slide_content: null
     },
     isFetching: false,
     isSlidesUpdating: []
@@ -72,25 +71,11 @@ const sliderReducer = (state = initialState, action) => {
                 ...state, isFetching: action.isFetching
             }
         case TOGGLE_IS_SLIDES_UPDATING:
-
             return {
                 ...state,
                 isSlidesUpdating: action.isFetching
                     ? [...state.isSlidesUpdating, action.slideID]
                     : [...state.isSlidesUpdating.filter(id => id !== action.slideID)]
-            }
-        case ADD_SLIDE:
-            return {
-                ...state,
-                newPostText: '',
-                slides: [...state.slides, {
-                    _id: '5d806f5e1c9d440000de0f2b22',
-                    place: 'zum',
-                    slide_num: '2',
-                    screen_num: '2',
-                    isactive: true,
-                    slide_content: state.newPostText
-                }]
             }
         default:
             return state;
@@ -106,7 +91,7 @@ export const setTotalSlidesCount = (totalSlidesCount) => {    return {type: SET_
 export const toggleIsFetching = (isFetching) => {    return {type: TOGGLE_IS_FETCHING, isFetching}};
 export const toggleIsSlidesUpdating = (isFetching, slideID) => {    return {type: TOGGLE_IS_SLIDES_UPDATING, isFetching, slideID}};
 
-
+/*Thunk позволяет создать цепочку диспатчей с зависимостями*/
 export const getSlide = (id) => {
     return (dispatch) => {
         dispatch(toggleIsFetching(true));
@@ -153,7 +138,7 @@ export const putSlide = (id, slide) => {
                     Notify('TVAPP', 'Слайд обновлен', 'success');
                     dispatch(toggleIsSlidesUpdating(false, id));
                 } else {
-                    Notify('TVAPP', 'Ошибка', 'warning');
+                    Notify('TVAPP', 'Ошибка', 'danger');
                     dispatch(setAuthFalse());
                 }
             });
@@ -167,7 +152,7 @@ export const createSlide = (slide) => {
                     Notify('TVAPP', 'Слайд добавлен', 'success');
                     dispatch(setSlide(slide));
                 } else {
-                    Notify('TVAPP', 'Ощибка', 'warning');
+                    Notify('TVAPP', 'Ощибка', 'danger');
                     dispatch(setAuthFalse());
                 }
             });

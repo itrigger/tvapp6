@@ -42,7 +42,6 @@ export const authAPI = {
        return instance.get(`/me`)
            .then(response => {return response.data})
            .catch(error => {
-               console.log('auth error')
                return error.data
            });
     },
@@ -58,7 +57,6 @@ export const tvsAPI = {
         return instance.get(`/tvs/all`)
             .then(response=>{return response.data})
             .catch(error=>{
-                console.log('TVS getting error')
                 return error.data
             });
     }

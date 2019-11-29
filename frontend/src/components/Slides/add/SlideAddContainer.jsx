@@ -6,6 +6,7 @@ import {withRouter} from "react-router-dom";
 import SlideAddForm from "./SlideAddForm";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
+import {getSlideSel} from "../../../redux/reducers/slide-selector";
 
 
 class SlideAddContainer extends React.Component {
@@ -23,7 +24,7 @@ class SlideAddContainer extends React.Component {
 
 let mapStateToProps = (state) => {
     return {
-        slide: state.sliderReducer.slide
+        slide: getSlideSel(state)
     }
 };
 

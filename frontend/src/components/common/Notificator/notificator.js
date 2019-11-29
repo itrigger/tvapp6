@@ -8,6 +8,7 @@ export const Notify = (title='TVApp', message='', type='success') => {
         container: 'bottom-left',                // where to position the notifications
         animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
         animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+        width: 300,
         dismiss: {
             duration: 3000
         }

@@ -48,7 +48,7 @@ export const getMe = () => (dispatch) => {
                 dispatch(setUserDataAC(_id, name, email, password));
                 Notify('TVApp', 'Вы авторизованы', 'success');
             } else {
-                Notify('TVApp', 'Вы не авторизованы', 'warning');
+                Notify('TVApp', 'Вы не авторизованы', 'danger');
             }
         })
 };
@@ -69,7 +69,7 @@ export const goLogin = (email, password) => {
                  }*/
             } else {
                 dispatch(stopSubmit('login', {_error: 'Проверьте еще раз введенные данные'}));
-                Notify('TVApp', 'Ошибка', 'warning');
+                Notify('TVApp', 'Ошибка', 'danger');
             }
         })
     }

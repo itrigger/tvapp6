@@ -8,6 +8,7 @@ import {getSlide, putSlide} from "../../../redux/reducers/slide-reducer";
 import Preloader from "../../common/Preloader/Preloader";
 import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
 import {compose} from "redux";
+import {getSlideUpdateSel} from "../../../redux/reducers/slide-selector";
 
 
 
@@ -36,7 +37,7 @@ class SlideUpdateContainer extends React.Component {
 
 let mapStateToProps = (state) => {
     return {
-        slide: state.sliderUpdateReducer.slide
+        slide: getSlideUpdateSel(state)
     }
 };
 
