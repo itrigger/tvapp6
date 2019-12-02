@@ -209,7 +209,6 @@ exports.APIdelete = function (req, res) {
 };
 
 exports.APIupdate = function (req, res) {
-    console.log(req.body.slide.place);
     let data = {
         resultCode: 1
     };
@@ -225,7 +224,6 @@ exports.APIupdate = function (req, res) {
         function (err, result) {
             if (err) {
                 console.log(err);
-
                 return res.sendStatus(500);
             }
             data.resultCode = 0;

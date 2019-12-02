@@ -11,7 +11,9 @@ export const getTVsSelSorted = createSelector(getTVsSel, (tvs)=>{
    });
    return tvs.reverse();
 });
-
+export const getTVSel = (state) => {
+    return state.tvsReducer.tv
+};
 export const getPageSizeSel = (state) => {
     return state.tvsReducer.pageSize
 };

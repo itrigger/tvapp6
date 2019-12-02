@@ -15,6 +15,9 @@ import LoginContainer from "./components/Login/LoginContainer";
 import MainpageContainer from "./components/Mainpage/MainpageContainer";
 import {initializeApp} from "./redux/reducers/app-reducer";
 import Preloader from "./components/common/Preloader/Preloader";
+import TVsContainer from "./components/TVs/TVsContainer";
+import TVAddContainer from "./components/TVs/add/TVAddContainer";
+import TVUpdateContainer from "./components/TVs/update/TVUpdateContainer";
 
 
 class App extends Component {
@@ -33,12 +36,18 @@ class App extends Component {
                 <MyNavbar/>
                 <Route path="/" exact
                        render={() => <MainpageContainer/>}/>
-                <Route path="/slides/add"
-                       render={({history}) => <SlideAddContainer history={history}/>}/>
                 <Route path="/slides" exact
                        render={() => <SlidesContainer/>}/>
+                <Route path="/slides/add"
+                       render={({history}) => <SlideAddContainer history={history}/>}/>
                 <Route path="/slide/update/:id?"
                        render={({history}) => <SlideUpdateContainer history={history}/>}/>
+                <Route path="/tvss" exact
+                       render={() => <TVsContainer/>}/>
+                <Route path="/tvs/add"
+                       render={({history}) => <TVAddContainer history={history}/>}/>
+                <Route path="/tvs/update/:id?"
+                       render={({history}) => <TVUpdateContainer history={history}/>}/>
                 <Route path="/login" render={() => <LoginContainer/>}/>
                 <Footer/>
             </div>

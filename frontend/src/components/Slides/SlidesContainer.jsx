@@ -3,7 +3,7 @@ import 'react-notifications-component/dist/theme.css';
 import {connect} from 'react-redux';
 import {
     activeOff,
-    activeOn,
+    activeOn, deleteSlide,
     getSlides,
     putSlideActive,
     setCurrentPage,
@@ -31,6 +31,10 @@ class SlidesContainer extends React.Component {
         this.props.getSlides(pageNumber, this.props.pageSize);
     };
 
+    deleteSlideOnClick = (id) => {
+        this.props.deleteSlide(id);
+    }
+
     render() {
         return <>
             {this.props.isFetching ? <Preloader/> : null}
@@ -46,6 +50,7 @@ class SlidesContainer extends React.Component {
                 isSlidesUpdating = {this.props.isSlidesUpdating}
                 toggleIsSlidesUpdating = {this.props.toggleIsSlidesUpdating}
                 putSlideActive = {this.props.putSlideActive}
+                deleteSlide = {this.deleteSlideOnClick}
             />
         </>
     }
@@ -64,7 +69,7 @@ let mapStateToProps = (state) => {
 
 /*Compose служит для комбинации всех оберток над компонентой*/
 export default compose(
-    connect(mapStateToProps, {activeOn, activeOff, getSlides, putSlideActive, setCurrentPage, setTotalSlidesCount, toggleIsFetching, toggleIsSlidesUpdating}),
+    connect(mapStateToProps, {activeOn, activeOff, getSlides, deleteSlide, putSlideActive, setCurrentPage, setTotalSlidesCount, toggleIsFetching, toggleIsSlidesUpdating}),
     withRouter,
     withAuthRedirect
 )(SlidesContainer);

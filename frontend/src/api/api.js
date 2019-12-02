@@ -53,11 +53,34 @@ export const authAPI = {
 
 
 export const tvsAPI = {
+    /*Получаем экраны постранично*/
     getTVs(){
         return instance.get(`/tvs/all`)
             .then(response=>{return response.data})
             .catch(error=>{
                 return error.data
             });
+    },
+    /*Получаем 1 экран по ID*/
+    getTV(id) {
+        return instance.get(`/tvs/`+id)
+            .then(response => {return response.data});
+    },
+    /*Обвноляем 1 экран по ID*/
+    putTVActive(id, tv){
+        return  instance.put(`/tvs/`+id, tv)
+            .then(response => {return response.data});
+    },
+    putTV(id, tv){
+        return  instance.put(`/tvs/`+id, tv)
+            .then(response => {return response.data});
+    },
+    createTV(tv){
+        return  instance.post(`/tvs/`, tv)
+            .then(response => {return response.data});
+    },
+    deleteTV(id) {
+        return instance.delete(`/tvs/`+id)
+            .then(response => {return response.data});
     }
 };

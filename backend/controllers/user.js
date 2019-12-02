@@ -25,7 +25,7 @@ exports.APIadd = function(req, res) {
         }
         //res.redirect('/places');
         let token = jwt.sign({ id: user._id }, config.secret, {
-            expiresIn: 120 // expires in 24 hours 86400
+            expiresIn: 86400 // expires in 24 hours 86400
         });
         res.status(200).send({ auth: true, token: token });
     });
@@ -78,7 +78,7 @@ exports.APIlogin = function (req, res) {
         if (!passwordIsValid) return res.status(200).send({ auth: false, token: null, resultCode: 3 });
 
         let token = jwt.sign({ id: user._id }, config.secret, {
-            expiresIn: 120 // expires in 24 hours 86400
+            expiresIn: 86400 // expires in 24 hours 86400
         });
 
         localStorage.setItem('token', token);

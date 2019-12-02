@@ -152,7 +152,21 @@ export const createSlide = (slide) => {
                     Notify('TVAPP', 'Слайд добавлен', 'success');
                     dispatch(setSlide(slide));
                 } else {
-                    Notify('TVAPP', 'Ощибка', 'danger');
+                    Notify('TVAPP', 'Ошибка', 'danger');
+                    dispatch(setAuthFalse());
+                }
+            });
+    }
+};
+
+export const deleteSlide = (slide) => {
+    return (dispatch) => {
+        slidesAPI.deleteSlide(slide)
+            .then(data => {
+                if(data.resultCode === 0) {
+                    Notify('TVAPP', 'Слайд добавлен', 'success');
+                } else {
+                    Notify('TVAPP', 'Ошибка', 'danger');
                     dispatch(setAuthFalse());
                 }
             });

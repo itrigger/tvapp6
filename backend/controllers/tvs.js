@@ -111,3 +111,68 @@ exports.APIall = function(req, res) {
             res.send(message);
         });
 };
+
+exports.APIfindById = function(req, res) {
+    Tvs.findById(req.params.id, function(err, doc) {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500);
+        }
+        res.send(doc);
+    });
+};
+
+exports.APIcreate = function(req, res) {
+    let tv = {
+        place: req.body.tv_place,
+        number: req.body.tv_num,
+        channel: req.body.tv_channel,
+        isactive: '1'
+    };
+    Tvs.create(tv, function(err, result) {
+        let data = {
+            resultCode: 1
+        }
+        if (err) {
+            return res.sendStatus(500);
+        }
+        data.resultCode = 0;
+        res.status(200).send(data);
+    });
+};
+
+exports.APIupdate = function(req, res) {
+    let data = {
+        resultCode: 1
+    };
+    Tvs.update(
+        req.params.id,
+        {
+            place: req.body.place,
+            number: req.body.number,
+            channel: req.body.channel,
+            isactive: req.body.isactive
+        },
+        function(err, result) {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500);
+            }
+            data.resultCode = 0;
+            res.status(200).send(data);
+        }
+    );
+};
+
+exports.APIdelete = function(req, res) {
+    Tvs.delete(
+        req.params.id,
+        function(err, result) {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500);
+            }
+            res.sendStatus(200);
+        }
+    );
+};
