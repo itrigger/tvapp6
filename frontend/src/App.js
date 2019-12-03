@@ -18,6 +18,7 @@ import Preloader from "./components/common/Preloader/Preloader";
 import TVsContainer from "./components/TVs/TVsContainer";
 import TVAddContainer from "./components/TVs/add/TVAddContainer";
 import TVUpdateContainer from "./components/TVs/update/TVUpdateContainer";
+import PlacesContainer from "./components/Places/PlacesContainer";
 
 
 class App extends Component {
@@ -46,8 +47,13 @@ class App extends Component {
                        render={() => <TVsContainer/>}/>
                 <Route path="/tvs/add"
                        render={({history}) => <TVAddContainer history={history}/>}/>
-                <Route path="/tvs/update/:id?"
-                       render={({history}) => <TVUpdateContainer history={history}/>}/>
+                <Route path="/tvs/update/:id?" render={({history}) => <TVUpdateContainer history={history}/>}/>
+                <Route path="/places" exact
+                       render={() => <PlacesContainer/>}/>
+         {/*       <Route path="/places/add"
+                       render={({history}) => <TVAddContainer history={history}/>}/>
+                <Route path="/places/update/:id?"
+                       render={({history}) => <TVUpdateContainer history={history}/>}/>*/}
                 <Route path="/login" render={() => <LoginContainer/>}/>
                 <Footer/>
             </div>

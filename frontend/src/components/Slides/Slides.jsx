@@ -14,6 +14,7 @@ let Slides = (props) => {
         pages.push(i);
     }
 
+    const handleDelete = (id) => {props.deleteSlide(id)};
 
     return (
         <section className="container">
@@ -67,10 +68,9 @@ let Slides = (props) => {
                                         <div className="float-left m-1">
                                             <LinkContainer to={'/slide/update/' + e._id}>
                                                 <Button variant="warning"><FontAwesomeIcon icon={faEdit}/></Button>
-                                            </LinkContainer>
+                                            </LinkContainer>&nbsp;&nbsp;&nbsp;
+                                            <Button variant="danger" onClick={() => window.confirm("Удалить слайд?") && handleDelete(e._id)}><FontAwesomeIcon icon={faTrash}/></Button>
                                         </div>
-
-                                        <Button variant="danger" onClick={props.deleteSlide(e._id)}><FontAwesomeIcon icon={faTrash}/></Button>
 
                                     </td>
                                 </tr>

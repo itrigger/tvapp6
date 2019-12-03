@@ -5,6 +5,7 @@ import {setAuthFalse} from "./auth-reducer";
 const ACTIVE_ON = 'ACTIVE_ON';
 const ACTIVE_OFF = 'ACTIVE_OFF';
 const SET_SLIDE = 'SET_SLIDE';
+const DELETE_SLIDE = 'DELETE_SLIDE';
 const SET_SLIDES = 'SET_SLIDES';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const SET_TOTAL_SLIDES_COUNT = 'SET_TOTAL_SLIDES_COUNT';
@@ -13,10 +14,11 @@ const TOGGLE_IS_SLIDES_UPDATING = 'TOGGLE_IS_SLIDES_UPDATING';
 
 let initialState = {
     slides: [],
-    pageSize: 4,
+    pageSize: 10,
     totalSlidesCount: 0,
     currentPage: 1,
     slide: {
+        _id: null,
         place: null,
         slide_num: null,
         screen_num: null,
@@ -54,6 +56,12 @@ const sliderReducer = (state = initialState, action) => {
             return {
                 ...state, slide: action.slide
             }
+        case DELETE_SLIDE:
+            return {
+                ...state,
+                slides: state.slides.filter(slide => slide._id !== action.id)
+            }
+
         case SET_SLIDES:
             return {
                 ...state, slides: action.slides
@@ -83,6 +91,7 @@ const sliderReducer = (state = initialState, action) => {
 };
 
 export const setSlides = (slides) => {  return {type: SET_SLIDES, slides}};
+export const deleteSlideAC = (id) => {  return {type: DELETE_SLIDE, id}};
 export const setSlide = (slide) => {    return {type: SET_SLIDE, slide}};
 export const activeOn = (slideId) => {    return {type: ACTIVE_ON, slideId}};
 export const activeOff = (slideId) => {    return {type: ACTIVE_OFF, slideId}};
@@ -122,7 +131,7 @@ export const putSlideActive = (id, slide, active) => {
         dispatch(toggleIsSlidesUpdating(true, id));
         slidesAPI.putSlideActive(id, slide)
             .then(data => {
-                Notify('TVAPP', 'Слайд обновлен', 'success');
+                Notify('TVAPP', 'Видимость слайда обновлена', 'success');
                 dispatch(toggleIsSlidesUpdating(false, id));
             });
         active ? dispatch(activeOff(id)) : dispatch(activeOn(id));
@@ -159,12 +168,13 @@ export const createSlide = (slide) => {
     }
 };
 
-export const deleteSlide = (slide) => {
+export const deleteSlide = (id) => {
     return (dispatch) => {
-        slidesAPI.deleteSlide(slide)
+        slidesAPI.deleteSlide(id)
             .then(data => {
                 if(data.resultCode === 0) {
-                    Notify('TVAPP', 'Слайд добавлен', 'success');
+                    Notify('TVAPP', 'Слайд удален', 'success');
+                    dispatch(deleteSlideAC(id));
                 } else {
                     Notify('TVAPP', 'Ошибка', 'danger');
                     dispatch(setAuthFalse());

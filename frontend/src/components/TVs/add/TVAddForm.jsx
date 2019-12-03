@@ -16,23 +16,20 @@ let TVAddForm = (props) => {
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="page-header">
-                            <h1>Добавление слайда</h1>
+                            <h1>Добавление панели</h1>
                         </div>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
                                 <Field name="place" component={renderField} type="text" label={"Локация"} placeholder={"zum, mart"} validate={[required]}/>
                             </div>
                             <div className="form-group">
-                                <Field name="screen_num" component={renderField} type="text" label={"Номер экрана"} placeholder={"1"} validate={[required]}/>
+                                <Field name="number" component={renderField} type="text" label={"Номер панели"} placeholder={"1"} validate={[required]}/>
                             </div>
                             <div className="form-group">
-                                <Field name="slide_num" component={renderField} type="text" label={"Номер слайда"} placeholder={"1"} validate={[required]}/>
+                                <Field name="channel" component={renderField} type="text" label={"Номер канала"} placeholder={"channel_1"} validate={[required]}/>
                             </div>
                             <div className="form-group">
                                 <Field name="isactive" component={renderField} type="text" label={"Активен (1 или 0)"} placeholder={"1"} validate={[required]}/>
-                            </div>
-                            <div className="form-group">
-                                <Field name="slide_content" component={renderField} type="text" label={"Контент слайда"} placeholder={"<img src='' alt=''/>"} validate={[required]}/>
                             </div>
                             <Button type="submit" variant="success"><FontAwesomeIcon icon={faSave}/> Добавить</Button>
                         </form>

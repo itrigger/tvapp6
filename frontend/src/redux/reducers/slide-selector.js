@@ -10,10 +10,12 @@ export const getSlidesSel = (state) => {
 * тут можно объединять более простые селекторы. В целом, селектор следит за измененями в стейте только тех данных,
 * которые ему нужны и неперерисовывает понапрасну компоненты*/
 export const getSlidesSortedSel = createSelector(getSlidesSel, (slides)=>{
-   return slides.sort(function(a,b){
+   /*return slides.sort(function(a,b){
         return a.slide_num-b.slide_num
     });
-    //return slides.reverse();
+    return slides.reverse();
+    */
+    return slides;
 });
 
 export const getSlideUpdateSel = (state) => {

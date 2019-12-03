@@ -92,6 +92,15 @@ app.get('/api/tvs/:id', VerifyToken, tvsController.APIfindById);
 app.post('/api/tvs', VerifyToken, tvsController.APIcreate);
 app.put('/api/tvs/:id', VerifyToken, tvsController.APIupdate);
 app.delete('/api/tvs/:id', VerifyToken, tvsController.APIdelete);
+/*Роуты для локаций*/
+app.get('/api/places/all', VerifyToken, placesController.APIall);
+app.get('/api/places/:id', VerifyToken, placesController.APIfindById);
+app.post('/api/places', VerifyToken, placesController.APIcreate);
+app.put('/api/places/:id', VerifyToken, placesController.APIupdate);
+app.delete('/api/places/:id', VerifyToken, placesController.APIdelete);
+
+
+
 
 
 /*Роуты для локаций*/

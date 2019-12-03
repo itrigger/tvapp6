@@ -33,7 +33,7 @@ class SlidesContainer extends React.Component {
 
     deleteSlideOnClick = (id) => {
         this.props.deleteSlide(id);
-    }
+     };
 
     render() {
         return <>

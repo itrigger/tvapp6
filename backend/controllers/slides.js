@@ -196,14 +196,18 @@ exports.APIadd = function (req, res) {
 };
 
 exports.APIdelete = function (req, res) {
+    let data = {
+        resultCode: 1
+    }
     Slides.delete(
         req.params.id,
         function (err, result) {
             if (err) {
                 console.log(err);
-                return res.sendStatus(500);
+                return  result.status(500).send(data);
             }
-            res.sendStatus(200);
+            data.resultCode = 0;
+            res.status(200).send(data);
         }
     );
 };

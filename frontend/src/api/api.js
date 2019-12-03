@@ -53,34 +53,73 @@ export const authAPI = {
 
 
 export const tvsAPI = {
-    /*Получаем экраны постранично*/
-    getTVs(){
+    /*Получаем панели постранично*/
+    getTVs(currentPage, pageSize){
         return instance.get(`/tvs/all`)
             .then(response=>{return response.data})
             .catch(error=>{
                 return error.data
             });
     },
-    /*Получаем 1 экран по ID*/
+    /*Получаем 1 панель по ID*/
     getTV(id) {
         return instance.get(`/tvs/`+id)
             .then(response => {return response.data});
     },
-    /*Обвноляем 1 экран по ID*/
+    /*Обвноляем 1 панель по ID*/
     putTVActive(id, tv){
         return  instance.put(`/tvs/`+id, tv)
             .then(response => {return response.data});
     },
+    /*Обвноляем 1 панель по ID*/
     putTV(id, tv){
         return  instance.put(`/tvs/`+id, tv)
             .then(response => {return response.data});
     },
+    /*Создаем панель*/
     createTV(tv){
         return  instance.post(`/tvs/`, tv)
             .then(response => {return response.data});
     },
+    /*Удаляем панель*/
     deleteTV(id) {
         return instance.delete(`/tvs/`+id)
+            .then(response => {return response.data});
+    }
+};
+
+export const placesAPI = {
+    /*Получаем панели постранично*/
+    getPlaces(currentPage, pageSize){
+        return instance.get(`/places/all`)
+            .then(response=>{return response.data})
+            .catch(error=>{
+                return error.data
+            });
+    },
+    /*Получаем 1 панель по ID*/
+    getPlace(id) {
+        return instance.get(`/places/`+id)
+            .then(response => {return response.data});
+    },
+    /*Обвноляем 1 панель по ID*/
+    putPlaceActive(id, place){
+        return  instance.put(`/places/`+id, place)
+            .then(response => {return response.data});
+    },
+    /*Обвноляем 1 панель по ID*/
+    putPlace(id, place){
+        return  instance.put(`/places/`+id, place)
+            .then(response => {return response.data});
+    },
+    /*Создаем панель*/
+    createPlace(place){
+        return  instance.post(`/places/`, place)
+            .then(response => {return response.data});
+    },
+    /*Удаляем панель*/
+    deletePlace(id) {
+        return instance.delete(`/places/`+id)
             .then(response => {return response.data});
     }
 };

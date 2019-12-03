@@ -1,9 +1,15 @@
 var ObjectID = require('mongodb').ObjectID;
 var db = require('../db');
 
-exports.all = function(cb) {
-    db.get().collection('places').find().toArray(function(err, docs) {
-        cb(err, docs);
+exports.all = function (skip, limit, cb) {
+    db.get().collection('places').count(function (e, count) {
+        db.get().collection('places').find().skip(skip).limit(limit).toArray(function (err, docs) {
+            let message = {
+                totalCount: count,
+                items: docs
+            }
+            cb(err, message);
+        });
     });
 };
 

@@ -1,12 +1,14 @@
-import {tvsAPI} from "../../api/api";
+import {slidesAPI, tvsAPI} from "../../api/api";
 import {Notify} from "../../components/common/Notificator/notificator";
 import {setAuthFalse} from "./auth-reducer";
+import {deleteSlideAC} from "./slide-reducer";
 
 
 const ACTIVE_TV_ON = 'ACTIVE_TV_ON';
 const ACTIVE_TV_OFF = 'ACTIVE_TV_OFF';
 const SET_TVS = 'SET_TVS';
 const SET_TV = 'SET_TV';
+const DELETE_TV = 'DELETE_TV';
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const SET_TOTAL_TVS_COUNT = 'SET_TOTAL_TVS_COUNT';
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
@@ -18,6 +20,7 @@ let initialState = {
     totalTVsCount: 0,
     currentPage: 1,
     tv: {
+        _id: null,
         place: null,
         number: null,
         channel: null,
@@ -58,6 +61,12 @@ const tvsReducer = (state = initialState, action) => {
             return {
                 ...state, tvs: action.tvs
             }
+        case DELETE_TV:
+            return {
+                ...state,
+                tvs: state.tvs.filter(tv => tv._id !== action.id)
+            }
+
         case TOGGLE_IS_FETCHING:
             return {
                 ...state, isFetching: action.isFetching
@@ -82,23 +91,38 @@ const tvsReducer = (state = initialState, action) => {
     }
 };
 
-export const setTVs = (tvs) => {  return {type: SET_TVS, tvs}};
-export const setTV = (tv) => {  return {type: SET_TV, tv}};
-export const activeTVOn = (tvId) => {    return {type: ACTIVE_TV_ON, tvId}};
-export const activeTVOff = (tvId) => {    return {type: ACTIVE_TV_OFF, tvId}};
-export const setCurrentPage = (currentPage) => {    return {type: SET_CURRENT_PAGE, currentPage}};
-export const setTotalTVsCount = (totalTVsCount) => {    return {type: SET_TOTAL_TVS_COUNT, totalTVsCount}};
-export const toggleIsFetching = (isFetching) => {    return {type: TOGGLE_IS_FETCHING, isFetching}};
-export const toggleIsTVsUpdating = (isFetching, tvID) => {    return {type: TOGGLE_IS_TVS_UPDATING, isFetching, tvID}};
+export const setTVs = (tvs) => {
+    return {type: SET_TVS, tvs}
+};
+export const setTV = (tv) => {
+    return {type: SET_TV, tv}
+};
+export const activeTVOn = (tvId) => {
+    return {type: ACTIVE_TV_ON, tvId}
+};
+export const activeTVOff = (tvId) => {
+    return {type: ACTIVE_TV_OFF, tvId}
+};
+export const setCurrentPage = (currentPage) => {
+    return {type: SET_CURRENT_PAGE, currentPage}
+};
+export const setTotalTVsCount = (totalTVsCount) => {
+    return {type: SET_TOTAL_TVS_COUNT, totalTVsCount}
+};
+export const toggleIsFetching = (isFetching) => {
+    return {type: TOGGLE_IS_FETCHING, isFetching}
+};
+export const toggleIsTVsUpdating = (isFetching, tvID) => {
+    return {type: TOGGLE_IS_TVS_UPDATING, isFetching, tvID}
+};
 
-
-
+export const deleteTVAC = (id) => {  return {type: DELETE_TV, id}};
 
 export const getTVs = (currentPage, pageSize) => {
     return (dispatch) => {
         dispatch(toggleIsFetching(true));
         tvsAPI.getTVs(currentPage, pageSize).then(data => {
-            if(data.resultCode === 0){
+            if (data.resultCode === 0) {
                 dispatch(setTVs(data.items));
                 dispatch(setTotalTVsCount(data.count));
             } else {
@@ -137,7 +161,7 @@ export const putTV = (id, tv) => {
         dispatch(toggleIsTVsUpdating(true, id));
         tvsAPI.putTV(id, tv)
             .then(data => {
-                if(data.resultCode === 0){
+                if (data.resultCode === 0) {
                     Notify('TVAPP', 'Панель обновлена', 'success');
                     dispatch(toggleIsTVsUpdating(false, id));
                 } else {
@@ -153,11 +177,26 @@ export const createTV = (tv) => {
     return (dispatch) => {
         tvsAPI.createTV(tv)
             .then(data => {
-                if(data.resultCode === 0) {
-                    Notify('TVAPP', 'Слайд добавлен', 'success');
+                if (data.resultCode === 0) {
+                    Notify('TVAPP', 'Панель добавлена', 'success');
                     dispatch(setTV(tv));
                 } else {
-                    Notify('TVAPP', 'Ощибка', 'danger');
+                    Notify('TVAPP', 'Ошибка', 'danger');
+                    dispatch(setAuthFalse());
+                }
+            });
+    }
+};
+
+export const deleteTV = (id) => {
+    return (dispatch) => {
+        tvsAPI.deleteTV(id)
+            .then(data => {
+                if(data.resultCode === 0) {
+                    Notify('TVAPP', 'Панель удалена', 'success');
+                    dispatch(deleteTVAC(id));
+                } else {
+                    Notify('TVAPP', 'Ошибка', 'danger');
                     dispatch(setAuthFalse());
                 }
             });

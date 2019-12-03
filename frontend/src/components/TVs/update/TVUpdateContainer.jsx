@@ -25,9 +25,9 @@ class TVUpdateContainer extends React.Component {
         return <>
             {this.props.isFetching ? <Preloader/> : null}
             <TVUpdateForm initialValues={this.props.tv}
-                             url={this.props.match.params.id}
-                             onSubmit={this.onSubmit}
-                             isAuth = {this.props.isAuth}
+                          url={this.props.match.params.id}
+                          onSubmit={this.onSubmit}
+                          isAuth = {this.props.isAuth}
             />
         </>
     }

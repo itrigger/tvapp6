@@ -100,7 +100,7 @@ exports.APIall = function(req, res) {
         function (err, docs) {
             if (err) {
                 /*return res.sendStatus(500);*/
-                message = {resultCode: 1}
+                message = {resultCode: 1};
                 return res.send(message);
             }
             message = {
@@ -113,28 +113,34 @@ exports.APIall = function(req, res) {
 };
 
 exports.APIfindById = function(req, res) {
+    let message = {};
     Tvs.findById(req.params.id, function(err, doc) {
         if (err) {
-            console.log(err);
-            return res.sendStatus(500);
+            message = {resultCode: 1};
+            return res.status(500).send(message);
         }
-        res.send(doc);
+        message = {
+            count: doc.totalCount,
+            items: doc.items,
+            resultCode: 0
+        };
+        res.status(200).send(message);
     });
 };
 
 exports.APIcreate = function(req, res) {
     let tv = {
-        place: req.body.tv_place,
-        number: req.body.tv_num,
-        channel: req.body.tv_channel,
-        isactive: '1'
+        place: req.body.place,
+        number: req.body.number,
+        channel: req.body.channel,
+        isactive: req.body.isactive
     };
     Tvs.create(tv, function(err, result) {
         let data = {
             resultCode: 1
         }
         if (err) {
-            return res.sendStatus(500);
+            return result.status(500).send(data);
         }
         data.resultCode = 0;
         res.status(200).send(data);
@@ -155,8 +161,7 @@ exports.APIupdate = function(req, res) {
         },
         function(err, result) {
             if (err) {
-                console.log(err);
-                return res.sendStatus(500);
+                return result.status(500).send(data);
             }
             data.resultCode = 0;
             res.status(200).send(data);
@@ -165,14 +170,17 @@ exports.APIupdate = function(req, res) {
 };
 
 exports.APIdelete = function(req, res) {
+    let data = {
+        resultCode: 1
+    }
     Tvs.delete(
         req.params.id,
         function(err, result) {
             if (err) {
-                console.log(err);
-                return res.sendStatus(500);
+                return  result.status(500).send(data);
             }
-            res.sendStatus(200);
+            data.resultCode = 0;
+            res.status(200).send(data);
         }
     );
 };
