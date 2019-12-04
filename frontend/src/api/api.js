@@ -55,7 +55,7 @@ export const authAPI = {
 export const tvsAPI = {
     /*Получаем панели постранично*/
     getTVs(currentPage, pageSize){
-        return instance.get(`/tvs/all`)
+        return instance.get(`/tvs/all?page=${currentPage}&size=${pageSize}`)
             .then(response=>{return response.data})
             .catch(error=>{
                 return error.data
@@ -91,7 +91,7 @@ export const tvsAPI = {
 export const placesAPI = {
     /*Получаем панели постранично*/
     getPlaces(currentPage, pageSize){
-        return instance.get(`/places/all`)
+        return instance.get(`/places/all?page=${currentPage}&size=${pageSize}`)
             .then(response=>{return response.data})
             .catch(error=>{
                 return error.data
@@ -123,3 +123,13 @@ export const placesAPI = {
             .then(response => {return response.data});
     }
 };
+
+export const playAPI = {
+    getSlides(place, screen_num, channel){
+        return instance.get(`/play/?place=${place}&num=${screen_num}&channel=${channel}`)
+            .then(response=>{return response.data})
+            .catch(error=>{
+                return error.data
+            });
+    },
+}

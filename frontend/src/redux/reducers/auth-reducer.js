@@ -38,11 +38,15 @@ export const setUserDataAC = (_id, name, email, password) => ({
     type: SET_USER_DATA,
     data: {_id, name, email, password}
 });
-export const setAuthFalse = () => ({type: SET_AUTH_FALSE, payload: {_id:null,name:null,email:null,password:null}});
+export const setAuthFalse = () => ({
+    type: SET_AUTH_FALSE,
+    payload: {_id: null, name: null, email: null, password: null}
+});
 
 /*thunk*/
 export const getMe = () => (dispatch) => {
-        return authAPI.me().then(data => {
+    return authAPI.me().then(data => {
+        if (data) {
             if (data.resultCode === 0) {
                 let {_id, name, email, password} = data.user;
                 dispatch(setUserDataAC(_id, name, email, password));
@@ -50,7 +54,10 @@ export const getMe = () => (dispatch) => {
             } else {
                 Notify('TVApp', 'Вы не авторизованы', 'danger');
             }
-        })
+        } else {
+            Notify('TVApp', 'Сервер не доступен', 'danger');
+        }
+    })
 };
 /*thunk*/
 export const goLogin = (email, password) => {

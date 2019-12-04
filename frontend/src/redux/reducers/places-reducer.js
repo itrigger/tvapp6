@@ -15,7 +15,7 @@ const TOGGLE_IS_PLACES_UPDATING = 'TOGGLE_IS_PLACES_UPDATING';
 
 let initialState = {
     places: [],
-    pageSize: 1,
+    pageSize: 10,
     totalPlacesCount: 0,
     currentPage: 1,
     place: {
@@ -119,8 +119,13 @@ export const getPlace = (id) => {
     return (dispatch) => {
         dispatch(toggleIsFetching(true));
         placesAPI.getPlace(id).then(data => {
+            if (data.resultCode === 0) {
+                dispatch(setPlace(data.item));
+            } else {
+                Notify('TVAPP', 'Ошибка получения данных', 'danger');
+                dispatch(setAuthFalse());
+            }
             dispatch(toggleIsFetching(false));
-            dispatch(setPlace(data));
         });
     }
 };

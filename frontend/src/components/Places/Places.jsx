@@ -21,12 +21,12 @@ let Places = (props) => {
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="page-header">
-                            <h1>Слайды</h1>
+                            <h1>Точки</h1>
                         </div>
                         <div className="card mb-5">
                             <div className="card-body">
-                                <LinkContainer to="/slides/add">
-                                    <Button variant="success"><FontAwesomeIcon icon={faPlus}/> Добавить новую панель</Button>
+                                <LinkContainer to="/places/add">
+                                    <Button variant="success"><FontAwesomeIcon icon={faPlus}/> Добавить новую точку</Button>
                                 </LinkContainer>
                             </div>
                         </div>
@@ -61,10 +61,10 @@ let Places = (props) => {
 
                                     <td>
                                         <div className="float-left m-1">
-                                            <LinkContainer to={'/slide/update/' + e._id}>
+                                            <LinkContainer to={'/places/update/' + e._id}>
                                                 <Button variant="warning"><FontAwesomeIcon icon={faEdit}/></Button>
                                             </LinkContainer>&nbsp;&nbsp;&nbsp;
-                                            <Button variant="danger" onClick={() => window.confirm("Удалить слайд?") && handleDelete(e._id)}><FontAwesomeIcon icon={faTrash}/></Button>
+                                            <Button variant="danger" onClick={() => window.confirm("Удалить точку?") && handleDelete(e._id)}><FontAwesomeIcon icon={faTrash}/></Button>
                                         </div>
 
                                     </td>

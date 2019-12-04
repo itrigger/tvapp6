@@ -40,9 +40,9 @@ exports.all = function (req, res) {
 };
 
 exports.findByPlace = function (req, res, next) {
-    var query = require('url').parse(req.url, true).query;
-    var place = query.place;
-    var num = query.num;
+    let query = require('url').parse(req.url, true).query;
+    let place = query.place;
+    let num = query.num;
     Slides.findByPlace(place, num, function (err, doc) {
         if (err) {
             console.log(err);
@@ -244,5 +244,21 @@ exports.APIfindById = function (req, res) {
             return res.sendStatus(500);
         }
         res.send(doc);
+    });
+};
+
+exports.APIfindByPlace = function (req, res) {
+    let query = require('url').parse(req.url, true).query;
+    let place = query.place;
+    let num = query.num;
+    Slides.findByPlace(place, num, function (err, doc) {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500);
+        }
+        res.send({
+            slides: doc,
+            query: query.channel
+        })
     });
 };

@@ -7,6 +7,8 @@ import thunkMiddleware from 'redux-thunk';
 import tvsReducer from "./reducers/tvs-reducer";
 import appReducer from "./reducers/app-reducer";
 import placesReducer from "./reducers/places-reducer";
+import playandupdate from "./reducers/playandupdate";
+
 
 let reducers = combineReducers(
     {
@@ -16,6 +18,7 @@ let reducers = combineReducers(
         tvsReducer,
         appReducer,
         placesReducer,
+        playandupdate,
         form: reduxFormReducer, // mounted under "form"
     }
 )

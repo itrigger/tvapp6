@@ -19,6 +19,9 @@ import TVsContainer from "./components/TVs/TVsContainer";
 import TVAddContainer from "./components/TVs/add/TVAddContainer";
 import TVUpdateContainer from "./components/TVs/update/TVUpdateContainer";
 import PlacesContainer from "./components/Places/PlacesContainer";
+import PlaceAddContainer from "./components/Places/add/PlaceAddContainer";
+import PlaceUpdateContainer from "./components/Places/update/PlaceUpdateContainer";
+import PlayContainer from "./components/Play/PlayContainer";
 
 
 class App extends Component {
@@ -35,26 +38,24 @@ class App extends Component {
                 <ReactNotifications/>
                 <HeaderContainer/>
                 <MyNavbar/>
-                <Route path="/" exact
-                       render={() => <MainpageContainer/>}/>
-                <Route path="/slides" exact
-                       render={() => <SlidesContainer/>}/>
-                <Route path="/slides/add"
-                       render={({history}) => <SlideAddContainer history={history}/>}/>
-                <Route path="/slide/update/:id?"
-                       render={({history}) => <SlideUpdateContainer history={history}/>}/>
-                <Route path="/tvss" exact
-                       render={() => <TVsContainer/>}/>
-                <Route path="/tvs/add"
-                       render={({history}) => <TVAddContainer history={history}/>}/>
+                {/*MAIN PAGE*/}
+                <Route path="/" exact render={() => <MainpageContainer/>}/>
+                {/*SLIDES*/}
+                <Route path="/slides" exact render={() => <SlidesContainer/>}/>
+                <Route path="/slides/add" render={({history}) => <SlideAddContainer history={history}/>}/>
+                <Route path="/slide/update/:id?" render={({history}) => <SlideUpdateContainer history={history}/>}/>
+                {/*TVS*/}
+                <Route path="/tvss" exact render={() => <TVsContainer/>}/>
+                <Route path="/tvs/add" render={({history}) => <TVAddContainer history={history}/>}/>
                 <Route path="/tvs/update/:id?" render={({history}) => <TVUpdateContainer history={history}/>}/>
-                <Route path="/places" exact
-                       render={() => <PlacesContainer/>}/>
-         {/*       <Route path="/places/add"
-                       render={({history}) => <TVAddContainer history={history}/>}/>
-                <Route path="/places/update/:id?"
-                       render={({history}) => <TVUpdateContainer history={history}/>}/>*/}
+                {/*PLACES*/}
+                <Route path="/places" exact render={() => <PlacesContainer/>}/>
+                <Route path="/places/add" render={({history}) => <PlaceAddContainer history={history}/>}/>
+                <Route path="/places/update/:id?" render={({history}) => <PlaceUpdateContainer history={history}/>}/>
+                {/*LOGIN*/}
                 <Route path="/login" render={() => <LoginContainer/>}/>
+                {/*PLAY PAGE*/}
+                <Route path="/play/:id?" render={() => <PlayContainer/>}/>
                 <Footer/>
             </div>
         );

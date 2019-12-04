@@ -1,8 +1,6 @@
-import {slidesAPI, tvsAPI} from "../../api/api";
+import {tvsAPI} from "../../api/api";
 import {Notify} from "../../components/common/Notificator/notificator";
 import {setAuthFalse} from "./auth-reducer";
-import {deleteSlideAC} from "./slide-reducer";
-
 
 const ACTIVE_TV_ON = 'ACTIVE_TV_ON';
 const ACTIVE_TV_OFF = 'ACTIVE_TV_OFF';

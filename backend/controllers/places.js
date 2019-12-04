@@ -1,16 +1,28 @@
 var Places = require('../models/places');
 
 exports.all = function(req, res) {
-    Places.all(function(err, docs) {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(500);
-        }
-        res.render('places',{
-            place:docs
-        })
-    });
-
+    let pageNo = parseInt(req.query.page);
+    let size = parseInt(req.query.size);
+    if (!(pageNo)) {
+        pageNo = 1
+    }
+    if (!(size)) {
+        size = 55
+    }
+    let skip = size * (pageNo - 1);
+    let limit = size;
+    Places.all(
+        skip,
+        limit,
+        function (err, docs) {
+            if (err) {
+                console.log(err);
+                return res.sendStatus(500);
+            }
+            res.render('places', {
+                place: docs
+            })
+        });
 };
 
 exports.findById = function(req, res) {
@@ -26,7 +38,7 @@ exports.findById = function(req, res) {
 };
 
 exports.create = function(req, res) {
-    var place = {
+    let place = {
         name: req.body.loc_name,
         description: req.body.loc_desc,
         isactive: '1'
@@ -102,7 +114,6 @@ exports.APIall = function(req, res) {
             };
             res.send(message);
         });
-
 };
 
 exports.APIfindById = function(req, res) {
@@ -113,19 +124,20 @@ exports.APIfindById = function(req, res) {
             return res.status(500).send(message);
         }
         message = {
-            count: doc.totalCount,
-            items: doc.items,
+            item: doc,
             resultCode: 0
         };
+        console.log(message);
         res.status(200).send(message);
     });
 };
 
 exports.APIcreate = function(req, res) {
+    console.log(req.body);
     let place = {
-        name: req.body.name,
-        description: req.body.description,
-        isactive: req.body.isactive
+        name: req.body.place.name,
+        description: req.body.place.description,
+        isactive: req.body.place.isactive
     };
     Places.create(place, function(err, result) {
         let data = {
