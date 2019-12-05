@@ -57,26 +57,30 @@ exports.findByPlace = function (req, res, next) {
 };
 
 exports.reload = function (req, res) {
-    var query = require('url').parse(req.url, true).query;
-    var num = query.num;
-    var place = query.place;
-    var content = "";
+    let query = require('url').parse(req.url, true).query;
+    let num = query.num;
+    let place = query.place;
+    let content = "";
     console.log(req.params.channel);
     console.log(place);
     console.log(num);
+
+
     Slides.findByPlace(place, num, function (err, doc) {
         if (err) {
-            console.log(err);
-            return res.sendStatus(500);
+            return res.send({resultCode: 1});
         }
-        doc.forEach(function (doc) {
+    /*    doc.forEach(function (doc) {
             content += '<div class="item">' + doc.slide_content + '</div>';
-        });
-        console.log(content);
+        });*/
+        console.log(doc);
         channels_client.trigger(req.params.channel, 'my-event', {
-            "message": content
+            "message": doc
         });
     });
+
+    res.sendStatus(200);
+
 
 
 };
@@ -254,10 +258,12 @@ exports.APIfindByPlace = function (req, res) {
     Slides.findByPlace(place, num, function (err, doc) {
         if (err) {
             console.log(err);
-            return res.sendStatus(500);
+            return res.send({resultCode: 1});
         }
         res.send({
-            slides: doc,
+            resultCode: 0,
+            slides: doc.slides,
+            count: doc.totalCount,
             query: query.channel
         })
     });

@@ -20,8 +20,14 @@ exports.findById = function (id, cb) {
 };
 
 exports.findByPlace = function (place, num, cb) {
-    db.get().collection('slides').find({place: place, screen_num: num}).toArray(function (err, doc) {
-        cb(err, doc);
+    db.get().collection('slides').find({place: place, screen_num: num}).count(function (e, count) {
+        db.get().collection('slides').find({place: place, screen_num: num}).toArray(function (err, docs) {
+            let message = {
+                totalCount: count,
+                slides: docs
+            }
+            cb(err, message);
+        });
     });
 };
 

@@ -201,5 +201,19 @@ export const deleteTV = (id) => {
     }
 };
 
+export const reloadTV = (place, number, channel) => {
+    return () => {
+        tvsAPI.reloadTV(place, number, channel)
+            .then(data => {
+                /*if(data.resultCode === 0) {*/
+                    Notify('TVAPP', 'Панель перезагружена', 'success');
+                /*    dispatch(deleteTVAC(id));
+                } else {
+                    Notify('TVAPP', 'Ошибка', 'danger');
+                    dispatch(setAuthFalse());
+                }*/
+            });
+    }
+};
 
 export default tvsReducer;

@@ -1,12 +1,33 @@
 import React from 'react';
-import {Button, Navbar, Nav} from 'react-bootstrap';
+import Parser from "html-react-parser";
+import OwlCarousel from 'react-owl-carousel2';
+import './../../assets/css/owl.css';
+import Pusher from 'pusher-js';
 
-const Play = (props) => {
+const options = {
+    items: 1,
+    nav: false,
+    rewind: true,
+    autoplay: true
+};
 
-    return (
-      <>
-      </>
-    )
+class Play extends React.Component{
+
+
+    render() {
+
+        return (
+            <div className={"fullscreen"}>
+                {this.props.slides.length>0?
+                    <OwlCarousel options={options}>
+                        {this.props.slides.map(e =>
+                            <div className="item" key={e._id}>{!e.slide_content || null ? '' : Parser(e.slide_content)}</div>
+                        )}
+                    </OwlCarousel>
+                    :""}
+            </div>
+        )
+    }
 }
 
 export default Play;

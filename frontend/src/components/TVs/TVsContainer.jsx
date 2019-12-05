@@ -9,7 +9,7 @@ import {compose} from "redux";
 
 import {
     activeTVOff,
-    activeTVOn, deleteTV, getTVs, putTVActive,
+    activeTVOn, deleteTV, getTVs, putTVActive, reloadTV,
     setCurrentPage,
     setTotalTVsCount,
     setTVs,
@@ -39,6 +39,9 @@ class TVsContainer extends React.Component {
     deleteTVOnClick = (id) => {
         this.props.deleteTV(id);
     };
+    reloadTVOnClick = (place, number, channel) => {
+        this.props.reloadTV(place, number, channel);
+    };
 
 
     render() {
@@ -57,6 +60,7 @@ class TVsContainer extends React.Component {
                 toggleIsTVsUpdating = {this.props.toggleIsTVsUpdating}
                 putTVActive = {this.props.putTVActive}
                 deleteTV = {this.deleteTVOnClick}
+                reloadTV = {this.reloadTVOnClick}
             />
         </>
     }
@@ -75,7 +79,7 @@ let mapStateToProps = (state) => {
 
 /*Compose служит для комбинации всех оберток над компонентой*/
 export default compose(
-    connect(mapStateToProps, {activeTVOn, activeTVOff, deleteTV, getTVs, setTVs, setCurrentPage, setTotalTVsCount, toggleIsFetching, toggleIsTVsUpdating, putTVActive}),
+    connect(mapStateToProps, {activeTVOn, activeTVOff, deleteTV, getTVs, reloadTV, setTVs, setCurrentPage, setTotalTVsCount, toggleIsFetching, toggleIsTVsUpdating, putTVActive}),
     withRouter,
     withAuthRedirect
 )(TVsContainer);

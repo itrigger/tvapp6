@@ -85,6 +85,12 @@ export const tvsAPI = {
     deleteTV(id) {
         return instance.delete(`/tvs/`+id)
             .then(response => {return response.data});
+    },
+    reloadTV(place, number, channel){
+        return instance.get(`/update/?${channel}&place=${place}&number=${number}`)
+            .then(response => {
+                return console.log('Ok');
+            })
     }
 };
 

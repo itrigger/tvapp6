@@ -40,12 +40,12 @@ export const getSlides = (place, screen_num) => {
     return (dispatch) => {
         dispatch(toggleIsFetching(true));
         playAPI.getSlides(place, screen_num).then(data => {
-            /*if (data.resultCode === 0) {*/
-                dispatch(setSlides(data.items));
+            if (data.resultCode === 0) {
+                dispatch(setSlides(data.slides));
                 dispatch(setTotalSlidesCount(data.count));
-            /*} else {
+            } else {
                 Notify('TVAPP', 'Ошибка получения данных', 'danger');
-            }*/
+            }
             dispatch(toggleIsFetching(false));
         });
     }
