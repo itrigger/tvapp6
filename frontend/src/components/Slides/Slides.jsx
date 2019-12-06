@@ -39,6 +39,7 @@ let Slides = (props) => {
                                 <th>Локация</th>
                                 <th>Экран</th>
                                 <th>Номер слайда</th>
+                                <th>Время показа</th>
                                 <th>Активен?</th>
                                 <th>Контент</th>
                                 <th></th>
@@ -48,17 +49,18 @@ let Slides = (props) => {
                                     <td>{e._id}</td>
                                     <td>{e.place}</td>
                                     <td>{e.screen_num}</td>
+                                    <td>{e.delay}</td>
                                     <td>{e.slide_num}</td>
                                     <td>{
                                         e.isactive === '1'
 
                                             ? <button disabled={props.isSlidesUpdating.some(id => id === e._id) } onClick={() => {
-                                                let slide = {place: e.place,screen_num: e.screen_num,slide_num: e.slide_num,isactive: '0',slide_content: e.slide_content}
+                                                let slide = {place: e.place,screen_num: e.screen_num,slide_num: e.slide_num,isactive: '0',slide_content: e.slide_content, delay: e.delay}
                                                 props.putSlideActive(e._id, slide, true);
                                             }}>Выключить</button>
 
                                             : <button disabled={props.isSlidesUpdating.some(id => id === e._id)} onClick={() => {
-                                                let slide = {place: e.place,screen_num: e.screen_num,slide_num: e.slide_num,isactive: '1',slide_content: e.slide_content}
+                                                let slide = {place: e.place,screen_num: e.screen_num,slide_num: e.slide_num,isactive: '1',slide_content: e.slide_content, delay: e.delay}
                                                 props.putSlideActive(e._id, slide, false);
                                             }}>Включить</button>
 

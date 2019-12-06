@@ -11,24 +11,19 @@ class PlayContainer extends React.Component {
         const parsedHash = queryString.parse(window.location.search);
         this.props.getSlides(parsedHash.place, parsedHash.num, parsedHash.channel);
 
-
         const pusher = new Pusher('715c895bb7ce1e7fa171', {
             cluster: 'ap2',
             forceTLS: true
         });
         const channel = pusher.subscribe(parsedHash.channel);
         channel.bind("my-event", data => {
-            console.log(data.message);
             this.props.setSlides(data.message.slides);
         });
-        /*this.handleTextChange = this.handleTextChange.bind(this);*/
     }
 
 
     render() {
-         return <Play
-                    slides = {this.props.slides}
-                      />
+         return <Play slides = {this.props.slides}/>
     }
 }
 

@@ -32,6 +32,9 @@ let SlideAddForm = (props) => {
                                 <Field name="isactive" component={renderField} type="text" label={"Активен (1 или 0)"} placeholder={"1"} validate={[required]}/>
                             </div>
                             <div className="form-group">
+                                <Field name="delay" component={renderField} type="text" label={"Время показа"} placeholder={"1000"} validate={[required]}/>
+                            </div>
+                            <div className="form-group">
                                 <Field name="slide_content" component={renderField} type="text" label={"Контент слайда"} placeholder={"<img src='' alt=''/>"} validate={[required]}/>
                             </div>
                             <Button type="submit" variant="success"><FontAwesomeIcon icon={faSave}/> Добавить</Button>

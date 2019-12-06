@@ -60,19 +60,12 @@ exports.reload = function (req, res) {
     let query = require('url').parse(req.url, true).query;
     let num = query.num;
     let place = query.place;
-    let content = "";
-    console.log(req.params.channel);
-    console.log(place);
-    console.log(num);
-
 
     Slides.findByPlace(place, num, function (err, doc) {
         if (err) {
             return res.send({resultCode: 1});
         }
-    /*    doc.forEach(function (doc) {
-            content += '<div class="item">' + doc.slide_content + '</div>';
-        });*/
+
         console.log(doc);
         channels_client.trigger(req.params.channel, 'my-event', {
             "message": doc
@@ -80,9 +73,6 @@ exports.reload = function (req, res) {
     });
 
     res.sendStatus(200);
-
-
-
 };
 
 exports.findById = function (req, res) {
@@ -102,6 +92,7 @@ exports.create = function (req, res) {
         place: req.body.place,
         screen_num: req.body.screen_num,
         slide_num: req.body.slide_num,
+        delay: req.body.delay,
         isactive: req.body.isactive,
         slide_content: req.body.slide_content
     };
@@ -121,6 +112,7 @@ exports.update = function (req, res) {
             place: req.body.place,
             screen_num: req.body.screen_num,
             slide_num: req.body.slide_num,
+            delay: req.body.delay,
             isactive: req.body.isactive,
             slide_content: req.body.slide_content
         },
@@ -183,6 +175,7 @@ exports.APIadd = function (req, res) {
         place: req.body.slide.place,
         screen_num: req.body.slide.screen_num,
         slide_num: req.body.slide.slide_num,
+        delay: req.body.slide.delay,
         isactive: req.body.slide.isactive,
         slide_content: req.body.slide.slide_content
     };
@@ -226,6 +219,7 @@ exports.APIupdate = function (req, res) {
             place: req.body.slide.place,
             screen_num: req.body.slide.screen_num,
             slide_num: req.body.slide.slide_num,
+            delay: req.body.slide.delay,
             isactive: req.body.slide.isactive,
             slide_content: req.body.slide.slide_content
         },

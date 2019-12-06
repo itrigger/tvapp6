@@ -23,7 +23,9 @@ let initialState = {
         slide_num: null,
         screen_num: null,
         isactive: null,
+        delay: null,
         slide_content: null
+
     },
     isFetching: false,
     isSlidesUpdating: []
