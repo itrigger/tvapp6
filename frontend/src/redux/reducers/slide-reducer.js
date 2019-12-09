@@ -2,15 +2,15 @@ import {slidesAPI} from "../../api/api";
 import {Notify} from "../../components/common/Notificator/notificator";
 import {setAuthFalse} from "./auth-reducer";
 
-const ACTIVE_ON = 'ACTIVE_ON';
-const ACTIVE_OFF = 'ACTIVE_OFF';
-const SET_SLIDE = 'SET_SLIDE';
-const DELETE_SLIDE = 'DELETE_SLIDE';
-const SET_SLIDES = 'SET_SLIDES';
-const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
-const SET_TOTAL_SLIDES_COUNT = 'SET_TOTAL_SLIDES_COUNT';
-const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
-const TOGGLE_IS_SLIDES_UPDATING = 'TOGGLE_IS_SLIDES_UPDATING';
+const ACTIVE_ON = 'slide/ACTIVE_ON';
+const ACTIVE_OFF = 'slide/ACTIVE_OFF';
+const SET_SLIDE = 'slide/SET_SLIDE';
+const DELETE_SLIDE = 'slide/DELETE_SLIDE';
+const SET_SLIDES = 'slide/SET_SLIDES';
+const SET_CURRENT_PAGE = 'slide/SET_CURRENT_PAGE';
+const SET_TOTAL_SLIDES_COUNT = 'slide/SET_TOTAL_SLIDES_COUNT';
+const TOGGLE_IS_FETCHING = 'slide/TOGGLE_IS_FETCHING';
+const TOGGLE_IS_SLIDES_UPDATING = 'slide/TOGGLE_IS_SLIDES_UPDATING';
 
 let initialState = {
     slides: [],
@@ -63,7 +63,6 @@ const sliderReducer = (state = initialState, action) => {
                 ...state,
                 slides: state.slides.filter(slide => slide._id !== action.id)
             }
-
         case SET_SLIDES:
             return {
                 ...state, slides: action.slides
@@ -92,97 +91,102 @@ const sliderReducer = (state = initialState, action) => {
     }
 };
 
-export const setSlides = (slides) => {  return {type: SET_SLIDES, slides}};
-export const deleteSlideAC = (id) => {  return {type: DELETE_SLIDE, id}};
-export const setSlide = (slide) => {    return {type: SET_SLIDE, slide}};
-export const activeOn = (slideId) => {    return {type: ACTIVE_ON, slideId}};
-export const activeOff = (slideId) => {    return {type: ACTIVE_OFF, slideId}};
-export const setCurrentPage = (currentPage) => {    return {type: SET_CURRENT_PAGE, currentPage}};
-export const setTotalSlidesCount = (totalSlidesCount) => {    return {type: SET_TOTAL_SLIDES_COUNT, totalSlidesCount}};
-export const toggleIsFetching = (isFetching) => {    return {type: TOGGLE_IS_FETCHING, isFetching}};
-export const toggleIsSlidesUpdating = (isFetching, slideID) => {    return {type: TOGGLE_IS_SLIDES_UPDATING, isFetching, slideID}};
+export const setSlides = (slides) => { return {type: SET_SLIDES, slides}};
+export const deleteSlideAC = (id) => { return {type: DELETE_SLIDE, id}};
+export const setSlide = (slide) => { return {type: SET_SLIDE, slide}};
+export const activeOn = (slideId) => { return {type: ACTIVE_ON, slideId}};
+export const activeOff = (slideId) => { return {type: ACTIVE_OFF, slideId}};
+export const setCurrentPage = (currentPage) => { return {type: SET_CURRENT_PAGE, currentPage}};
+export const setTotalSlidesCount = (totalSlidesCount) => { return {type: SET_TOTAL_SLIDES_COUNT, totalSlidesCount}};
+export const toggleIsFetching = (isFetching) => { return {type: TOGGLE_IS_FETCHING, isFetching}};
+export const toggleIsSlidesUpdating = (isFetching, slideID) => { return {type: TOGGLE_IS_SLIDES_UPDATING, isFetching, slideID}};
 
 /*Thunk позволяет создать цепочку диспатчей с зависимостями*/
-export const getSlide = (id) => {
-    return (dispatch) => {
-        dispatch(toggleIsFetching(true));
-        slidesAPI.getSlide(id).then(data => {
-            dispatch(toggleIsFetching(false));
-            dispatch(setSlide(data));
-        });
+export const getSlide = (id) => async (dispatch) => {
+    dispatch(toggleIsFetching(true));
+
+    let data = await slidesAPI.getSlide(id);
+
+    if (data.resultCode === 0) {
+        dispatch(toggleIsFetching(false));
+        dispatch(setSlide(data.slide));
     }
+
 };
 
-export const getSlides = (currentPage, pageSize) => {
-    return (dispatch) => {
-        dispatch(toggleIsFetching(true));
-        slidesAPI.getSlides(currentPage, pageSize).then(data => {
-            if(data.resultCode === 0){
-                dispatch(setSlides(data.items));
-                dispatch(setTotalSlidesCount(data.count));
-            } else {
-                dispatch(setAuthFalse());
-            }
-            dispatch(toggleIsFetching(false));
-        });
+export const getSlides = (currentPage, pageSize) => async (dispatch) => {
+
+    dispatch(toggleIsFetching(true));
+
+    let data = await slidesAPI.getSlides(currentPage, pageSize);
+
+    if (data.resultCode === 0) {
+        dispatch(setSlides(data.items));
+        dispatch(setTotalSlidesCount(data.count));
+        dispatch(toggleIsFetching(false));
+    } else {
+        dispatch(setAuthFalse());
+        dispatch(toggleIsFetching(false));
     }
+
 };
 
-export const putSlideActive = (id, slide, active) => {
-    return (dispatch) => {
-        dispatch(toggleIsSlidesUpdating(true, id));
-        slidesAPI.putSlideActive(id, slide)
-            .then(data => {
-                Notify('TVAPP', 'Видимость слайда обновлена', 'success');
-                dispatch(toggleIsSlidesUpdating(false, id));
-            });
-        active ? dispatch(activeOff(id)) : dispatch(activeOn(id));
+export const putSlideActive = (id, slide, active) => async (dispatch) => {
 
+    dispatch(toggleIsSlidesUpdating(true, id));
+
+    let data = await slidesAPI.putSlideActive(id, slide);
+
+    if (data.resultCode === 0) {
+        Notify('TVAPP', 'Видимость слайда обновлена', 'success');
+        dispatch(toggleIsSlidesUpdating(false, id));
     }
-};
-export const putSlide = (id, slide) => {
-    return (dispatch) => {
-        dispatch(toggleIsSlidesUpdating(true, id));
-        slidesAPI.putSlide(id, slide)
-            .then(data => {
-                if(data.resultCode === 0){
-                    Notify('TVAPP', 'Слайд обновлен', 'success');
-                    dispatch(toggleIsSlidesUpdating(false, id));
-                } else {
-                    Notify('TVAPP', 'Ошибка', 'danger');
-                    dispatch(setAuthFalse());
-                }
-            });
-    }
-};
-export const createSlide = (slide) => {
-    return (dispatch) => {
-        slidesAPI.createSlide(slide)
-            .then(data => {
-                if(data.resultCode === 0) {
-                    Notify('TVAPP', 'Слайд добавлен', 'success');
-                    dispatch(setSlide(slide));
-                } else {
-                    Notify('TVAPP', 'Ошибка', 'danger');
-                    dispatch(setAuthFalse());
-                }
-            });
-    }
+    active ? dispatch(activeOff(id)) : dispatch(activeOn(id));
+
 };
 
-export const deleteSlide = (id) => {
-    return (dispatch) => {
-        slidesAPI.deleteSlide(id)
-            .then(data => {
-                if(data.resultCode === 0) {
-                    Notify('TVAPP', 'Слайд удален', 'success');
-                    dispatch(deleteSlideAC(id));
-                } else {
-                    Notify('TVAPP', 'Ошибка', 'danger');
-                    dispatch(setAuthFalse());
-                }
-            });
+export const putSlide = (id, slide) => async (dispatch) => {
+
+    dispatch(toggleIsSlidesUpdating(true, id));
+
+    let data = await slidesAPI.putSlide(id, slide);
+
+    if (data.resultCode === 0) {
+        Notify('TVAPP', 'Слайд обновлен', 'success');
+        dispatch(toggleIsSlidesUpdating(false, id));
+    } else {
+        Notify('TVAPP', 'Ошибка', 'danger');
+        dispatch(setAuthFalse());
     }
+
+};
+
+export const createSlide = (slide) => async (dispatch) => {
+
+    let data = await slidesAPI.createSlide(slide);
+
+    if (data.resultCode === 0) {
+        Notify('TVAPP', 'Слайд добавлен', 'success');
+        dispatch(setSlide(slide));
+    } else {
+        Notify('TVAPP', 'Ошибка', 'danger');
+        dispatch(setAuthFalse());
+    }
+
+};
+
+export const deleteSlide = (id) => async (dispatch) => {
+
+    let data = await slidesAPI.deleteSlide(id)
+
+    if (data.resultCode === 0) {
+        Notify('TVAPP', 'Слайд удален', 'success');
+        dispatch(deleteSlideAC(id));
+    } else {
+        Notify('TVAPP', 'Ошибка', 'danger');
+        dispatch(setAuthFalse());
+    }
+
 };
 
 export default sliderReducer;

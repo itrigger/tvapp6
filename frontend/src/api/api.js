@@ -87,9 +87,9 @@ export const tvsAPI = {
             .then(response => {return response.data});
     },
     reloadTV(place, number, channel){
-        return instance.get(`/update/?${channel}&place=${place}&number=${number}`)
+        return instance.get(`/update/?channel=${channel}&place=${place}&num=${number}`)
             .then(response => {
-                return console.log('Ok');
+                return response;
             })
     }
 };

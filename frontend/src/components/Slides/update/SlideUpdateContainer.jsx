@@ -2,13 +2,12 @@ import React from 'react';
 import 'react-notifications-component/dist/theme.css';
 import {connect} from "react-redux";
 import SlideUpdateForm from "./SlideUpdateForm";
-import {setSlide} from "../../../redux/reducers/slideUpdate-reducer";
 import {withRouter} from "react-router-dom";
-import {getSlide, putSlide} from "../../../redux/reducers/slide-reducer";
+import {getSlide, putSlide, setSlide} from "../../../redux/reducers/slide-reducer";
 import Preloader from "../../common/Preloader/Preloader";
 import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
 import {compose} from "redux";
-import {getSlideUpdateSel} from "../../../redux/reducers/slide-selector";
+import {getSlideSel} from "../../../redux/reducers/slide-selector";
 
 
 
@@ -37,7 +36,7 @@ class SlideUpdateContainer extends React.Component {
 
 let mapStateToProps = (state) => {
     return {
-        slide: getSlideUpdateSel(state)
+        slide: getSlideSel(state)
     }
 };
 

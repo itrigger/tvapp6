@@ -2,9 +2,9 @@ import {playAPI} from "../../api/api";
 import {Notify} from "../../components/common/Notificator/notificator";
 
 
-const SET_SLIDES = 'SET_SLIDES';
-const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
-const SET_TOTAL_SLIDES = 'SET_TOTAL_SLIDES';
+const SET_SLIDES = 'pu/SET_SLIDES';
+const TOGGLE_IS_FETCHING = 'pu/TOGGLE_IS_FETCHING';
+const SET_TOTAL_SLIDES = 'pu/SET_TOTAL_SLIDES';
 
 let initialState = {
     slides: [],
@@ -36,19 +36,19 @@ export const setSlides = (slides) => {return {type: SET_SLIDES, slides}};
 export const toggleIsFetching = (isFetching) => {return {type: TOGGLE_IS_FETCHING, isFetching}};
 export const setTotalSlidesCount = (totalSlides) => {return {type: SET_TOTAL_SLIDES, totalSlides}};
 
-export const getSlides = (place, screen_num) => {
-    return (dispatch) => {
-        dispatch(toggleIsFetching(true));
-        playAPI.getSlides(place, screen_num).then(data => {
-            if (data.resultCode === 0) {
-                dispatch(setSlides(data.slides));
-                dispatch(setTotalSlidesCount(data.count));
-            } else {
-                Notify('TVAPP', 'Ошибка получения данных', 'danger');
-            }
-            dispatch(toggleIsFetching(false));
-        });
-    }
-};
+export const getSlides = (place, screen_num) => async (dispatch) => {
 
+    dispatch(toggleIsFetching(true));
+
+    let data = await playAPI.getSlides(place, screen_num);
+    if (data.resultCode === 0) {
+        dispatch(setSlides(data.slides));
+        dispatch(setTotalSlidesCount(data.count));
+        Notify('TVAPP', 'Слайды обновлены', 'success');
+    } else {
+        Notify('TVAPP', 'Ошибка получения данных', 'danger');
+    }
+    dispatch(toggleIsFetching(false));
+
+};
 export default playandupdate;

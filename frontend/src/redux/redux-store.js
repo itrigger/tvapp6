@@ -1,6 +1,5 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import sliderReducer from "./reducers/slide-reducer";
-import sliderUpdateReducer from "./reducers/slideUpdate-reducer";
 import authReducer from "./reducers/auth-reducer";
 import { reducer as reduxFormReducer } from 'redux-form';
 import thunkMiddleware from 'redux-thunk';
@@ -13,7 +12,6 @@ import playandupdate from "./reducers/playandupdate";
 let reducers = combineReducers(
     {
         sliderReducer,
-        sliderUpdateReducer,
         authReducer,
         tvsReducer,
         appReducer,

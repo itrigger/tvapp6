@@ -3,15 +3,15 @@ import {Notify} from "../../components/common/Notificator/notificator";
 import {setAuthFalse} from "./auth-reducer";
 
 
-const ACTIVE_PLACE_ON = 'ACTIVE_PLACE_ON';
-const ACTIVE_PLACE_OFF = 'ACTIVE_PLACE_OFF';
-const SET_PLACES = 'SET_PLACES';
-const SET_PLACE = 'SET_PLACE';
-const DELETE_PLACE = 'DELETE_PLACE';
-const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
-const SET_TOTAL_PLACES_COUNT = 'SET_TOTAL_PLACES_COUNT';
-const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
-const TOGGLE_IS_PLACES_UPDATING = 'TOGGLE_IS_PLACES_UPDATING';
+const ACTIVE_PLACE_ON = 'place/ACTIVE_PLACE_ON';
+const ACTIVE_PLACE_OFF = 'place/ACTIVE_PLACE_OFF';
+const SET_PLACES = 'place/SET_PLACES';
+const SET_PLACE = 'place/SET_PLACE';
+const DELETE_PLACE = 'place/DELETE_PLACE';
+const SET_CURRENT_PAGE = 'place/SET_CURRENT_PAGE';
+const SET_TOTAL_PLACES_COUNT = 'place/SET_TOTAL_PLACES_COUNT';
+const TOGGLE_IS_FETCHING = 'place/TOGGLE_IS_FETCHING';
+const TOGGLE_IS_PLACES_UPDATING = 'place/TOGGLE_IS_PLACES_UPDATING';
 
 let initialState = {
     places: [],
@@ -64,7 +64,6 @@ const placesReducer = (state = initialState, action) => {
                 ...state,
                 places: state.places.filter(place => place._id !== action.id)
             }
-
         case TOGGLE_IS_FETCHING:
             return {
                 ...state, isFetching: action.isFetching
@@ -99,94 +98,99 @@ export const toggleIsFetching = (isFetching) => {return {type: TOGGLE_IS_FETCHIN
 export const toggleIsPlacesUpdating = (isFetching, id) => {return {type: TOGGLE_IS_PLACES_UPDATING, isFetching, id}};
 export const deletePlaceAC = (id) => {  return {type: DELETE_PLACE, id}};
 
-export const getPlaces = (currentPage, pageSize) => {
-    return (dispatch) => {
-        dispatch(toggleIsFetching(true));
-        placesAPI.getPlaces(currentPage, pageSize).then(data => {
-            if (data.resultCode === 0) {
-                dispatch(setPlaces(data.items));
-                dispatch(setTotalPlacesCount(data.count));
-            } else {
-                Notify('TVAPP', 'Ошибка получения данных', 'danger');
-                dispatch(setAuthFalse());
-            }
-            dispatch(toggleIsFetching(false));
-        });
+export const getPlaces = (currentPage, pageSize) => async (dispatch) => {
+
+    dispatch(toggleIsFetching(true));
+
+    let data = await placesAPI.getPlaces(currentPage, pageSize);
+
+    if (data.resultCode === 0) {
+        dispatch(setPlaces(data.items));
+        dispatch(setTotalPlacesCount(data.count));
+        dispatch(toggleIsFetching(false));
+    } else {
+        Notify('TVAPP', 'Ошибка получения данных', 'danger');
+        dispatch(setAuthFalse());
+        dispatch(toggleIsFetching(false));
     }
+
 };
 
-export const getPlace = (id) => {
-    return (dispatch) => {
-        dispatch(toggleIsFetching(true));
-        placesAPI.getPlace(id).then(data => {
-            if (data.resultCode === 0) {
-                dispatch(setPlace(data.item));
-            } else {
-                Notify('TVAPP', 'Ошибка получения данных', 'danger');
-                dispatch(setAuthFalse());
-            }
-            dispatch(toggleIsFetching(false));
-        });
+export const getPlace = (id) => async (dispatch) => {
+
+    dispatch(toggleIsFetching(true));
+
+    let data = await placesAPI.getPlace(id);
+
+    if (data.resultCode === 0) {
+        dispatch(setPlace(data.item));
+        dispatch(toggleIsFetching(false));
+    } else {
+        Notify('TVAPP', 'Ошибка получения данных', 'danger');
+        dispatch(setAuthFalse());
+        dispatch(toggleIsFetching(false));
     }
+
 };
 
-export const putPlaceActive = (id, place, active) => {
-    return (dispatch) => {
-        dispatch(toggleIsPlacesUpdating(true, id));
-        placesAPI.putPlaceActive(id, place)
-            .then(data => {
-                Notify('TVAPP', 'Точка обновлена', 'success');
-                dispatch(toggleIsPlacesUpdating(false, id));
-            });
-        active ? dispatch(activePlaceOff(id)) : dispatch(activePlaceOn(id));
+export const putPlaceActive = (id, place, active) => async (dispatch) => {
+
+    dispatch(toggleIsPlacesUpdating(true, id));
+
+    let data = await placesAPI.putPlaceActive(id, place);
+
+    if (data.resultCode === 0) {
+        Notify('TVAPP', 'Точка обновлена', 'success');
+        dispatch(toggleIsPlacesUpdating(false, id));
     }
+
+    active ? dispatch(activePlaceOff(id)) : dispatch(activePlaceOn(id));
+
 };
 
-export const putPlace = (id, place) => {
-    return (dispatch) => {
-        dispatch(toggleIsPlacesUpdating(true, id));
-        placesAPI.putPlace(id, place)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    Notify('TVAPP', 'Точка обновлена', 'success');
-                    dispatch(toggleIsPlacesUpdating(false, id));
-                } else {
-                    Notify('TVAPP', 'Ошибка', 'danger');
-                    dispatch(setAuthFalse());
-                }
-            });
+export const putPlace = (id, place) => async (dispatch) => {
+
+    dispatch(toggleIsPlacesUpdating(true, id));
+
+    let data = await placesAPI.putPlace(id, place);
+
+    if (data.resultCode === 0) {
+        Notify('TVAPP', 'Точка обновлена', 'success');
+        dispatch(toggleIsPlacesUpdating(false, id));
+    } else {
+        Notify('TVAPP', 'Ошибка', 'danger');
+        dispatch(setAuthFalse());
     }
+
 };
 
 
-export const createPlace = (place) => {
-    return (dispatch) => {
-        placesAPI.createPlace(place)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    Notify('TVAPP', 'Точка добавлена', 'success');
-                    dispatch(setPlace(place));
-                } else {
-                    Notify('TVAPP', 'Ошибка', 'danger');
-                    dispatch(setAuthFalse());
-                }
-            });
+export const createPlace = (place) => async (dispatch) => {
+
+    let data = await placesAPI.createPlace(place);
+
+    if (data.resultCode === 0) {
+        Notify('TVAPP', 'Точка добавлена', 'success');
+        dispatch(setPlace(place));
+    } else {
+        Notify('TVAPP', 'Ошибка', 'danger');
+        dispatch(setAuthFalse());
     }
+
 };
 
-export const deletePlace = (id) => {
-    return (dispatch) => {
-        placesAPI.deletePlace(id)
-            .then(data => {
-                if(data.resultCode === 0) {
-                    Notify('TVAPP', 'Точка удалена', 'success');
-                    dispatch(deletePlaceAC(id));
-                } else {
-                    Notify('TVAPP', 'Ошибка', 'danger');
-                    dispatch(setAuthFalse());
-                }
-            });
+export const deletePlace = (id) => async (dispatch) => {
+
+    let data = await placesAPI.deletePlace(id);
+
+    if (data.resultCode === 0) {
+        Notify('TVAPP', 'Точка удалена', 'success');
+        dispatch(deletePlaceAC(id));
+    } else {
+        Notify('TVAPP', 'Ошибка', 'danger');
+        dispatch(setAuthFalse());
     }
+
 };
 
 

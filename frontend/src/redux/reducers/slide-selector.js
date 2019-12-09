@@ -18,10 +18,6 @@ export const getSlidesSortedSel = createSelector(getSlidesSel, (slides)=>{
     return slides;
 });
 
-export const getSlideUpdateSel = (state) => {
-    return state.sliderUpdateReducer.slide;
-}
-
 export const getSlideSel = (state) => {
     return state.sliderReducer.slide;
 }

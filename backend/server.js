@@ -100,7 +100,7 @@ app.put('/api/places/:id', VerifyToken, placesController.APIupdate);
 app.delete('/api/places/:id', VerifyToken, placesController.APIdelete);
 /*Роуты для воспроизведения и апдейта*/
 app.get('/api/play/', slidesController.APIfindByPlace); /*Воспроизвести слайды на выбранном экране*/
-app.get('/api/update/:channel', VerifyToken, slidesController.reload); /*Обновить без перезагрузки через Pusher*/
+app.get('/api/update/', VerifyToken, slidesController.reload); /*Обновить без перезагрузки через Pusher*/
 
 
 
