@@ -15,6 +15,23 @@ exports.findById = function(id, cb) {
 };
 
 
+/**/
+/**/
+exports.findByTime = function(curtime,  cb) {
+    db.get().collection('scheduler').find({ starttime: {$lte: curtime}, endtime: {$gte: curtime}}).count(function (e, count) {
+        db.get().collection('scheduler').find({ starttime: {$lte: curtime}, endtime: {$gte: curtime}}).toArray(function (err, docs) {
+            let message = {
+                totalCount: count,
+                schedule: docs
+            }
+            cb(err, message);
+        });
+    });
+};
+/**/
+/**/
+
+
 exports.create = function(artist, cb) {
     db.get().collection('scheduler').insert(artist, function(err, result) {
         cb(err, result);

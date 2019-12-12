@@ -1,5 +1,6 @@
 const Schedule = require('../models/scheduler');
-var scheduler = require('node-schedule');
+const scheduler = require('node-schedule');
+const timestamp = require('time-stamp');
 
 exports.test = function(req, res) {
     console.log('scheduler started');
@@ -31,8 +32,39 @@ exports.findById = function(req, res) {
         })
     });
 };
+/*33333333333333333*/
+/*33333333333333333*/
+/*33333333333333333*/
+/*33333333333333333*/
 
 
+
+exports.findByTime = function(req, res) {
+    let curtime = timestamp('YYYYMMDDHHmm');
+    console.log(curtime);
+/*    let query = require('url').parse(req.url, true).query;
+    let starttime = query.starttime;
+    let endtime = query.endtime;*/
+
+    Schedule.findByTime(curtime, function(err, doc) {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(500);
+        }
+        res.send({
+            resultCode: 0,
+            totalCount: doc.totalCount,
+            schedule: doc.schedule
+        });
+    });
+};
+
+
+
+/*333333333333333333*/
+/*333333333333333333*/
+/*333333333333333333*/
+/*333333333333333333*/
 exports.create = function(req, res) {
     var schedule = {
         name: req.body.name,

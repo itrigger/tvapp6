@@ -4,10 +4,13 @@
       <w>axios</w>
       <w>bcrypt</w>
       <w>clearfix</w>
+      <w>curtime</w>
+      <w>endtime</w>
       <w>isactive</w>
       <w>mainpage</w>
       <w>navbar</w>
       <w>playandupdate</w>
+      <w>starttime</w>
       <w>swiper</w>
       <w>tvapp</w>
       <w>tvss</w>

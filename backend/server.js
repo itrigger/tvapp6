@@ -1,3 +1,5 @@
+const timestamp = require('time-stamp');
+const Schedule = require('./models/scheduler');
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -14,7 +16,7 @@ const scheduleController = require('./controllers/scheduler');
 const UserController = require('./controllers/user');
 const VerifyToken = require('./verifyToken');
 const methodOverride = require('method-override');
-
+const schedule = require('node-schedule');
 const app = express();
 
 // view engine setup
@@ -131,16 +133,39 @@ app.put('/tvs/:id', VerifyToken, tvsController.update);
 app.delete('/tvs/:id', VerifyToken, tvsController.delete);
 
 /*Роуты для событий*/
-app.get('/schedule', VerifyToken, scheduleController.all);
-app.put('/schedule/:id', VerifyToken, scheduleController.update);
-app.get('/schedule/:id', VerifyToken, scheduleController.findById);
-app.post('/schedule', VerifyToken, scheduleController.create);
-app.delete('/schedule/:id', VerifyToken, scheduleController.delete);
+app.get('/api/schedule', VerifyToken, scheduleController.all);
+app.get('/api/schedule/:time', VerifyToken, scheduleController.findByTime);
+app.put('/api/schedule/:id', VerifyToken, scheduleController.update);
+app.get('/api/schedule/:id', VerifyToken, scheduleController.findById);
+app.post('/api/schedule', VerifyToken, scheduleController.create);
+app.delete('/api/schedule/:id', VerifyToken, scheduleController.delete);
 
 /*
 app.use(function (req, res) {
    res.send(404, 'Page not found');
 });*/
+
+
+let timer = schedule.scheduleJob('*/1 * * * *', function(){
+    let curtime = timestamp('YYYYMMDDHHmm'); //getting current time
+    console.log(curtime);
+    /*search in db collection 'scheduler' current time in range*/
+    Schedule.findByTime(curtime, function(err, doc) {
+        if (err) {
+            console.log(err);
+        }
+        if(doc.totalCount > 0){
+            //if we have active schedules - do the next function
+            console.log({totalCount: doc.totalCount, schedule: doc.schedule});
+
+        }
+    });
+});
+
+
+function runSchedule(){
+
+}
 
 if (process.env.NODE_ENV === 'development') {
     // only use in development
@@ -148,7 +173,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 function errorNotification(err, str, req) {
-    var title = 'Error in ' + req.method + ' ' + req.url
+    let title = 'Error in ' + req.method + ' ' + req.url
 
     notifier.notify({
         title: title,
@@ -164,6 +189,7 @@ db.connect('mongodb://trigger_kst:yakm1712@cluster0-shard-00-00-c2fuc.mongodb.ne
         console.log('API app started');
     });
 });
+
 
 /*
 * TODO
