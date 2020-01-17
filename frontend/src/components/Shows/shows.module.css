@@ -1,0 +1,13 @@
+.smallImg{
+    display: inline-block;
+    margin: 0 10px 10px 0;
+    cursor: pointer;
+    border: 3px solid white;
+}
+.smallImg img{
+    width: 100px;
+}
+
+.active .smallImg{
+    border: 3px solid green;
+}

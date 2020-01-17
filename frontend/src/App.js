@@ -22,6 +22,9 @@ import PlacesContainer from "./components/Places/PlacesContainer";
 import PlaceAddContainer from "./components/Places/add/PlaceAddContainer";
 import PlaceUpdateContainer from "./components/Places/update/PlaceUpdateContainer";
 import PlayContainer from "./components/Play/PlayContainer";
+import ShowAddContainer from "./components/Shows/add/ShowAddContainer";
+import ShowsContainer from "./components/Shows/ShowsContainer";
+import ShowUpdateContainer from "./components/Shows/update/ShowUpdateContainer";
 
 
 class App extends Component {
@@ -52,6 +55,10 @@ class App extends Component {
                 <Route path="/places" exact render={() => <PlacesContainer/>}/>
                 <Route path="/places/add" render={({history}) => <PlaceAddContainer history={history}/>}/>
                 <Route path="/places/update/:id?" render={({history}) => <PlaceUpdateContainer history={history}/>}/>
+                {/*SHOWS*/}
+                <Route path="/shows" exact render={() => <ShowsContainer/>}/>
+                <Route path="/show/add" render={({history}) => <ShowAddContainer history={history}/>}/>
+                <Route path="/show/update/:id?" render={({history}) => <ShowUpdateContainer history={history}/>}/>
                 {/*LOGIN*/}
                 <Route path="/login" render={() => <LoginContainer/>}/>
                 {/*PLAY PAGE*/}

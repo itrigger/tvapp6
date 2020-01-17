@@ -23,7 +23,7 @@ exports.findByTime = function(curtime,  cb) {
             let message = {
                 totalCount: count,
                 schedule: docs
-            }
+            };
             cb(err, message);
         });
     });

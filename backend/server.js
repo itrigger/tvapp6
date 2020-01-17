@@ -12,6 +12,7 @@ const db = require('./db');
 const placesController = require('./controllers/places');
 const slidesController = require('./controllers/slides');
 const tvsController = require('./controllers/tvs');
+const showController = require('./controllers/show');
 const scheduleController = require('./controllers/scheduler');
 const UserController = require('./controllers/user');
 const VerifyToken = require('./verifyToken');
@@ -132,6 +133,13 @@ app.post('/tvs', VerifyToken, tvsController.create);
 app.put('/tvs/:id', VerifyToken, tvsController.update);
 app.delete('/tvs/:id', VerifyToken, tvsController.delete);
 
+/*Роуты для шоу*/
+app.get('/api/show', VerifyToken, showController.APIall); /*Список всех шоу*/
+app.get('/api/show/:id', VerifyToken, showController.APIfindById); /*Поиск шоу по ИД*/
+app.post('/api/show', VerifyToken, showController.APIcreate); /*Создание нового шоу*/
+app.put('/api/show/:id', VerifyToken, showController.APIupdate); /*Обновление шоу по ИД*/
+app.delete('/api/show/:id', VerifyToken, showController.APIdelete); /*Удаление шоу по ИД*/
+
 /*Роуты для событий*/
 app.get('/api/schedule', VerifyToken, scheduleController.all);
 app.get('/api/schedule/:time', VerifyToken, scheduleController.findByTime);
@@ -145,7 +153,7 @@ app.use(function (req, res) {
    res.send(404, 'Page not found');
 });*/
 
-
+/*Расписание*/
 let timer = schedule.scheduleJob('*/1 * * * *', function(){
     let curtime = timestamp('YYYYMMDDHHmm'); //getting current time
     console.log(curtime);
@@ -172,8 +180,9 @@ if (process.env.NODE_ENV === 'development') {
     app.use(errorhandler({log: errorNotification}))
 }
 
+/*Backend notification*/
 function errorNotification(err, str, req) {
-    let title = 'Error in ' + req.method + ' ' + req.url
+    let title = 'Error in ' + req.method + ' ' + req.url;
 
     notifier.notify({
         title: title,
@@ -190,6 +199,19 @@ db.connect('mongodb://trigger_kst:yakm1712@cluster0-shard-00-00-c2fuc.mongodb.ne
     });
 });
 
+/*
+* по таймеру, если есть слайды в данный отрезок времени, создавать из них временные плейлисты
+* на указанный отрезок времени заменять старый плейлист новым
+* надо проверять, есть ли в очереди временные плейлисты
+* наверное надо сделать таблицу с заданиями
+* проверяем каждую минуту таблицу с временными слайдами, если слайд есть
+*
+* создать плэйлисты (шоу) [id, name, slides_ids, active]
+*
+* 1) Слайды независимая единица, непривязанная ни к чему
+* 2) Шоу формируют список слайдов
+* 3) Экран привязывает к себе шоу
+* */
 
 /*
 * TODO
@@ -208,5 +230,9 @@ ERROR CODES
 2 - NOT FOUND
 10- AUTH ERROR
 */
+
+/*
+* 
+* */
 
 module.exports = app;

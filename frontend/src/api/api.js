@@ -130,6 +130,37 @@ export const placesAPI = {
     }
 };
 
+
+export const showAPI = {
+    /*Получаем панели постранично*/
+    getShows(currentPage, pageSize){
+        return instance.get(`/show/?page=${currentPage}&size=${pageSize}`)
+            .then(response=>{return response.data})
+            .catch(error=>{
+                return error.data
+            });
+    },
+    /*Получаем 1 панель по ID*/
+    getShow(id) {
+        return instance.get(`/show/`+id)
+            .then(response => {return response.data});
+    },
+    /*Обвноляем 1 панель по ID*/
+    putShow(id, show){
+        return  instance.put(`/show/`+id, show)
+            .then(response => {return response.data});
+    },
+    /*Создаем панель*/
+    createShow(show){
+        return  instance.post(`/show/`, show)
+            .then(response => {return response.data});
+    },
+    /*Удаляем панель*/
+    deleteShow(id) {
+        return instance.delete(`/show/`+id)
+            .then(response => {return response.data});
+    }
+};
 export const playAPI = {
     getSlides(place, screen_num, channel){
         return instance.get(`/play/?place=${place}&num=${screen_num}&channel=${channel}`)
@@ -139,3 +170,4 @@ export const playAPI = {
             });
     },
 }
+

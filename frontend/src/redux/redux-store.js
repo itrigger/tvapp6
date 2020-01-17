@@ -7,6 +7,7 @@ import tvsReducer from "./reducers/tvs-reducer";
 import appReducer from "./reducers/app-reducer";
 import placesReducer from "./reducers/places-reducer";
 import playandupdate from "./reducers/playandupdate";
+import showsReducer from "./reducers/show-reducer";
 
 
 let reducers = combineReducers(
@@ -17,6 +18,7 @@ let reducers = combineReducers(
         appReducer,
         placesReducer,
         playandupdate,
+        showsReducer,
         form: reduxFormReducer, // mounted under "form"
     }
 )

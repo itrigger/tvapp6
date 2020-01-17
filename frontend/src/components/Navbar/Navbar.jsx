@@ -21,6 +21,9 @@ const MyNavbar = () => {
                     <LinkContainer to="/slides">
                         <Nav.Link href="/slides">Слайды</Nav.Link>
                     </LinkContainer>
+                    <LinkContainer to="/shows">
+                        <Nav.Link href="/shows">Шоу</Nav.Link>
+                    </LinkContainer>
                     <LinkContainer to="/schedule">
                         <Nav.Link href="/schedule">События</Nav.Link>
                     </LinkContainer>
