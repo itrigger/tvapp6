@@ -33,7 +33,6 @@ let Places = (props) => {
                         <table className='table table-striped mytable table-dark'>
                             <tbody>
                             <tr>
-                                <th>Id</th>
                                 <th>Название</th>
                                 <th>Описание</th>
                                 <th>Активен?</th>
@@ -41,7 +40,6 @@ let Places = (props) => {
                             </tr>
                             {props.places.map(e =>
                                 <tr key={e._id}>
-                                    <td>{e._id}</td>
                                     <td>{e.name}</td>
                                     <td>{e.description}</td>
                                     <td>{

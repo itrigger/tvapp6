@@ -29,6 +29,16 @@ let TVUpdateForm = (props) => {
                                 <Field name="channel" component={renderField} type="text" label={"Номер канала"} placeholder={"channel_1"} validate={[required]}/>
                             </div>
                             <div className="form-group">
+                                <label>Шоу</label>
+                                <div>
+                                    <Field name="show" component="select" className="form-control">
+                                        {props.shows.map(i => (
+                                            <option key={i._id} selected={i._id === props.curShow ? "selected" : ""} value={i._id}>{i.name}</option>
+                                        ))}
+                                    </Field>
+                                </div>
+                            </div>
+                            <div className="form-group">
                                 <Field name="isactive" component={renderField} type="text" label={"Активен (1 или 0)"} placeholder={"1"} validate={[required]}/>
                             </div>
                             <Button type="submit" variant="success"><FontAwesomeIcon icon={faSave}/> Сохранить</Button>

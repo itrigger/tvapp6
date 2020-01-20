@@ -22,6 +22,8 @@ import {
     getTotalTVsCountSel,
     getTVsSel
 } from "../../redux/reducers/tvs-selector";
+import {getShowsSel} from "../../redux/reducers/show-selector";
+import {getShows} from "../../redux/reducers/show-reducer";
 
 
 
@@ -29,6 +31,7 @@ class TVsContainer extends React.Component {
 
     componentDidMount() {
         this.props.getTVs(this.props.currentPage, this.props.pageSize);
+        this.props.getShows(1,1000);
     }
 
     onPageChanged = (pageNumber) => {
@@ -61,6 +64,7 @@ class TVsContainer extends React.Component {
                 putTVActive = {this.props.putTVActive}
                 deleteTV = {this.deleteTVOnClick}
                 reloadTV = {this.reloadTVOnClick}
+                showName = {this.props.showName}
             />
         </>
     }
@@ -73,13 +77,14 @@ let mapStateToProps = (state) => {
         totalSlidesCount: getTotalTVsCountSel(state),
         currentPage: getCurrentPageSel(state),
         isFetching: getIsFetchingSel(state),
-        isTVsUpdating: getIsTVsUpdatingSel(state)
+        isTVsUpdating: getIsTVsUpdatingSel(state),
+        showName: getShowsSel(state)
     }
 };
 
 /*Compose служит для комбинации всех оберток над компонентой*/
 export default compose(
-    connect(mapStateToProps, {activeTVOn, activeTVOff, deleteTV, getTVs, reloadTV, setTVs, setCurrentPage, setTotalTVsCount, toggleIsFetching, toggleIsTVsUpdating, putTVActive}),
+    connect(mapStateToProps, {activeTVOn, activeTVOff, deleteTV, getTVs, reloadTV, setTVs, setCurrentPage, setTotalTVsCount, toggleIsFetching, toggleIsTVsUpdating, putTVActive, getShows}),
     withRouter,
     withAuthRedirect
 )(TVsContainer);

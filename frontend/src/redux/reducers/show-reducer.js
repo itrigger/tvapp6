@@ -147,7 +147,7 @@ export const deleteShow = (id) => async (dispatch) => {
     let data = await showAPI.deleteShow(id);
 
     if (data.resultCode === 0) {
-        Notify('TVAPP', 'Точка удалена', 'success');
+        Notify('TVAPP', 'Шоу удалено', 'success');
         dispatch(deleteShowAC(id));
     } else {
         Notify('TVAPP', 'Ошибка', 'danger');

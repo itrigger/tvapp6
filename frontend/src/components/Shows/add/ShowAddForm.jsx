@@ -29,12 +29,26 @@ let ShowAddForm = (props) => {
                                 <Field name="description" component={renderField} type="text" label={"Описание"} placeholder={""} validate={[required]}/>
                             </div>
                             <div className="form-group">
-                                <Field name="slides" component={renderField} type="text" label={"Список слайдов через запятую"} placeholder={"1"} validate={[required]}/>
+                                <Field name="slides" component={renderField} type="text" label={"Список слайдов через запятую"} placeholder={""} validate={[required]}/>
                             </div>
                             <div className="form-group">
-                                {props.slides.map(e =>
-                                    <span className="item" data-id={e._id} key={e._id} onClick={()=>{props.onClick(e._id)}}><span className={s.smallImg}>{e.slide_content ? Parser(e.slide_content) : ''}</span></span>
-                                )}
+                                {props.formValues ?
+                                    props.slides.map(i => (
+                                            <span
+                                                className={props.formValues.split(';').find(item => item === i._id) ? s.active : null}
+                                                data-id={i._id} key={i._id} onClick={() => {
+                                                props.onClick(i._id)
+                                            }}><span
+                                                className={s.smallImg}>{i.slide_content ? Parser(i.slide_content) : ''}</span></span>
+                                        )
+                                    ) : props.slides.map(i => (
+                                            <span data-id={i._id} key={i._id} onClick={() => {
+                                                props.onClick(i._id)
+                                            }}><span
+                                                className={s.smallImg}>{i.slide_content ? Parser(i.slide_content) : ''}</span></span>
+                                        )
+                                    )
+                                }
                             </div>
                             <div className="form-group">
                                 <Field name="effect" component={renderField} type="text" label={"Эффект"} placeholder={"fade"} validate={[required]}/>

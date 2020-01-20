@@ -11,3 +11,6 @@
 .active .smallImg{
     border: 3px solid green;
 }
+.float-left.m-1{
+    min-width: 114px;
+}

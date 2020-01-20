@@ -23,13 +23,12 @@ class ShowUpdateContainer extends React.Component {
 
     imgClick = (id) => {
         if(this.props.formValues2.split(';').find(i=> i === id)){
-
+            let changedID = $('input[name=slides]').val().replace(id.replace(/\s+/g,'') + ';',"");
+            this.props.change('showUpdateForm','slides',changedID);
         } else {
            let changedID = $('input[name=slides]').val() + id.replace(/\s+/g,'') + ';';
-            this.props.change('showUpdateForm','slides',changedID);
+           this.props.change('showUpdateForm','slides',changedID);
         }
-
-
     };
 
     onSubmit = (show) => {

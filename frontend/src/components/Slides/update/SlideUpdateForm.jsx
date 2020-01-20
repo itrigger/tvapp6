@@ -30,12 +30,6 @@ let SlideUpdateForm = (props) => {
                         </div>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
-                                <Field name="place" component={renderField} type="text" label={"Локация"} placeholder={"zum, mart"} validate={[required]}/>
-                            </div>
-                            <div className="form-group">
-                                <Field name="screen_num" component={renderField} type="text" label={"Номер экрана"} placeholder={"1"} validate={[required]}/>
-                            </div>
-                            <div className="form-group">
                                 <Field name="slide_num" component={renderField} type="text" label={"Номер слайда"} placeholder={"1"} validate={[required]}/>
                             </div>
                             <div className="form-group">

@@ -39,6 +39,7 @@ exports.create = function(req, res) {
         place: req.body.tv_place,
         number: req.body.tv_num,
         channel: req.body.tv_channel,
+        show: req.body.tv_show,
         isactive: '1'
     };
     Tvs.create(tv, function(err, result) {
@@ -57,6 +58,7 @@ exports.update = function(req, res) {
             place: req.body.tv_place,
             number: req.body.tv_number,
             channel: req.body.tv_channel,
+            show: req.body.tv_show,
             isactive: req.body.tv_isactive
         },
         function(err, result) {
@@ -119,9 +121,9 @@ exports.APIfindById = function(req, res) {
             message = {resultCode: 1};
             return res.status(500).send(message);
         }
+        console.log(doc);
         message = {
-            count: doc.totalCount,
-            items: doc.items,
+            item: doc,
             resultCode: 0
         };
         res.status(200).send(message);
@@ -133,6 +135,7 @@ exports.APIcreate = function(req, res) {
         place: req.body.place,
         number: req.body.number,
         channel: req.body.channel,
+        show: req.body.show,
         isactive: req.body.isactive
     };
     Tvs.create(tv, function(err, result) {
@@ -157,6 +160,7 @@ exports.APIupdate = function(req, res) {
             place: req.body.place,
             number: req.body.number,
             channel: req.body.channel,
+            show: req.body.show,
             isactive: req.body.isactive
         },
         function(err, result) {

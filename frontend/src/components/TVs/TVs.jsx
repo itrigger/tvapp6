@@ -28,37 +28,38 @@ let TVs = (props) => {
                         <div className="card mb-5">
                             <div className="card-body">
                                 <LinkContainer to="/tvs/add">
-                                    <Button variant="success"><FontAwesomeIcon icon={faPlus}/> Добавить новую
-                                        панель</Button>
+                                    <Button variant="success"><FontAwesomeIcon icon={faPlus}/> Добавить новую панель</Button>
                                 </LinkContainer>
                             </div>
                         </div>
                         <table className='table table-striped mytable table-dark'>
                             <tbody>
                             <tr>
-                                <th>Id</th>
                                 <th>Локация</th>
                                 <th>Экран</th>
                                 <th>Номер канала</th>
+                                <th>Шоу</th>
                                 <th>Активен?</th>
                                 <th></th>
                             </tr>
                             {props.tvs.map(e =>
                                 <tr key={e._id}>
-                                    <td>{e._id}</td>
                                     <td>{e.place}</td>
                                     <td>{e.number}</td>
                                     <td>{e.channel}</td>
                                     <td>{
+                                            props.showName.map(i => (i._id === e.show ? i.name : null))
+                                        }
+                                    </td>
+                                    <td>{
                                         e.isactive === '1'
-
                                             ? <button disabled={props.isTVsUpdating.some(id => id === e._id) } onClick={() => {
-                                                let tv = {place: e.place,number: e.number,channel: e.channel,isactive: '0'}
+                                                let tv = {place: e.place,number: e.number,channel: e.channel,show: e.show,isactive: '0'}
                                                 props.putTVActive(e._id, tv, true);
                                             }}>Выключить</button>
 
                                             : <button disabled={props.isTVsUpdating.some(id => id === e._id)} onClick={() => {
-                                                let tv = {place: e.place,number: e.number,channel: e.channel,isactive: '1'}
+                                                let tv = {place: e.place,number: e.number,channel: e.channel,show: e.show,isactive: '1'}
                                                 props.putTVActive(e._id, tv, false);
                                             }}>Включить</button>
 

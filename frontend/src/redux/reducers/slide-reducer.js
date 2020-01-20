@@ -19,8 +19,6 @@ let initialState = {
     currentPage: 1,
     slide: {
         _id: null,
-        place: null,
-        slide_num: null,
         screen_num: null,
         isactive: null,
         delay: null,

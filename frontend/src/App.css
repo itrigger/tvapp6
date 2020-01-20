@@ -42,7 +42,8 @@ form{
 }
 form input[type=text],
 form textarea,
-form input[type=password]
+form input[type=password],
+form select
 {
   max-width: 450px;
 }
@@ -65,4 +66,7 @@ form input[type=password]
   right: 0;
   top: 0;
   bottom: 0;
+}
+.mw114{
+  min-width: 114px;
 }

@@ -35,22 +35,17 @@ let Slides = (props) => {
                         <table className='table table-striped mytable table-dark'>
                             <tbody>
                             <tr>
-                                <th>Id</th>
-                                <th>Локация</th>
-                                <th>Экран</th>
+                                <th>Контент</th>
                                 <th>Номер слайда</th>
                                 <th>Время показа</th>
                                 <th>Активен?</th>
-                                <th>Контент</th>
                                 <th></th>
                             </tr>
                             {props.slides.map(e =>
                                 <tr key={e._id}>
-                                    <td>{e._id}</td>
-                                    <td>{e.place}</td>
-                                    <td>{e.screen_num}</td>
-                                    <td>{e.delay}</td>
+                                    <td>{!e.slide_content || null ? '' : Parser(e.slide_content)}</td>
                                     <td>{e.slide_num}</td>
+                                    <td>{e.delay}</td>
                                     <td>{
                                         e.isactive === '1'
 
@@ -65,7 +60,6 @@ let Slides = (props) => {
                                             }}>Включить</button>
 
                                     }</td>
-                                    <td>{!e.slide_content || null ? '' : Parser(e.slide_content)}</td>
                                     <td>
                                         <div className="float-left m-1">
                                             <LinkContainer to={'/slide/update/' + e._id}>

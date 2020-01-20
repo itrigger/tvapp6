@@ -66,12 +66,12 @@ export const tvsAPI = {
         return instance.get(`/tvs/`+id)
             .then(response => {return response.data});
     },
-    /*Обвноляем 1 панель по ID*/
+    /*Обновляем 1 панель по ID*/
     putTVActive(id, tv){
         return  instance.put(`/tvs/`+id, tv)
             .then(response => {return response.data});
     },
-    /*Обвноляем 1 панель по ID*/
+    /*Обновляем 1 панель по ID*/
     putTV(id, tv){
         return  instance.put(`/tvs/`+id, tv)
             .then(response => {return response.data});

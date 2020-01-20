@@ -22,6 +22,7 @@ let initialState = {
         place: null,
         number: null,
         channel: null,
+        show: null,
         isactive: null
     },
     isFetching: false,
@@ -120,7 +121,7 @@ export const getTV = (id) => {
         let data = await tvsAPI.getTV(id);
         if (data.resultCode === 0) {
             dispatch(toggleIsFetching(false));
-            dispatch(setTV(data));
+            dispatch(setTV(data.item));
         }
     }
 };

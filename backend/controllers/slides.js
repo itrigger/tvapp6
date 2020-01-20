@@ -93,8 +93,6 @@ exports.findById = function (req, res) {
 
 exports.create = function (req, res) {
     var screen = {
-        place: req.body.place,
-        screen_num: req.body.screen_num,
         slide_num: req.body.slide_num,
         delay: req.body.delay,
         isactive: req.body.isactive,
@@ -113,8 +111,6 @@ exports.update = function (req, res) {
     Slides.update(
         req.params.id,
         {
-            place: req.body.place,
-            screen_num: req.body.screen_num,
             slide_num: req.body.slide_num,
             delay: req.body.delay,
             isactive: req.body.isactive,
@@ -176,8 +172,6 @@ exports.APIall = function (req, res) {
 
 exports.APIadd = function (req, res) {
     let screen = {
-        place: req.body.slide.place,
-        screen_num: req.body.slide.screen_num,
         slide_num: req.body.slide.slide_num,
         delay: req.body.slide.delay,
         isactive: req.body.slide.isactive,
@@ -220,8 +214,6 @@ exports.APIupdate = function (req, res) {
     Slides.update(
         req.params.id,
         {
-            place: req.body.slide.place,
-            screen_num: req.body.slide.screen_num,
             slide_num: req.body.slide.slide_num,
             delay: req.body.slide.delay,
             isactive: req.body.slide.isactive,

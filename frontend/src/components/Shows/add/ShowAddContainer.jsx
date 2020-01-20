@@ -10,17 +10,28 @@ import {getShowSel} from "../../../redux/reducers/show-selector";
 import {getSlides} from "../../../redux/reducers/slide-reducer";
 import {getSlidesSortedSel} from "../../../redux/reducers/slide-selector";
 import $ from "jquery";
-import {change} from "redux-form";
+import {change, formValueSelector} from "redux-form";
 
 class ShowAddContainer extends React.Component {
 
     componentDidMount() {
-        this.props.getSlides(1,1000);
+        this.props.getSlides(1, 1000);
     };
 
-    imgClick = (id) => {
-        let changedID = $('input[name=slides]').val() + id.replace(/\s+/g,'') + ';';
-        this.props.change('showAddForm','slides',changedID);
+    imgClickAdd = (id) => {
+
+        if (this.props.formValues2) {
+            if (this.props.formValues2.split(';').find(i => i === id)) {
+                let changedID = $('input[name=slides]').val().replace(id.replace(/\s+/g, '') + ';', "");
+                this.props.change('showAddForm', 'slides', changedID);
+            } else {
+                let changedID = $('input[name=slides]').val() + id.replace(/\s+/g, '') + ';';
+                this.props.change('showAddForm', 'slides', changedID);
+            }
+        } else {
+            let changedID = $('input[name=slides]').val() + id.replace(/\s+/g, '') + ';';
+            this.props.change('showAddForm', 'slides', changedID);
+        }
     };
 
     onSubmit = (show) => {
@@ -29,23 +40,31 @@ class ShowAddContainer extends React.Component {
 
     render() {
         return (
-            <ShowAddForm slides={this.props.slides} onClick={this.imgClick} onSubmit={this.onSubmit}/>
+            <ShowAddForm slides={this.props.slides}
+                         onClick={this.imgClickAdd}
+                         onSubmit={this.onSubmit}
+                         formValues={this.props.formValues2}
+            />
         )
     }
+
 }
+
+const selector = formValueSelector('showAddForm');
 
 let mapStateToProps = (state) => {
     return {
         show: getShowSel(state),
         slides: getSlidesSortedSel(state),
+        formValues2: selector(state, 'slides'),
     }
 };
+
 const mapDispatchToProps = {
     change,
     createShow,
     getSlides
 };
-
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),

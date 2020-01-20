@@ -38,7 +38,6 @@ let Shows = (props) => {
                         <table className='table table-striped mytable table-dark'>
                             <tbody>
                             <tr>
-                                <th>Id</th>
                                 <th>Название</th>
                                 <th>Описание</th>
                                 <th>Список слайдов</th>
@@ -47,7 +46,6 @@ let Shows = (props) => {
                             </tr>
                             {props.shows.map(e =>
                                 <tr key={e._id}>
-                                    <td>{e._id}</td>
                                     <td>{e.name}</td>
                                     <td>{e.description}</td>
                                     <td>
@@ -61,7 +59,7 @@ let Shows = (props) => {
                                     </td>
                                     <td>{e.effect}</td>
                                     <td>
-                                        <div className="float-left m-1">
+                                        <div className="float-left m-1 mw114">
                                             <LinkContainer to={'/show/update/' + e._id}>
                                                 <Button variant="warning"><FontAwesomeIcon icon={faEdit}/></Button>
                                             </LinkContainer>&nbsp;&nbsp;&nbsp;
