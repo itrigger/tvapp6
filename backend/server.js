@@ -102,7 +102,7 @@ app.post('/api/places', VerifyToken, placesController.APIcreate);
 app.put('/api/places/:id', VerifyToken, placesController.APIupdate);
 app.delete('/api/places/:id', VerifyToken, placesController.APIdelete);
 /*Роуты для воспроизведения и апдейта*/
-app.get('/api/play/', slidesController.APIfindByPlace); /*Воспроизвести слайды на выбранном экране*/
+app.get('/api/play/', showController.findByPlaceAndNum); /*Воспроизвести слайды на выбранном экране*/
 app.get('/api/update/', VerifyToken, slidesController.reload); /*Обновить без перезагрузки через Pusher*/
 
 

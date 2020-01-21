@@ -101,3 +101,22 @@ exports.APIdelete = function(req, res) {
         }
     );
 };
+
+
+exports.findByPlaceAndNum = function (req, res) {
+    let query = require('url').parse(req.url, true).query;
+    let place = query.place;
+    let num = query.num;
+    Show.findByPlace(place, num, function (err, doc) {
+        if (err) {
+            console.log(err);
+            return res.send({resultCode: 1});
+        }
+        console.log(doc);
+        res.send({
+            resultCode: 0,
+            slides: doc,
+            query: query.channel
+        })
+    });
+};

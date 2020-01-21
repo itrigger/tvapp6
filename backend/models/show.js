@@ -1,5 +1,6 @@
 const ObjectID = require('mongodb').ObjectID;
 const db = require('../db');
+let Slide = require('../models/slides');
 
 exports.all = function (skip, limit, cb) {
     db.get().collection('show').count(function (e, count) {
@@ -12,33 +13,55 @@ exports.all = function (skip, limit, cb) {
         });
     });
 };
-exports.findById = function(id, cb) {
-    db.get().collection('show').findOne({_id: ObjectID(id)}, function(err, doc) {
+exports.findById = function (id, cb) {
+    db.get().collection('show').findOne({_id: ObjectID(id)}, function (err, doc) {
         cb(err, doc);
     });
 };
 
-exports.create = function(show, cb) {
-    db.get().collection('show').insert(show, function(err, result) {
+exports.create = function (show, cb) {
+    db.get().collection('show').insert(show, function (err, result) {
         cb(err, result);
     });
 };
 
-exports.update = function(id, newData, cb) {
+exports.update = function (id, newData, cb) {
     db.get().collection('show').updateOne(
         {_id: ObjectID(id)},
         newData,
-        function(err, result) {
+        function (err, result) {
             cb(err, result);
         }
     );
 };
 
-exports.delete = function(id, cb) {
+exports.delete = function (id, cb) {
     db.get().collection('show').deleteOne(
         {_id: ObjectID(id)},
-        function(err, result) {
+        function (err, result) {
             cb(err, result);
         }
     );
+};
+
+exports.findByPlace = function (place, num, cb) {
+    let message = [{slides: "as"}];
+    db.get().collection('tvs').findOne({place: place, number: num}, function (err, doc1) {
+        db.get().collection('show').findOne({_id: ObjectID(doc1.show)}, function (err, doc2) {
+            let arr = doc2.slides.split(';');
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i] !== '') {
+                    Slide.findById(ObjectID(arr[i]), function (err, doc) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        console.log(doc);
+                        message.slides.push(doc);
+                    });
+                }
+            }
+        });
+        console.log(message);
+        cb(err, message);
+    });
 };

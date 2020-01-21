@@ -162,12 +162,13 @@ export const showAPI = {
     }
 };
 export const playAPI = {
-    getSlides(place, screen_num, channel){
-        return instance.get(`/play/?place=${place}&num=${screen_num}&channel=${channel}`)
+    getSlides(place, screen_num){
+        return instance.get(`/play/?place=${place}&num=${screen_num}`)
             .then(response=>{return response.data})
             .catch(error=>{
                 return error.data
             });
     },
+
 }
 
