@@ -115,7 +115,7 @@ app.put('/places/:id', VerifyToken, placesController.update);
 app.delete('/places/:id', VerifyToken, placesController.delete);
 
 /*Роуты для воспроизведения и апдейта*/
-app.get('/play/:place', VerifyToken, slidesController.findByPlace, scheduleController.test); /*Воспроизвести слайды на выбранном экране*/
+app.get('/play/:place', VerifyToken, showController.findByPlaceAndNum, scheduleController.test); /*Воспроизвести слайды на выбранном экране*/
 app.get('/update/:channel', VerifyToken, slidesController.reload); /*Обновить без перезагрузки через Pusher*/
 
 /*Роуты для слайдов*/
@@ -154,10 +154,12 @@ app.use(function (req, res) {
 });*/
 
 /*Расписание*/
-let timer = schedule.scheduleJob('*/1 * * * *', function(){
+
+/*
+let timer = schedule.scheduleJob('*!/1 * * * *', function(){
     let curtime = timestamp('YYYYMMDDHHmm'); //getting current time
     console.log(curtime);
-    /*search in db collection 'scheduler' current time in range*/
+    /!*search in db collection 'scheduler' current time in range*!/
     Schedule.findByTime(curtime, function(err, doc) {
         if (err) {
             console.log(err);
@@ -165,10 +167,10 @@ let timer = schedule.scheduleJob('*/1 * * * *', function(){
         if(doc.totalCount > 0){
             //if we have active schedules - do the next function
             console.log({totalCount: doc.totalCount, schedule: doc.schedule});
-
         }
     });
 });
+*/
 
 
 function runSchedule(){

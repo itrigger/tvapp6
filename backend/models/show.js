@@ -45,23 +45,8 @@ exports.delete = function (id, cb) {
 };
 
 exports.findByPlace = function (place, num, cb) {
-    let message = [{slides: "as"}];
     db.get().collection('tvs').findOne({place: place, number: num}, function (err, doc1) {
-        db.get().collection('show').findOne({_id: ObjectID(doc1.show)}, function (err, doc2) {
-            let arr = doc2.slides.split(';');
-            for (let i = 0; i < arr.length; i++) {
-                if (arr[i] !== '') {
-                    Slide.findById(ObjectID(arr[i]), function (err, doc) {
-                        if (err) {
-                            console.log(err);
-                        }
-                        console.log(doc);
-                        message.slides.push(doc);
-                    });
-                }
-            }
-        });
-        console.log(message);
-        cb(err, message);
+        cb(err, doc1);
+
     });
 };

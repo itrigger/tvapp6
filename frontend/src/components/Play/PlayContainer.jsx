@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Play from "./Play";
-import {getSlides, setSlides} from "../../redux/reducers/playandupdate";
+import {getSlides, getSlidesByID, setSlides} from "../../redux/reducers/playandupdate";
 import Pusher from "pusher-js";
 const queryString = require('query-string');
 
@@ -17,7 +17,7 @@ class PlayContainer extends React.Component {
         });
         const channel = pusher.subscribe(parsedHash.channel);
         channel.bind("my-event", data => {
-            this.props.setSlides(data.message.slides);
+            this.props.getSlidesByID(data.message.show);
         });
     }
 
@@ -31,4 +31,4 @@ let mapStateToProps = (state) => ({
     slides: state.playandupdate.slides
 });
 
-export default connect(mapStateToProps, {getSlides, setSlides})(PlayContainer);
+export default connect(mapStateToProps, {getSlides, getSlidesByID, setSlides})(PlayContainer);

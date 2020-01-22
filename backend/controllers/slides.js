@@ -1,3 +1,5 @@
+let Show = require('../models/show');
+
 const Slides = require('../models/slides');
 const Pusher = require('pusher');
 
@@ -62,21 +64,21 @@ exports.reload = function (req, res) {
     let num = query.num;
     let place = query.place;
     console.log('channel: ' + channel + ', num: ' + num + ', place: ' + place);
-    Slides.findByPlace(place, num, function (err, doc) {
+    Show.findByPlace(place, num, function (err, doc) {
         if (err) {
+            console.log(err);
             return res.send({resultCode: 1});
         }
-        console.log(doc);
         channels_client.trigger(channel, 'my-event', {
             "message": doc
         });
         let message = {
-            doc: doc,
-            resultCode: 0
+            resultCode: 0,
+            showID: doc.show,
+            query: query.channel
         };
         res.send(message);
     });
-
 };
 
 exports.findById = function (req, res) {
@@ -92,7 +94,7 @@ exports.findById = function (req, res) {
 };
 
 exports.create = function (req, res) {
-    var screen = {
+    let screen = {
         slide_num: req.body.slide_num,
         delay: req.body.delay,
         isactive: req.body.isactive,

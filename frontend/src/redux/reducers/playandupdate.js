@@ -1,4 +1,4 @@
-import {playAPI} from "../../api/api";
+import {playAPI, showAPI, slidesAPI as slidesApi} from "../../api/api";
 import {Notify} from "../../components/common/Notificator/notificator";
 
 
@@ -39,16 +39,67 @@ export const setTotalSlidesCount = (totalSlides) => {return {type: SET_TOTAL_SLI
 export const getSlides = (place, screen_num) => async (dispatch) => {
 
     dispatch(toggleIsFetching(true));
-
+    let slidesArr = [];
     let data = await playAPI.getSlides(place, screen_num);
     if (data.resultCode === 0) {
-        dispatch(setSlides(data.slides));
-        dispatch(setTotalSlidesCount(data.count));
+
+        if(data.showID){
+            let data2 =  await showAPI.getShow(data.showID);
+            if(data2.resultCode === 0){
+                if(data2.item.slides){
+                    let arr = data2.item.slides.split(';');
+                    for (let i = 0; i < arr.length; i++) {
+                        if (arr[i] !== '') {
+                            let arr2 = await slidesApi.getSlide(arr[i]);
+                            if(arr2.slide.isactive === "1") {
+                                slidesArr.push(arr2.slide);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        dispatch(setSlides(slidesArr));
+        dispatch(setTotalSlidesCount(slidesArr.length));
         Notify('TVAPP', 'Слайды обновлены', 'success');
+
     } else {
         Notify('TVAPP', 'Ошибка получения данных', 'danger');
     }
     dispatch(toggleIsFetching(false));
 
 };
+
+
+export const getSlidesByID = (showID) => async (dispatch) => {
+
+    dispatch(toggleIsFetching(true));
+    let slidesArr = [];
+
+        if(showID){
+            let data2 =  await showAPI.getShow(showID);
+            if(data2.resultCode === 0){
+                if(data2.item.slides){
+                    let arr = data2.item.slides.split(';');
+                    for (let i = 0; i < arr.length; i++) {
+                        if (arr[i] !== '') {
+                            let arr2 = await slidesApi.getSlide(arr[i]);
+                            if(arr2.slide.isactive === "1") {
+                                slidesArr.push(arr2.slide);
+                            }
+                        }
+                    }
+                }
+            }
+            dispatch(setSlides(slidesArr));
+            dispatch(setTotalSlidesCount(slidesArr.length));
+            Notify('TVAPP', 'Слайды обновлены', 'success');
+            dispatch(toggleIsFetching(false));
+        } else {
+            Notify('TVAPP', 'Ошибка', 'danger');
+            dispatch(toggleIsFetching(false));
+        }
+
+};
+
 export default playandupdate;

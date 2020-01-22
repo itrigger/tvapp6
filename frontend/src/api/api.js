@@ -143,7 +143,10 @@ export const showAPI = {
     /*Получаем 1 панель по ID*/
     getShow(id) {
         return instance.get(`/show/`+id)
-            .then(response => {return response.data});
+            .then(response => {return response.data})
+            .catch(error=>{
+                return error.data
+            });
     },
     /*Обвноляем 1 панель по ID*/
     putShow(id, show){

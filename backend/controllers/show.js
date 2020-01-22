@@ -112,11 +112,12 @@ exports.findByPlaceAndNum = function (req, res) {
             console.log(err);
             return res.send({resultCode: 1});
         }
-        console.log(doc);
+
         res.send({
             resultCode: 0,
-            slides: doc,
+            showID: doc.show,
             query: query.channel
         })
     });
 };
+
