@@ -126,7 +126,7 @@ app.put('/slides/:id', VerifyToken, slidesController.update); /*OK Обнови�
 app.delete('/slides/:id', VerifyToken, slidesController.delete); /*OK Удалить слайд*/
 
 /*Роуты для ТВ экранов*/
-app.get('/', VerifyToken, tvsController.indexall);
+app.get('/',  tvsController.indexall);
 app.get('/tvs', VerifyToken, tvsController.all);
 app.get('/tvs/:id', VerifyToken, tvsController.findById);
 app.post('/tvs', VerifyToken, tvsController.create);
@@ -154,28 +154,61 @@ app.use(function (req, res) {
 });*/
 
 /*Расписание*/
+const Pusher = require('pusher');
 
-/*
-let timer = schedule.scheduleJob('*!/1 * * * *', function(){
-    let curtime = timestamp('YYYYMMDDHHmm'); //getting current time
-    console.log(curtime);
-    /!*search in db collection 'scheduler' current time in range*!/
-    Schedule.findByTime(curtime, function(err, doc) {
-        if (err) {
-            console.log(err);
-        }
-        if(doc.totalCount > 0){
-            //if we have active schedules - do the next function
-            console.log({totalCount: doc.totalCount, schedule: doc.schedule});
-        }
-    });
+const channels_client = new Pusher({
+    appId: '785932',
+    key: '715c895bb7ce1e7fa171',
+    secret: 'd9882d9bf171816308ff',
+    cluster: 'ap2',
+    useTLS: true
 });
-*/
 
 
 function runSchedule(){
+    let timer = schedule.scheduleJob('*/1 * * * *', function(){
+        let curtime = timestamp('YYYYMMDDHHmm'); //getting current time
+        console.log('curtime is ' + curtime);
+        /*search in db collection 'scheduler' current time in range*/
+        Schedule.findByTime(curtime, function(err, doc) {
+            if (err) {
+                console.log(err);
+            }
+            if(doc.totalCount > 0){
+                //if we have active schedules - do the next function
+                //let s check that we are started new show already or not
 
+                for (let i=0;i<doc.totalCount;i++){
+                    Schedule.findByChannelActivity(doc.schedule[i].channel, function (err,active) {
+                        if(err){
+                            console.log(err);
+                        }
+                        if(active){
+                            console.log(active.channel);
+                        } else {
+                            console.log(active);
+                            console.log('обновляем');
+                            channels_client.trigger(doc.schedule[i].channel, 'my-event', {
+                                "message": doc.schedule[i]
+                            });
+                            Schedule.createChannelActivity({channel:doc.schedule[i].channel}, function (err,result) {
+                                if (err) {
+                                    console.log(err);
+                                }
+                            });
+                        }
+                    });
+
+                }
+
+            } else {
+                db.get().collection('activities').remove({});
+            }
+        });
+    });
 }
+
+runSchedule();
 
 if (process.env.NODE_ENV === 'development') {
     // only use in development
@@ -201,28 +234,15 @@ db.connect('mongodb://trigger_kst:yakm1712@cluster0-shard-00-00-c2fuc.mongodb.ne
     });
 });
 
-/*
-* по таймеру, если есть слайды в данный отрезок времени, создавать из них временные плейлисты
-* на указанный отрезок времени заменять старый плейлист новым
-* надо проверять, есть ли в очереди временные плейлисты
-* наверное надо сделать таблицу с заданиями
-* проверяем каждую минуту таблицу с временными слайдами, если слайд есть
-*
-* создать плэйлисты (шоу) [id, name, slides_ids, active]
-*
-* 1) Слайды независимая единица, непривязанная ни к чему
-* 2) Шоу формируют список слайдов
-* 3) Экран привязывает к себе шоу
-* */
 
 /*
 * TODO
-* 1. Авторизация
+* 1. ++++++ Авторизация
 * 2. Выпадающие списки для выбора уже созданных сущностей
 * 3. Распределение прав (каждый пользователь должен видеть свои экраны и слайды)
 * AUTHORIZED_USER = Чтение и управление собственными записями
 * ADMIN = Управление всеми записями
-* 4. Более наглядное представление экранов
+* 4. ++++++ Более наглядное представление экранов
 * 5. Таймеры и время показа
 * */
 

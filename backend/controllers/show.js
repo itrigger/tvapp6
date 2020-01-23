@@ -112,7 +112,6 @@ exports.findByPlaceAndNum = function (req, res) {
             console.log(err);
             return res.send({resultCode: 1});
         }
-
         res.send({
             resultCode: 0,
             showID: doc.show,

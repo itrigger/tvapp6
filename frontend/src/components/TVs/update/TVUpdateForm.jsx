@@ -31,9 +31,9 @@ let TVUpdateForm = (props) => {
                             <div className="form-group">
                                 <label>Шоу</label>
                                 <div>
-                                    <Field name="show" component="select" className="form-control">
+                                    <Field name="show" defaultValue={props.curShow} component="select" className="form-control">
                                         {props.shows.map(i => (
-                                            <option key={i._id} selected={i._id === props.curShow ? "selected" : ""} value={i._id}>{i.name}</option>
+                                            <option key={i._id} value={i._id}>{i.name}</option>
                                         ))}
                                     </Field>
                                 </div>

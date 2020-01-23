@@ -81,6 +81,8 @@ exports.reload = function (req, res) {
     });
 };
 
+
+
 exports.findById = function (req, res) {
     Slides.findById(req.params.id, function (err, doc) {
         if (err) {

@@ -28,8 +28,22 @@ exports.findByTime = function(curtime,  cb) {
         });
     });
 };
+
+exports.findByChannelActivity = function(channel, callback){
+    db.get().collection('activities').findOne({channel: channel}, function (err, item) {
+        callback(err, item);
+    })
+};
+
+exports.createChannelActivity = function(channel, cb) {
+    db.get().collection('activities').insert(channel, function(err, result) {
+        cb(err, result);
+    });
+};
 /**/
 /**/
+
+
 
 
 exports.create = function(artist, cb) {
