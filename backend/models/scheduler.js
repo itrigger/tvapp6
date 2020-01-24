@@ -40,6 +40,14 @@ exports.createChannelActivity = function(channel, cb) {
         cb(err, result);
     });
 };
+
+exports.ActivitiesAll = function(cb) {
+    db.get().collection('activities').find().count(function(e, count) {
+        db.get().collection('activities').find().toArray(function (err, docs) {
+            cb(err, {activities:docs,totalCount: count});
+        });
+    });
+};
 /**/
 /**/
 

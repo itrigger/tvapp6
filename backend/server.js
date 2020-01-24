@@ -179,7 +179,65 @@ function runSchedule(){
                 //let s check that we are started new show already or not
 
                 for (let i=0;i<doc.totalCount;i++){
-                    Schedule.findByChannelActivity(doc.schedule[i].channel, function (err,active) {
+
+                    if(doc.online === "0") {
+                        console.log('обновляем');
+                        channels_client.trigger(doc.schedule[i].channel, 'my-event', {
+                            "message": doc.schedule[i]
+                        });
+                        /*Тут надо отослать запрос в БД и изменить значение online на 1*/
+                    }
+
+                   /* Schedule.findByChannelActivity(doc.schedule[i].channel, function (err,active) {
+                        if(err){
+                            console.log(err);
+                        }
+                        if(active){
+                            console.log(active.channel);
+                        } else {
+                           /!* console.log(active);
+                            console.log('обновляем');*!/
+                            channels_client.trigger(doc.schedule[i].channel, 'my-event', {
+                                "message": doc.schedule[i]
+                            });
+
+                            Schedule.createChannelActivity({channel:doc.schedule[i].channel}, function (err,result) {
+                                if (err) {
+                                    console.log(err);
+                                }
+                            });
+                        }
+                    });*/
+                }
+
+            } else {
+               // db.get().collection('activities').remove({});
+                ScheduleGarbageCleaner();
+            }
+        });
+    });
+}
+
+runSchedule();
+ScheduleGarbageCleaner();
+
+
+function ScheduleGarbageCleaner(){
+    let timer = schedule.scheduleJob('*/1 * * * *', function(){
+        let curtime = timestamp('YYYYMMDDHHmm');
+
+        Schedule.ActivitiesAll(function (err, doc) {
+            if (err) {
+                console.log(err);
+            }
+           console.log(doc.activities);
+           console.log(doc.totalCount);
+            if(doc.totalCount > 0){
+                for (let i=0;i<doc.totalCount;i++){
+                    Schedule.findByTime(curtime, function(err, doc) {
+
+                    });
+                  /*  Schedule.findByChannelActivity(doc.schedule[i].channel, function (err,active) {
                         if(err){
                             console.log(err);
                         }
@@ -197,18 +255,17 @@ function runSchedule(){
                                 }
                             });
                         }
-                    });
+                    });*/
 
                 }
 
             } else {
-                db.get().collection('activities').remove({});
+
             }
         });
+
     });
 }
-
-runSchedule();
 
 if (process.env.NODE_ENV === 'development') {
     // only use in development
