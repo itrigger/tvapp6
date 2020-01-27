@@ -18,8 +18,8 @@ exports.findById = function(id, cb) {
 /**/
 /**/
 exports.findByTime = function(curtime,  cb) {
-    db.get().collection('scheduler').find({ starttime: {$lte: curtime}, endtime: {$gte: curtime}}).count(function (e, count) {
-        db.get().collection('scheduler').find({ starttime: {$lte: curtime}, endtime: {$gte: curtime}}).toArray(function (err, docs) {
+    db.get().collection('scheduler').find({ starttime: {$lte: curtime}}).count(function (e, count) {
+        db.get().collection('scheduler').find({ starttime: {$lte: curtime}}).toArray(function (err, docs) {
             let message = {
                 totalCount: count,
                 schedule: docs
@@ -29,24 +29,12 @@ exports.findByTime = function(curtime,  cb) {
     });
 };
 
-exports.findByChannelActivity = function(channel, callback){
-    db.get().collection('activities').findOne({channel: channel}, function (err, item) {
-        callback(err, item);
-    })
-};
-
-exports.createChannelActivity = function(channel, cb) {
-    db.get().collection('activities').insert(channel, function(err, result) {
-        cb(err, result);
-    });
-};
-
-exports.ActivitiesAll = function(cb) {
-    db.get().collection('activities').find().count(function(e, count) {
-        db.get().collection('activities').find().toArray(function (err, docs) {
-            cb(err, {activities:docs,totalCount: count});
+exports.changeOnlineStatus = function(id, newdata, cb) {
+    db.get().collection('scheduler').update({_id: ObjectID(id)},
+        newdata,
+        function(err, result) {
+            cb(err, result);
         });
-    });
 };
 /**/
 /**/

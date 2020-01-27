@@ -164,6 +164,43 @@ export const showAPI = {
             .then(response => {return response.data});
     }
 };
+
+
+export const scheduleAPI = {
+    /*Получаем расписание постранично*/
+    getSchedules(currentPage, pageSize){
+        return instance.get(`/schedules/?page=${currentPage}&size=${pageSize}`)
+            .then(response=>{return response.data})
+            .catch(error=>{
+                return error.data
+            });
+    },
+    /*Получаем 1 расписание по ID*/
+    getSchedule(id) {
+        return instance.get(`/schedules/`+id)
+            .then(response => {return response.data})
+            .catch(error=>{
+                return error.data
+            });
+    },
+    /*Обвноляем 1 расписание по ID*/
+    putSchedule(id, schedule){
+        return  instance.put(`/schedules/`+id, schedule)
+            .then(response => {return response.data});
+    },
+    /*Создаем расписание*/
+    createSchedule(schedule){
+        return  instance.post(`/schedules/`, schedule)
+            .then(response => {return response.data});
+    },
+    /*Удаляем расписание*/
+    deleteSchedule(id) {
+        return instance.delete(`/schedules/`+id)
+            .then(response => {return response.data});
+    }
+};
+
+
 export const playAPI = {
     getSlides(place, screen_num){
         return instance.get(`/play/?place=${place}&num=${screen_num}`)

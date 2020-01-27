@@ -25,6 +25,7 @@ import PlayContainer from "./components/Play/PlayContainer";
 import ShowAddContainer from "./components/Shows/add/ShowAddContainer";
 import ShowsContainer from "./components/Shows/ShowsContainer";
 import ShowUpdateContainer from "./components/Shows/update/ShowUpdateContainer";
+import SchedulesContainer from "./components/Schedules/SchedulesContainer";
 
 
 class App extends Component {
@@ -59,6 +60,10 @@ class App extends Component {
                 <Route path="/shows" exact render={() => <ShowsContainer/>}/>
                 <Route path="/show/add" render={({history}) => <ShowAddContainer history={history}/>}/>
                 <Route path="/show/update/:id?" render={({history}) => <ShowUpdateContainer history={history}/>}/>
+                {/*SCHEDULES*/}
+                <Route path="/schedules" exact render={() => <SchedulesContainer/>}/>
+                <Route path="/schedule/add" render={({history}) => <ScheduleAddContainer history={history}/>}/>
+                <Route path="/schedule/update/:id?" render={({history}) => <ScheduleUpdateContainer history={history}/>}/>
                 {/*LOGIN*/}
                 <Route path="/login" render={() => <LoginContainer/>}/>
                 {/*PLAY PAGE*/}

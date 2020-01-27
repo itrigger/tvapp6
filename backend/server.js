@@ -1,5 +1,6 @@
 const timestamp = require('time-stamp');
 const Schedule = require('./models/scheduler');
+const Show = require('./models/show');
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -175,97 +176,71 @@ function runSchedule(){
                 console.log(err);
             }
             if(doc.totalCount > 0){
-                //if we have active schedules - do the next function
-                //let s check that we are started new show already or not
-
                 for (let i=0;i<doc.totalCount;i++){
+                    if(curtime <= doc.schedule[i].endtime){
+                        if(doc.schedule[i].online === "1"){
 
-                    if(doc.online === "0") {
-                        console.log('обновляем');
-                        channels_client.trigger(doc.schedule[i].channel, 'my-event', {
-                            "message": doc.schedule[i]
-                        });
-                        /*Тут надо отослать запрос в БД и изменить значение online на 1*/
-                    }
-
-                   /* Schedule.findByChannelActivity(doc.schedule[i].channel, function (err,active) {
-                        if(err){
-                            console.log(err);
-                        }
-                        if(active){
-                            console.log(active.channel);
                         } else {
-                           /!* console.log(active);
-                            console.log('обновляем');*!/
-                            channels_client.trigger(doc.schedule[i].channel, 'my-event', {
-                                "message": doc.schedule[i]
-                            });
-
-                            Schedule.createChannelActivity({channel:doc.schedule[i].channel}, function (err,result) {
+                            Schedule.changeOnlineStatus(doc.schedule[i]._id, {
+                                name: doc.schedule[i].name,
+                                description: doc.schedule[i].description,
+                                starttime: doc.schedule[i].starttime,
+                                isactive: doc.schedule[i].isactive,
+                                endtime: doc.schedule[i].endtime,
+                                periodic: doc.schedule[i].periodic,
+                                show: doc.schedule[i].show,
+                                channel: doc.schedule[i].channel,
+                                online: "1"
+                            }, function (err, result) {
                                 if (err) {
                                     console.log(err);
                                 }
+                                console.log('Данные успешно обновлены!');
+                            });
+                            console.log('обновляем show');
+                            channels_client.trigger(doc.schedule[i].channel, 'my-event', {
+                                "message": doc.schedule[i]
                             });
                         }
-                    });*/
-                }
+                    } else {
+                        if(doc.schedule[i].online === "1"){
+                            Schedule.changeOnlineStatus(doc.schedule[i]._id, {
+                                name: doc.schedule[i].name,
+                                description: doc.schedule[i].description,
+                                starttime: doc.schedule[i].starttime,
+                                isactive: doc.schedule[i].isactive,
+                                endtime: doc.schedule[i].endtime,
+                                periodic: doc.schedule[i].periodic,
+                                show: doc.schedule[i].show,
+                                channel: doc.schedule[i].channel,
+                                online: "0"
+                            }, function (err, result) {
+                                if (err) {
+                                    console.log(err);
+                                }
+                                console.log('Данные успешно обновлены!');
+                            })
+                            /*возвращаем пред слайдшоу*/
+                            Show.findByChannel(doc.schedule[i].channel, function (err, doc1) {
+                                channels_client.trigger(doc.schedule[i].channel, 'my-event', {
+                                    "message": doc1
+                                });
+                            })
+                        } else {
 
+                        }
+                    }
+                }
             } else {
-               // db.get().collection('activities').remove({});
-                ScheduleGarbageCleaner();
+                /*do nothing while*/
             }
         });
     });
 }
 
 runSchedule();
-ScheduleGarbageCleaner();
 
 
-function ScheduleGarbageCleaner(){
-    let timer = schedule.scheduleJob('*/1 * * * *', function(){
-        let curtime = timestamp('YYYYMMDDHHmm');
-
-        Schedule.ActivitiesAll(function (err, doc) {
-            if (err) {
-                console.log(err);
-            }
-           console.log(doc.activities);
-           console.log(doc.totalCount);
-            if(doc.totalCount > 0){
-                for (let i=0;i<doc.totalCount;i++){
-                    Schedule.findByTime(curtime, function(err, doc) {
-
-                    });
-                  /*  Schedule.findByChannelActivity(doc.schedule[i].channel, function (err,active) {
-                        if(err){
-                            console.log(err);
-                        }
-                        if(active){
-                            console.log(active.channel);
-                        } else {
-                            console.log(active);
-                            console.log('обновляем');
-                            channels_client.trigger(doc.schedule[i].channel, 'my-event', {
-                                "message": doc.schedule[i]
-                            });
-                            Schedule.createChannelActivity({channel:doc.schedule[i].channel}, function (err,result) {
-                                if (err) {
-                                    console.log(err);
-                                }
-                            });
-                        }
-                    });*/
-
-                }
-
-            } else {
-
-            }
-        });
-
-    });
-}
 
 if (process.env.NODE_ENV === 'development') {
     // only use in development

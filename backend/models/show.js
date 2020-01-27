@@ -50,3 +50,8 @@ exports.findByPlace = function (place, num, cb) {
 
     });
 };
+exports.findByChannel = function (channel, cb) {
+    db.get().collection('tvs').findOne({channel: channel}, function (err, doc) {
+        cb(err, doc);
+    });
+};
