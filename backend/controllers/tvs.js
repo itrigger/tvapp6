@@ -132,6 +132,7 @@ exports.APIfindById = function(req, res) {
 
 exports.APIcreate = function(req, res) {
     let tv = {
+        name: req.body.name,
         place: req.body.place,
         number: req.body.number,
         channel: req.body.channel,
@@ -157,6 +158,7 @@ exports.APIupdate = function(req, res) {
     Tvs.update(
         req.params.id,
         {
+            name: req.body.name,
             place: req.body.place,
             number: req.body.number,
             channel: req.body.channel,

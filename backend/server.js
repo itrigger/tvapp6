@@ -142,12 +142,12 @@ app.put('/api/show/:id', VerifyToken, showController.APIupdate); /*Обновл�
 app.delete('/api/show/:id', VerifyToken, showController.APIdelete); /*Удаление шоу по ИД*/
 
 /*Роуты для событий*/
-app.get('/api/schedule', VerifyToken, scheduleController.all);
-app.get('/api/schedule/:time', VerifyToken, scheduleController.findByTime);
-app.put('/api/schedule/:id', VerifyToken, scheduleController.update);
-app.get('/api/schedule/:id', VerifyToken, scheduleController.findById);
-app.post('/api/schedule', VerifyToken, scheduleController.create);
-app.delete('/api/schedule/:id', VerifyToken, scheduleController.delete);
+app.get('/api/schedules', VerifyToken, scheduleController.all);
+//app.get('/api/schedules/:time', VerifyToken, scheduleController.findByTime);
+app.put('/api/schedules/:id', VerifyToken, scheduleController.update);
+app.get('/api/schedules/:id', VerifyToken, scheduleController.findById);
+app.post('/api/schedules', VerifyToken, scheduleController.create);
+app.delete('/api/schedules/:id', VerifyToken, scheduleController.delete);
 
 /*
 app.use(function (req, res) {

@@ -1,17 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'react-notifications-component/dist/theme.css';
 import Button from "react-bootstrap/Button";
 import {Field, reduxForm} from "redux-form";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSave} from "@fortawesome/free-solid-svg-icons";
-import {renderField, required} from "../../common/Validator/Validator";
-import Parser from "html-react-parser";
-import s from "./../shows.module.css";
+import {
+    renderField,
+    required
+} from "../../common/Validator/Validator";
+import DatePicker from "react-datepicker";
+import 'react-datepicker/dist/react-datepicker.css';
 
 
-let ShowAddForm = (props) => {
+
+let ScheduleAddForm = (props) => {
 
     const {handleSubmit} = props;
+
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+
 
 
      return (<section className="container">
@@ -19,7 +27,7 @@ let ShowAddForm = (props) => {
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="page-header">
-                            <h1>Добавление шоу</h1>
+                            <h1>Добавление раписания</h1>
                         </div>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
@@ -29,29 +37,77 @@ let ShowAddForm = (props) => {
                                 <Field name="description" component={renderField} type="text" label={"Описание"} placeholder={""} validate={[required]}/>
                             </div>
                             <div className="form-group">
-                                <Field name="slides" component={renderField} type="text" label={"Список слайдов через запятую"} placeholder={""} validate={[required]}/>
+                                {/*<Field name="starttime" component={renderField} type="text" label={"Дата и время начала"} placeholder={""} validate={[required]}/>*/}
+
+                                <label>Дата и время начала</label>
+                                <div>
+                                    <DatePicker
+                                        name="starttime"
+                                        className="form-control"
+                                        selected={startDate}
+                                        onChange={date => setStartDate(date)}
+                                        timeInputLabel="Время:"
+                                        dateFormat="yyyyMMddHHmm"
+                                        showTimeInput
+                                    />
+                                </div>
                             </div>
                             <div className="form-group">
-                                {props.formValues ?
-                                    props.slides.map(i => (
-                                            <span
-                                                className={props.formValues.split(';').find(item => item === i._id) ? s.active : null}
-                                                data-id={i._id} key={i._id} onClick={() => {
-                                                props.onClick(i._id)
-                                            }}><span
-                                                className={s.smallImg}>{i.slide_content ? Parser(i.slide_content) : ''}</span></span>
-                                        )
-                                    ) : props.slides.map(i => (
-                                            <span data-id={i._id} key={i._id} onClick={() => {
-                                                props.onClick(i._id)
-                                            }}><span
-                                                className={s.smallImg}>{i.slide_content ? Parser(i.slide_content) : ''}</span></span>
-                                        )
-                                    )
-                                }
+                                {/*<Field name="endtime" component={renderField} type="text" label={"Дата и время окончания"} placeholder={""} validate={[required]}/>*/}
+                                <label>Дата и время окончания</label>
+                                <div>
+                                    <DatePicker
+                                        name="endtime"
+                                        className="form-control"
+                                        selected={endDate}
+                                        onChange={date => setEndDate(date)}
+                                        timeInputLabel="Время:"
+                                        dateFormat="yyyyMMddHHmm"
+                                        showTimeInput
+                                    />
+                                </div>
                             </div>
                             <div className="form-group">
-                                <Field name="effect" component={renderField} type="text" label={"Эффект"} placeholder={"fade"} validate={[required]}/>
+                                <label>Событие периодично?</label>
+                                <div>
+                                    <Field name="periodic" component="select" className="form-control">
+                                        <option>---Выберите значение из списка---</option>
+                                        <option value="false">Нет</option>
+                                        <option value="true">Да</option>
+                                    </Field>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label>Шоу</label>
+                                <div>
+                                    <Field name="show" component="select" className="form-control">
+                                        <option>---Выберите значение из списка---</option>
+                                        {props.shows.map(i => (
+                                            <option key={i._id} value={i._id}>{i.name}</option>
+                                        ))}
+                                    </Field>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label>Экран (канал)</label>
+                                <div>
+                                    <Field name="channel" component="select" className="form-control">
+                                        <option>---Выберите значение из списка---</option>
+                                        {props.channels.map(i => (
+                                            <option key={i._id} value={i.channel}>{i.name} ({i.channel})</option>
+                                        ))}
+                                    </Field>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <label>Активно?</label>
+                                <div>
+                                    <Field name="isactive" component="select" className="form-control" >
+                                        <option>---Выберите значение из списка---</option>
+                                        <option value="1">Да</option>
+                                        <option value="0">Нет</option>
+                                    </Field>
+                                </div>
                             </div>
                             <Button type="submit" variant="success"><FontAwesomeIcon icon={faSave}/> Добавить</Button>
                         </form>
@@ -62,7 +118,7 @@ let ShowAddForm = (props) => {
     )
 };
 
-export default ShowAddForm = reduxForm({
-    form: 'showAddForm', // a unique identifier for this form
+export default ScheduleAddForm = reduxForm({
+    form: 'scheduleAddForm', // a unique identifier for this form
     enableReinitialize : true
-})(ShowAddForm)
+})(ScheduleAddForm)

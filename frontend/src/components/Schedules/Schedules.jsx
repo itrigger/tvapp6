@@ -3,9 +3,6 @@ import {LinkContainer} from "react-router-bootstrap";
 import {Button, Pagination} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
-import s from "./schedules.module.css";
-import Parser from "html-react-parser";
-
 
 let Schedule = (props) => {
 
@@ -29,7 +26,7 @@ let Schedule = (props) => {
                         </div>
                         <div className="card mb-5">
                             <div className="card-body">
-                                <LinkContainer to="/show/add">
+                                <LinkContainer to="/schedule/add">
                                     <Button variant="success"><FontAwesomeIcon icon={faPlus}/> Добавить новое расписание</Button>
                                 </LinkContainer>
                             </div>
@@ -38,7 +35,7 @@ let Schedule = (props) => {
                             <tbody>
                             <tr>
                                 <th>Название</th>
-                                <th>Описание</th>
+
                                 <th>Дата и время начала</th>
                                 <th>Дата и время окончания</th>
                                 <th>Периодично?</th>
@@ -47,10 +44,12 @@ let Schedule = (props) => {
                                 <th>Активно?</th>
                                 <th></th>
                             </tr>
-                            {props.shows.map(e =>
+                            {props.schedules.map(e =>
                                 <tr key={e._id}>
-                                    <td>{e.name}</td>
-                                    <td>{e.description}</td>
+                                    <td>{e.name}<br/>
+                                        <small>{e.description}</small>
+                                    </td>
+
                                     <td>{e.starttime}</td>
                                     <td>{e.endtime}</td>
                                     <td>{e.periodic}</td>

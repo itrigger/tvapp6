@@ -26,6 +26,8 @@ import ShowAddContainer from "./components/Shows/add/ShowAddContainer";
 import ShowsContainer from "./components/Shows/ShowsContainer";
 import ShowUpdateContainer from "./components/Shows/update/ShowUpdateContainer";
 import SchedulesContainer from "./components/Schedules/SchedulesContainer";
+import ScheduleAddContainer from "./components/Schedules/add/ScheduleAddContainer";
+import ScheduleUpdateContainer from "./components/Schedules/update/ScheduleUpdateContainer";
 
 
 class App extends Component {

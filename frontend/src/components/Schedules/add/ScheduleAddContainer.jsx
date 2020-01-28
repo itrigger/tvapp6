@@ -4,70 +4,54 @@ import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import {compose} from "redux";
 import {withAuthRedirect} from "../../../hoc/withAuthRedirect";
-import ShowAddForm from "./ShowAddForm";
-import {createShow} from "../../../redux/reducers/show-reducer";
-import {getShowSel} from "../../../redux/reducers/show-selector";
-import {getSlides} from "../../../redux/reducers/slide-reducer";
-import {getSlidesSortedSel} from "../../../redux/reducers/slide-selector";
-import $ from "jquery";
-import {change, formValueSelector} from "redux-form";
+import {getShows} from "../../../redux/reducers/show-reducer";
+import ScheduleAddForm from "./ScheduleAddForm";
+import {createSchedule} from "../../../redux/reducers/schedule-reducer";
+import {getShowsSel} from "../../../redux/reducers/show-selector";
+import {getTVsSel} from "../../../redux/reducers/tvs-selector";
+import {getTVs} from "../../../redux/reducers/tvs-reducer";
 
-class ShowAddContainer extends React.Component {
+class ScheduleAddContainer extends React.Component {
 
     componentDidMount() {
-        this.props.getSlides(1, 1000);
+       this.props.getShows(1, 1000);
+       this.props.getTVs(1,1000);
     };
 
-    imgClickAdd = (id) => {
 
-        if (this.props.formValues2) {
-            if (this.props.formValues2.split(';').find(i => i === id)) {
-                let changedID = $('input[name=slides]').val().replace(id.replace(/\s+/g, '') + ';', "");
-                this.props.change('showAddForm', 'slides', changedID);
-            } else {
-                let changedID = $('input[name=slides]').val() + id.replace(/\s+/g, '') + ';';
-                this.props.change('showAddForm', 'slides', changedID);
-            }
-        } else {
-            let changedID = $('input[name=slides]').val() + id.replace(/\s+/g, '') + ';';
-            this.props.change('showAddForm', 'slides', changedID);
-        }
-    };
 
-    onSubmit = (show) => {
-        this.props.createShow({show});
+    onSubmit = (schedule) => {
+        this.props.createSchedule({schedule});
     };
 
     render() {
         return (
-            <ShowAddForm slides={this.props.slides}
-                         onClick={this.imgClickAdd}
-                         onSubmit={this.onSubmit}
-                         formValues={this.props.formValues2}
+            <ScheduleAddForm
+                shows={this.props.shows}
+                channels={this.props.tvs}
+                onSubmit={this.onSubmit}
             />
         )
     }
 
 }
 
-const selector = formValueSelector('showAddForm');
 
 let mapStateToProps = (state) => {
     return {
-        show: getShowSel(state),
-        slides: getSlidesSortedSel(state),
-        formValues2: selector(state, 'slides'),
+        shows: getShowsSel(state),
+        tvs: getTVsSel(state)
     }
 };
 
 const mapDispatchToProps = {
-    change,
-    createShow,
-    getSlides
+    createSchedule,
+    getShows,
+    getTVs
 };
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     withRouter,
     withAuthRedirect
-)(ShowAddContainer);
+)(ScheduleAddContainer);

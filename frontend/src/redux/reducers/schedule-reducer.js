@@ -56,8 +56,8 @@ const schedulesReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isShowsUpdating: action.isFetching
-                    ? [...state.isShowsUpdating, action.id]
-                    : [...state.isShowsUpdating.filter(id => id !== action.id)]
+                    ? [...state.isSchedulesUpdating, action.id]
+                    : [...state.isSchedulesUpdating.filter(id => id !== action.id)]
             }
         case SET_CURRENT_PAGE:
             return {
@@ -65,7 +65,7 @@ const schedulesReducer = (state = initialState, action) => {
             }
         case SET_TOTAL_SCHEDULES_COUNT:
             return {
-                ...state, totalShowsCount: action.totalShowsCount
+                ...state, totalSchedulesCount: action.totalSchedulesCount
             }
         default:
             return state;

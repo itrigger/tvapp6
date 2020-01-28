@@ -19,6 +19,7 @@ let initialState = {
     currentPage: 1,
     tv: {
         _id: null,
+        name: null,
         place: null,
         number: null,
         channel: null,

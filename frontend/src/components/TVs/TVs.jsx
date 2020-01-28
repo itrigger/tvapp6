@@ -44,6 +44,7 @@ let TVs = (props) => {
                             </tr>
                             {props.tvs.map(e =>
                                 <tr key={e._id}>
+                                    <td>{e.name}</td>
                                     <td>{e.place}</td>
                                     <td>{e.number}</td>
                                     <td>{e.channel}</td>

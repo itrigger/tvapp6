@@ -1,12 +1,18 @@
-var ObjectID = require('mongodb').ObjectID;
-var db = require('../db');
+const ObjectID = require('mongodb').ObjectID;
+const db = require('../db');
 
-exports.all = function(cb) {
-    db.get().collection('scheduler').find().toArray(function(err, docs) {
-        cb(err, docs);
+
+exports.all = function (skip, limit, cb) {
+    db.get().collection('scheduler').count(function (e, count) {
+        db.get().collection('scheduler').find().skip(skip).limit(limit).toArray(function (err, docs) {
+            let message = {
+                totalCount: count,
+                items: docs
+            }
+            cb(err, message);
+        });
     });
 };
-
 
 exports.findById = function(id, cb) {
     db.get().collection('scheduler').findOne({_id: ObjectID(id)}, function(err, doc) {
@@ -41,7 +47,6 @@ exports.changeOnlineStatus = function(id, newdata, cb) {
 
 
 
-
 exports.create = function(artist, cb) {
     db.get().collection('scheduler').insert(artist, function(err, result) {
         cb(err, result);
@@ -57,6 +62,7 @@ exports.update = function(id, newData, cb) {
         }
     );
 };
+
 
 exports.delete = function(id, cb) {
     db.get().collection('scheduler').deleteOne(

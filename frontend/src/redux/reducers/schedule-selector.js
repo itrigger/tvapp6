@@ -1,5 +1,4 @@
 import {createSelector} from "reselect";
-import schedulesReducer from "./schedule-reducer";
 
 export const getSchedulesSel = (state) => {
     return state.schedulesReducer.schedules

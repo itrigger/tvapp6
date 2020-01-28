@@ -13,7 +13,8 @@ exports.all = function (skip, limit, cb) {
         });
     });
 };
-exports.findById = function (id, cb) {
+
+exports.findById = function(id, cb) {
     db.get().collection('show').findOne({_id: ObjectID(id)}, function (err, doc) {
         cb(err, doc);
     });

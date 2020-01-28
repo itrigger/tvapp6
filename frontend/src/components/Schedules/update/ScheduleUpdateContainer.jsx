@@ -16,7 +16,7 @@ class ScheduleUpdateContainer extends React.Component {
 
     componentDidMount() {
         this.props.getSchedule(this.props.match.params.id);
-        this.props.getShows(1,1000);
+        //this.props.getShows(1,1000);
         /*получить список шоу*/
         /*получить список каналов*/
     };

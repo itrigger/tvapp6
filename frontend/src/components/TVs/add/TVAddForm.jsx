@@ -20,6 +20,9 @@ let TVAddForm = (props) => {
                         </div>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
+                                <Field name="name" component={renderField} type="text" label={"Название"} placeholder={"Название"} validate={[required]}/>
+                            </div>
+                            <div className="form-group">
                                 <Field name="place" component={renderField} type="text" label={"Локация"} placeholder={"zum, mart"} validate={[required]}/>
                             </div>
                             <div className="form-group">
