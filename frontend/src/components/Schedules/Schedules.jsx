@@ -3,6 +3,7 @@ import {LinkContainer} from "react-router-bootstrap";
 import {Button, Pagination} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
+import moment from "moment";
 
 let Schedule = (props) => {
 
@@ -35,9 +36,7 @@ let Schedule = (props) => {
                             <tbody>
                             <tr>
                                 <th>Название</th>
-
-                                <th>Дата и время начала</th>
-                                <th>Дата и время окончания</th>
+                                <th>Период</th>
                                 <th>Периодично?</th>
                                 <th>Шоу</th>
                                 <th>Канал экрана</th>
@@ -50,12 +49,13 @@ let Schedule = (props) => {
                                         <small>{e.description}</small>
                                     </td>
 
-                                    <td>{e.starttime}</td>
-                                    <td>{e.endtime}</td>
+                                    <td>{moment(e.starttime).format('D/MM/YYYY, HH:mm')} - {moment(e.endtime).format('D/MM/YYYY, HH:mm')}</td>
                                     <td>{e.periodic}</td>
-                                    <td>{e.show}</td>
+                                    <td>{props.shows.map(i => i._id === e.show ? i.name:null)}</td>
                                     <td>{e.channel}</td>
-                                    <td>{e.isactive}</td>
+                                    <td>
+                                        {e.isactive === "1"?"Активно":"Нет"}
+                                    </td>
                                     <td>
                                         <div className="float-left m-1 mw114">
                                             <LinkContainer to={'/schedule/update/' + e._id}>

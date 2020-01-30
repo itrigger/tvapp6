@@ -1,19 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {Field, reduxForm} from 'redux-form';
 import 'react-notifications-component/dist/theme.css';
 import {Button} from "react-bootstrap";
 import {faSave} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {renderField, required} from "../../common/Validator/Validator";
-import DatePicker from "react-datepicker";
-import moment from "moment";
+import renderDatePicker from "../../common/Pickers/datepicker";
+
 
 let ScheduleUpdateForm = (props) => {
 
     const {handleSubmit} = props;
-
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
 
     return (<section className="container">
             <div className="bs-docs-section clearfix">
@@ -32,42 +29,60 @@ let ScheduleUpdateForm = (props) => {
                             <div className="form-group">
                                 <label>Дата и время начала</label>
                                 <div>
-                                    <DatePicker
+                                    <Field
                                         name="starttime"
-                                        className="form-control"
-                                        selected={props.initialValues.starttime ? moment(props.initialValues.starttime, 'yyyyMMddHHmm'): null}
-                                        onChange={date => setStartDate(date)}
-                                        timeInputLabel="Время:"
-                                        dateFormat="yyyyMMddHHmm"
-                                        showTimeInput
+                                        showTime={true}
+                                        component={renderDatePicker}
                                     />
                                 </div>
                             </div>
                             <div className="form-group">
                                 <label>Дата и время окончания</label>
                                 <div>
-                                    <DatePicker
+                                    <Field
                                         name="endtime"
-                                        className="form-control"
-                                        selected={endDate}
-                                        onChange={date => setEndDate(date)}
-                                        timeInputLabel="Время:"
-                                        dateFormat="yyyyMMddHHmm"
-                                        showTimeInput
+                                        showTime={true}
+                                        component={renderDatePicker}
                                     />
                                 </div>
                             </div>
                             <div className="form-group">
-                                <Field name="periodic" component={renderField} type="text" label={"Событие периодично?"} placeholder={""} validate={[required]}/>
+                                <label>Событие периодично?</label>
+                                <div>
+                                    <Field name="periodic" component="select" className="form-control" defaultValue={props.formValues}>
+                                        <option value="false">Нет</option>
+                                        <option value="true">Да</option>
+                                    </Field>
+                                </div>
                             </div>
                             <div className="form-group">
-                                <Field name="show" component={renderField} type="text" label={"Выберите шоу"} placeholder={""} validate={[required]}/>
+                                <label>Шоу</label>
+                                <div>
+                                    <Field name="show" component="select" className="form-control" defaultValue={props.formValues}>
+                                        {props.shows.map(i => (
+                                            <option key={i._id} value={i._id}>{i.name}</option>
+                                        ))}
+                                    </Field>
+                                </div>
                             </div>
                             <div className="form-group">
-                                <Field name="channel" component={renderField} type="text" label={"Выберите канал"} placeholder={""} validate={[required]}/>
+                                <label>Экран (канал)</label>
+                                <div>
+                                    <Field name="channel" component="select" className="form-control" defaultValue={props.formValues}>
+                                        {props.channels.map(i => (
+                                            <option key={i._id} value={i.channel}>{i.name} ({i.channel})</option>
+                                        ))}
+                                    </Field>
+                                </div>
                             </div>
                             <div className="form-group">
-                                <Field name="isactive" component={renderField} type="text" label={"Активно? (1 или 0)"} placeholder={""} validate={[required]}/>
+                                <label>Активно?</label>
+                                <div>
+                                    <Field name="isactive" component="select" className="form-control" defaultValue={props.formValues}>
+                                        <option value="1">Да</option>
+                                        <option value="0">Нет</option>
+                                    </Field>
+                                </div>
                             </div>
                             <Button type="submit" variant="success"><FontAwesomeIcon icon={faSave}/> Обновить</Button>
                         </form>

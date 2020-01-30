@@ -98,6 +98,7 @@ exports.create = function(req, res) {
         channel: req.body.schedule.channel,
         online: "0"
     };
+    console.log(req.body.schedule.starttime);
     Schedule.create(schedule, function(err, result) {
         let data = {
             resultCode: 1

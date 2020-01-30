@@ -1,3 +1,5 @@
+let moment = require('moment');
+
 const ObjectID = require('mongodb').ObjectID;
 const db = require('../db');
 
@@ -23,7 +25,8 @@ exports.findById = function(id, cb) {
 
 /**/
 /**/
-exports.findByTime = function(curtime,  cb) {
+/*exports.findByTime = function(curtime,  cb) {
+    console.log('model get curtime is: ' + curtime);
     db.get().collection('scheduler').find({ starttime: {$lte: curtime}}).count(function (e, count) {
         db.get().collection('scheduler').find({ starttime: {$lte: curtime}}).toArray(function (err, docs) {
             let message = {
@@ -33,8 +36,26 @@ exports.findByTime = function(curtime,  cb) {
             cb(err, message);
         });
     });
-};
+};*/
+exports.findByTime = function(curtime,  cb) {
+    db.get().collection('scheduler').find().count(function (e, count) {
+        db.get().collection('scheduler').find().toArray(function (err, docs) {
+            let message = {
+                totalCount: count,
+                schedule: docs
+            };
+            for (let i=0;i<count;i++){
+               /* console.log(moment(docs[i].starttime).format('MMMM Do YYYY, h:mm:ss a') + " ??? " + moment(curtime).format('MMMM Do YYYY, h:mm:ss a'));
+                console.log("typeof 1 " + typeof docs[i].starttime + " typeof 2 " + typeof curtime);*/
+                if (moment(docs[i].starttime).format('MMMM Do YYYY, h:mm:ss a') > moment(curtime).format('MMMM Do YYYY, h:mm:ss a') ){
+                    message.schedule.push(docs[i]);
+                }
+            }
 
+            cb(err, message);
+        });
+    });
+};
 exports.changeOnlineStatus = function(id, newdata, cb) {
     db.get().collection('scheduler').update({_id: ObjectID(id)},
         newdata,

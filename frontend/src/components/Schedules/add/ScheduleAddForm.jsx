@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import 'react-notifications-component/dist/theme.css';
 import Button from "react-bootstrap/Button";
 import {Field, reduxForm} from "redux-form";
@@ -8,18 +8,14 @@ import {
     renderField,
     required
 } from "../../common/Validator/Validator";
-import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
+import renderDatePicker from "../../common/Pickers/datepicker";
 
 
 
 let ScheduleAddForm = (props) => {
 
     const {handleSubmit} = props;
-
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
-
 
 
      return (<section className="container">
@@ -41,14 +37,10 @@ let ScheduleAddForm = (props) => {
 
                                 <label>Дата и время начала</label>
                                 <div>
-                                    <DatePicker
+                                    <Field
                                         name="starttime"
-                                        className="form-control"
-                                        selected={startDate}
-                                        onChange={date => setStartDate(date)}
-                                        timeInputLabel="Время:"
-                                        dateFormat="yyyyMMddHHmm"
-                                        showTimeInput
+                                        showTime={true}
+                                        component={renderDatePicker}
                                     />
                                 </div>
                             </div>
@@ -56,14 +48,10 @@ let ScheduleAddForm = (props) => {
                                 {/*<Field name="endtime" component={renderField} type="text" label={"Дата и время окончания"} placeholder={""} validate={[required]}/>*/}
                                 <label>Дата и время окончания</label>
                                 <div>
-                                    <DatePicker
+                                    <Field
                                         name="endtime"
-                                        className="form-control"
-                                        selected={endDate}
-                                        onChange={date => setEndDate(date)}
-                                        timeInputLabel="Время:"
-                                        dateFormat="yyyyMMddHHmm"
-                                        showTimeInput
+                                        showTime={true}
+                                        component={renderDatePicker}
                                     />
                                 </div>
                             </div>

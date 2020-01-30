@@ -18,6 +18,8 @@ import {
     getSchedulesSelSorted,
     getTotalSchedulesCountSel
 } from "../../redux/reducers/schedule-selector";
+import {getShows} from "../../redux/reducers/show-reducer";
+import {getShowsSel} from "../../redux/reducers/show-selector";
 
 
 
@@ -25,7 +27,7 @@ class SchedulesContainer extends React.Component {
 
     componentDidMount() {
         this.props.getSchedules(this.props.currentPage, this.props.pageSize);
-
+        this.props.getShows(1, 1000);
     }
 
     onPageChanged = (pageNumber) => {
@@ -50,6 +52,7 @@ class SchedulesContainer extends React.Component {
                 isSchedulesUpdating = {this.props.isSchedulesUpdating}
                 toggleIsSchedulesUpdating = {this.props.toggleIsSchedulesUpdating}
                 deleteSchedule = {this.deleteScheduleOnClick}
+                shows = {this.props.shows}
             />
         </>
     }
@@ -62,13 +65,14 @@ let mapStateToProps = (state) => {
         totalSchedulesCount: getTotalSchedulesCountSel(state),
         currentPage: getCurrentPageSel(state),
         isFetching: getIsFetchingSel(state),
-        isSchedulesUpdating: getIsSchedulesUpdatingSel(state)
+        isSchedulesUpdating: getIsSchedulesUpdatingSel(state),
+        shows: getShowsSel(state)
     }
 };
 
 /*Compose служит для комбинации всех оберток над компонентой*/
 export default compose(
-    connect(mapStateToProps, {getSchedules, deleteSchedule, setCurrentPage, setTotalSchedulesCount, toggleIsFetching, toggleIsSchedulesUpdating}),
+    connect(mapStateToProps, {getSchedules, deleteSchedule, setCurrentPage, setTotalSchedulesCount, getShows, toggleIsFetching, toggleIsSchedulesUpdating}),
     withRouter,
     withAuthRedirect
 )(SchedulesContainer);

@@ -168,8 +168,9 @@ const channels_client = new Pusher({
 
 function runSchedule(){
     let timer = schedule.scheduleJob('*/1 * * * *', function(){
-        let curtime = timestamp('YYYYMMDDHHmm'); //getting current time
-        console.log('curtime is ' + curtime);
+        //let curtime = timestamp('YYYYMMDDHHmm'); //getting current time
+        let moment = require('moment');
+        let curtime = moment().format();
         /*search in db collection 'scheduler' current time in range*/
         Schedule.findByTime(curtime, function(err, doc) {
             if (err) {
@@ -177,7 +178,8 @@ function runSchedule(){
             }
             if(doc.totalCount > 0){
                 for (let i=0;i<doc.totalCount;i++){
-                    if(curtime <= doc.schedule[i].endtime){
+
+                    if(moment(curtime).format('MMMM Do YYYY, h:mm:ss a') <= moment(doc.schedule[i].endtime).format('MMMM Do YYYY, h:mm:ss a')){
                         if(doc.schedule[i].online === "1"){
 
                         } else {

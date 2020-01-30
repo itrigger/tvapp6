@@ -137,7 +137,7 @@ export const putSchedule = (id, schedule) => async (dispatch) => {
 export const createSchedule = (schedule) => async (dispatch) => {
 
     let data = await scheduleAPI.createSchedule(schedule);
-
+    console.log(schedule.starttime);
     if (data.resultCode === 0) {
         Notify('TVAPP', 'Расписание добавлено', 'success');
         dispatch(setSchedule(schedule));
