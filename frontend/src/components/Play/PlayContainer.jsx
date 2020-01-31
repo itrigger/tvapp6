@@ -9,7 +9,7 @@ class PlayContainer extends React.Component {
 
     componentDidMount() {
         const parsedHash = queryString.parse(window.location.search);
-        this.props.getSlides(parsedHash.place, parsedHash.num, parsedHash.channel);
+        this.props.getSlides(parsedHash.channel);
 
         const pusher = new Pusher('715c895bb7ce1e7fa171', {
             cluster: 'ap2',

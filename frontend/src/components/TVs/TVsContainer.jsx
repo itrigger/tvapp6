@@ -42,8 +42,8 @@ class TVsContainer extends React.Component {
     deleteTVOnClick = (id) => {
         this.props.deleteTV(id);
     };
-    reloadTVOnClick = (place, number, channel) => {
-        this.props.reloadTV(place, number, channel);
+    reloadTVOnClick = (channel) => {
+        this.props.reloadTV(channel);
     };
 
 

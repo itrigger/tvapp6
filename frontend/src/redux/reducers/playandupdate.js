@@ -36,11 +36,11 @@ export const setSlides = (slides) => {return {type: SET_SLIDES, slides}};
 export const toggleIsFetching = (isFetching) => {return {type: TOGGLE_IS_FETCHING, isFetching}};
 export const setTotalSlidesCount = (totalSlides) => {return {type: SET_TOTAL_SLIDES, totalSlides}};
 
-export const getSlides = (place, screen_num) => async (dispatch) => {
+export const getSlides = (channel) => async (dispatch) => {
 
     dispatch(toggleIsFetching(true));
     let slidesArr = [];
-    let data = await playAPI.getSlides(place, screen_num);
+    let data = await playAPI.getSlides(channel);
     if (data.resultCode === 0) {
 
         if(data.showID){

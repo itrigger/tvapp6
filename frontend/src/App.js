@@ -5,29 +5,34 @@ import {connect} from 'react-redux';
 import ReactNotifications from 'react-notifications-component';
 import 'bootswatch/dist/slate/bootstrap.min.css';
 import './App.css';
+import Preloader from "./components/common/Preloader/Preloader";
+import {initializeApp} from "./redux/reducers/app-reducer";
 import HeaderContainer from './components/Header/HeaderContainer';
 import MyNavbar from './components/Navbar/Navbar';
-import SlideAddContainer from "./components/Slides/add/SlideAddContainer";
 import Footer from "./components/Footer/Footer";
-import SlidesContainer from "./components/Slides/SlidesContainer";
-import SlideUpdateContainer from "./components/Slides/update/SlideUpdateContainer";
-import LoginContainer from "./components/Login/LoginContainer";
 import MainpageContainer from "./components/Mainpage/MainpageContainer";
-import {initializeApp} from "./redux/reducers/app-reducer";
-import Preloader from "./components/common/Preloader/Preloader";
-import TVsContainer from "./components/TVs/TVsContainer";
-import TVAddContainer from "./components/TVs/add/TVAddContainer";
-import TVUpdateContainer from "./components/TVs/update/TVUpdateContainer";
-import PlacesContainer from "./components/Places/PlacesContainer";
-import PlaceAddContainer from "./components/Places/add/PlaceAddContainer";
-import PlaceUpdateContainer from "./components/Places/update/PlaceUpdateContainer";
+import LoginContainer from "./components/Login/LoginContainer";
 import PlayContainer from "./components/Play/PlayContainer";
-import ShowAddContainer from "./components/Shows/add/ShowAddContainer";
-import ShowsContainer from "./components/Shows/ShowsContainer";
-import ShowUpdateContainer from "./components/Shows/update/ShowUpdateContainer";
-import SchedulesContainer from "./components/Schedules/SchedulesContainer";
-import ScheduleAddContainer from "./components/Schedules/add/ScheduleAddContainer";
-import ScheduleUpdateContainer from "./components/Schedules/update/ScheduleUpdateContainer";
+
+const TVsContainer = React.lazy(()=> import("./components/TVs/TVsContainer"));
+const TVAddContainer  = React.lazy(()=> import("./components/TVs/add/TVAddContainer"));
+const TVUpdateContainer  = React.lazy(()=> import("./components/TVs/update/TVUpdateContainer"));
+
+const PlacesContainer  = React.lazy(()=> import("./components/Places/PlacesContainer"));
+const PlaceAddContainer  = React.lazy(()=> import("./components/Places/add/PlaceAddContainer"));
+const PlaceUpdateContainer  = React.lazy(()=> import("./components/Places/update/PlaceUpdateContainer"));
+
+const ShowsContainer  = React.lazy(()=> import("./components/Shows/ShowsContainer"));
+const ShowAddContainer  = React.lazy(()=> import("./components/Shows/add/ShowAddContainer"));
+const ShowUpdateContainer  = React.lazy(()=> import("./components/Shows/update/ShowUpdateContainer"));
+
+const SchedulesContainer  = React.lazy(()=> import("./components/Schedules/SchedulesContainer"));
+const ScheduleAddContainer  = React.lazy(()=> import("./components/Schedules/add/ScheduleAddContainer"));
+const ScheduleUpdateContainer  = React.lazy(()=> import("./components/Schedules/update/ScheduleUpdateContainer"));
+
+const SlidesContainer = React.lazy(() =>  import("./components/Slides/SlidesContainer"));
+const SlideAddContainer = React.lazy(() =>  import("./components/Slides/add/SlideAddContainer"));
+const SlideUpdateContainer = React.lazy(() =>  import("./components/Slides/update/SlideUpdateContainer"));
 
 
 class App extends Component {
@@ -46,10 +51,11 @@ class App extends Component {
                 <MyNavbar/>
                 {/*MAIN PAGE*/}
                 <Route path="/" exact render={() => <MainpageContainer/>}/>
+                <React.Suspense fallback={<Preloader />}>
                 {/*SLIDES*/}
-                <Route path="/slides" exact render={() => <SlidesContainer/>}/>
-                <Route path="/slides/add" render={({history}) => <SlideAddContainer history={history}/>}/>
-                <Route path="/slide/update/:id?" render={({history}) => <SlideUpdateContainer history={history}/>}/>
+                    <Route path="/slides" exact render={ ()=> <SlidesContainer/>} />
+                    <Route path="/slides/add" render={({history}) => <SlideAddContainer history={history}/>}/>
+                    <Route path="/slide/update/:id?" render={({history}) => <SlideUpdateContainer history={history}/>}/>
                 {/*TVS*/}
                 <Route path="/tvss" exact render={() => <TVsContainer/>}/>
                 <Route path="/tvs/add" render={({history}) => <TVAddContainer history={history}/>}/>
@@ -66,6 +72,7 @@ class App extends Component {
                 <Route path="/schedules" exact render={() => <SchedulesContainer/>}/>
                 <Route path="/schedule/add" render={({history}) => <ScheduleAddContainer history={history}/>}/>
                 <Route path="/schedule/update/:id?" render={({history}) => <ScheduleUpdateContainer history={history}/>}/>
+                </React.Suspense>
                 {/*LOGIN*/}
                 <Route path="/login" render={() => <LoginContainer/>}/>
                 {/*PLAY PAGE*/}

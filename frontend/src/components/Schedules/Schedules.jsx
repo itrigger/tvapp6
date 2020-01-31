@@ -44,7 +44,7 @@ let Schedule = (props) => {
                                 <th></th>
                             </tr>
                             {props.schedules.map(e =>
-                                <tr key={e._id}>
+                                <tr key={e._id}  className={e.online === "1" ? "green" : ""}>
                                     <td>{e.name}<br/>
                                         <small>{e.description}</small>
                                     </td>

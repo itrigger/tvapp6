@@ -168,9 +168,9 @@ const channels_client = new Pusher({
 
 function runSchedule(){
     let timer = schedule.scheduleJob('*/1 * * * *', function(){
-        //let curtime = timestamp('YYYYMMDDHHmm'); //getting current time
         let moment = require('moment');
         let curtime = moment().format();
+        console.log("Время сервера: " + moment(curtime).format('D/MM/YYYY, HH:mm:ss'));
         /*search in db collection 'scheduler' current time in range*/
         Schedule.findByTime(curtime, function(err, doc) {
             if (err) {
@@ -178,28 +178,20 @@ function runSchedule(){
             }
             if(doc.totalCount > 0){
                 for (let i=0;i<doc.totalCount;i++){
-
-                    if(moment(curtime).format('MMMM Do YYYY, h:mm:ss a') <= moment(doc.schedule[i].endtime).format('MMMM Do YYYY, h:mm:ss a')){
+                    if(moment(curtime).format('D/MM/YYYY, HH:mm') <= moment(doc.schedule[i].endtime).format('D/MM/YYYY, HH:mm')){
                         if(doc.schedule[i].online === "1"){
-
+                            /*do nothing while*/
                         } else {
                             Schedule.changeOnlineStatus(doc.schedule[i]._id, {
-                                name: doc.schedule[i].name,
-                                description: doc.schedule[i].description,
-                                starttime: doc.schedule[i].starttime,
-                                isactive: doc.schedule[i].isactive,
-                                endtime: doc.schedule[i].endtime,
-                                periodic: doc.schedule[i].periodic,
-                                show: doc.schedule[i].show,
-                                channel: doc.schedule[i].channel,
-                                online: "1"
+                                name: doc.schedule[i].name, description: doc.schedule[i].description, starttime: doc.schedule[i].starttime,
+                                isactive: doc.schedule[i].isactive, endtime: doc.schedule[i].endtime, periodic: doc.schedule[i].periodic,
+                                show: doc.schedule[i].show, channel: doc.schedule[i].channel, online: "1"
                             }, function (err, result) {
                                 if (err) {
                                     console.log(err);
                                 }
-                                console.log('Данные успешно обновлены!');
                             });
-                            console.log('обновляем show');
+                            console.log('Шоу отправлено на экран ' + doc.schedule[i].channel);
                             channels_client.trigger(doc.schedule[i].channel, 'my-event', {
                                 "message": doc.schedule[i]
                             });
@@ -207,21 +199,15 @@ function runSchedule(){
                     } else {
                         if(doc.schedule[i].online === "1"){
                             Schedule.changeOnlineStatus(doc.schedule[i]._id, {
-                                name: doc.schedule[i].name,
-                                description: doc.schedule[i].description,
-                                starttime: doc.schedule[i].starttime,
-                                isactive: doc.schedule[i].isactive,
-                                endtime: doc.schedule[i].endtime,
-                                periodic: doc.schedule[i].periodic,
-                                show: doc.schedule[i].show,
-                                channel: doc.schedule[i].channel,
-                                online: "0"
+                                name: doc.schedule[i].name, description: doc.schedule[i].description, starttime: doc.schedule[i].starttime,
+                                isactive: doc.schedule[i].isactive, endtime: doc.schedule[i].endtime, periodic: doc.schedule[i].periodic,
+                                show: doc.schedule[i].show, channel: doc.schedule[i].channel, online: "0"
                             }, function (err, result) {
                                 if (err) {
                                     console.log(err);
                                 }
-                                console.log('Данные успешно обновлены!');
-                            })
+                                console.log('Шоу убрано с экрана ' + doc.schedule[i].channel);
+                            });
                             /*возвращаем пред слайдшоу*/
                             Show.findByChannel(doc.schedule[i].channel, function (err, doc1) {
                                 channels_client.trigger(doc.schedule[i].channel, 'my-event', {
@@ -229,7 +215,7 @@ function runSchedule(){
                                 });
                             })
                         } else {
-
+                            /*do nothing while*/
                         }
                     }
                 }
@@ -277,7 +263,8 @@ db.connect('mongodb://trigger_kst:yakm1712@cluster0-shard-00-00-c2fuc.mongodb.ne
 * AUTHORIZED_USER = Чтение и управление собственными записями
 * ADMIN = Управление всеми записями
 * 4. ++++++ Более наглядное представление экранов
-* 5. Таймеры и время показа
+* 5. ++++++Таймеры и время показа
+* 6. Сделать проверку при ручном обновлении экрана, если экран уже в "активе", то и загружать шоу из актива
 * */
 
 /*

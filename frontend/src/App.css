@@ -71,3 +71,6 @@ form select
   min-width: 114px;
 }
 .rw-widget-container,.rw-popup-container{max-width:450px;}
+tr.green td{
+  background-color: #185818;
+}

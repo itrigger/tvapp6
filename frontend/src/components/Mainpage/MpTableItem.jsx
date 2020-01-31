@@ -4,11 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 const MpTableItem = (props) => {
-    let path = "/play/"+props.id+"?place="+props.place+"&num="+props.num+"&channel="+props.channel;
+    let path = "/play/"+props.id+"?channel="+props.channel;
     return (
         <tr>
-            <td> {props.id} </td>
-            <td> {props.place} </td>
+            <td> {props.name} </td>
             <td> {props.num}</td>
             <td> {props.channel}</td>
             <td>

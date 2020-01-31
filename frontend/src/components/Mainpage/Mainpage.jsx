@@ -21,13 +21,12 @@ let Mainpage = (props) => {
                             <table className='table table-striped table-dark'>
                                 <tbody>
                                 <tr>
-                                    <th>Id</th>
                                     <th>Локация</th>
-                                    <th>Номер</th>
+                                    <th>Номер ТВ</th>
                                     <th>Канал</th>
-                                    <th></th>
+                                    <th>Запустить</th>
                                 </tr>
-                                { props.tvs.map(e => <MpTableItem key={e._id} id={e._id} place={e.place} num={e.number} channel={e.channel} isactive={e.isactive}/>)}
+                                { props.tvs.map(e => <MpTableItem key={e._id} id={e._id} place={e.place} num={e.number} name={e.name} channel={e.channel} isactive={e.isactive}/>)}
                                 </tbody>
                             </table>
                             <div className={"pagination"}>

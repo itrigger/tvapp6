@@ -86,8 +86,8 @@ export const tvsAPI = {
         return instance.delete(`/tvs/`+id)
             .then(response => {return response.data});
     },
-    reloadTV(place, number, channel){
-        return instance.get(`/update/?channel=${channel}&place=${place}&num=${number}`)
+    reloadTV(channel){
+        return instance.get(`/update/?channel=${channel}`)
             .then(response => {
                 return response;
             })
@@ -202,8 +202,8 @@ export const scheduleAPI = {
 
 
 export const playAPI = {
-    getSlides(place, screen_num){
-        return instance.get(`/play/?place=${place}&num=${screen_num}`)
+    getSlides(channel){
+        return instance.get(`/play/?channel=${channel}`)
             .then(response=>{return response.data})
             .catch(error=>{
                 return error.data

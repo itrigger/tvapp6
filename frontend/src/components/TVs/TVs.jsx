@@ -15,7 +15,7 @@ let TVs = (props) => {
     }
 
     const handleDelete = (id) => {props.deleteTV(id)};
-    const handleReload = (place, number, channel) => {props.reloadTV(place, number, channel)};
+    const handleReload = (channel) => {props.reloadTV(channel)};
 
     return (
         <section className="container">
@@ -71,7 +71,7 @@ let TVs = (props) => {
                                                 <Button variant="warning"><FontAwesomeIcon icon={faEdit}/></Button>
                                             </LinkContainer>&nbsp;&nbsp;&nbsp;
                                             <Button variant="danger" onClick={() => window.confirm("Удалить панель?") && handleDelete(e._id)}><FontAwesomeIcon icon={faTrash}/></Button>&nbsp;&nbsp;&nbsp;
-                                            <Button variant="danger" onClick={() => window.confirm("Перезагрузить панель?") && handleReload(e.place, e.number, e.channel)}><FontAwesomeIcon icon={faPlay}/></Button>
+                                            <Button variant="danger" onClick={() => window.confirm("Перезагрузить панель?") && handleReload(e.channel)}><FontAwesomeIcon icon={faPlay}/></Button>
                                         </div>
 
                                     </td>

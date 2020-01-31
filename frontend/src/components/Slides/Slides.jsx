@@ -4,6 +4,7 @@ import {Button, Pagination} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import Parser from "html-react-parser";
+import ss from "../Slides/slides.module.css";
 
 
 let Slides = (props) => {
@@ -43,7 +44,7 @@ let Slides = (props) => {
                             </tr>
                             {props.slides.map(e =>
                                 <tr key={e._id}>
-                                    <td>{!e.slide_content || null ? '' : Parser(e.slide_content)}</td>
+                                    <td><span className={ss.smallImg}>{!e.slide_content || null ? '' : Parser(e.slide_content)}</span></td>
                                     <td>{e.slide_num}</td>
                                     <td>{e.delay}</td>
                                     <td>{

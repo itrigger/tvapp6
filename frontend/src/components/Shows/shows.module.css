@@ -3,6 +3,12 @@
     margin: 0 10px 10px 0;
     cursor: pointer;
     border: 3px solid white;
+    width: 106px;
+    height: 62px;
+    overflow: hidden;
+}
+.smallImg h1,.smallImg h2,.smallImg h3,.smallImg h4,.smallImg h5,.smallImg h6, .smallImg p{
+font-size:10px !important;
 }
 .smallImg img{
     width: 100px;

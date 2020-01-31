@@ -25,33 +25,22 @@ exports.findById = function(id, cb) {
 
 /**/
 /**/
-/*exports.findByTime = function(curtime,  cb) {
-    console.log('model get curtime is: ' + curtime);
-    db.get().collection('scheduler').find({ starttime: {$lte: curtime}}).count(function (e, count) {
-        db.get().collection('scheduler').find({ starttime: {$lte: curtime}}).toArray(function (err, docs) {
-            let message = {
-                totalCount: count,
-                schedule: docs
-            };
-            cb(err, message);
-        });
-    });
-};*/
 exports.findByTime = function(curtime,  cb) {
     db.get().collection('scheduler').find().count(function (e, count) {
         db.get().collection('scheduler').find().toArray(function (err, docs) {
             let message = {
-                totalCount: count,
-                schedule: docs
+                totalCount: 0,
+                schedule: []
             };
             for (let i=0;i<count;i++){
-               /* console.log(moment(docs[i].starttime).format('MMMM Do YYYY, h:mm:ss a') + " ??? " + moment(curtime).format('MMMM Do YYYY, h:mm:ss a'));
-                console.log("typeof 1 " + typeof docs[i].starttime + " typeof 2 " + typeof curtime);*/
-                if (moment(docs[i].starttime).format('MMMM Do YYYY, h:mm:ss a') > moment(curtime).format('MMMM Do YYYY, h:mm:ss a') ){
+                let t1 = moment(docs[i].starttime).format('D/MM/YYYY, HH:mm');
+                let t2 = moment(curtime).format('D/MM/YYYY, HH:mm');
+                t1 >= t2 ? console.log(t1 +' >= ' + t2) : console.log(t1 +' < ' + t2);
+                if (t1 < t2){
+                    message.totalCount++;
                     message.schedule.push(docs[i]);
                 }
             }
-
             cb(err, message);
         });
     });

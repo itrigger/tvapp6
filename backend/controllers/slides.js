@@ -61,10 +61,8 @@ exports.findByPlace = function (req, res, next) {
 exports.reload = function (req, res) {
     let query = require('url').parse(req.url, true).query;
     let channel = query.channel;
-    let num = query.num;
-    let place = query.place;
-    console.log('channel: ' + channel + ', num: ' + num + ', place: ' + place);
-    Show.findByPlace(place, num, function (err, doc) {
+    console.log('channel: ' + channel + ' обновлен');
+    Show.findByChannel(channel, function (err, doc) {
         if (err) {
             console.log(err);
             return res.send({resultCode: 1});
