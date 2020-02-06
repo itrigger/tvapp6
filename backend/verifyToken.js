@@ -3,8 +3,9 @@ const config = require('./config'); // get our config file
 
 function verifyToken(req, res, next) {
     try {
-        console.log(req.headers);
-        const token = req.headers.authorization.split(' ')[1];
+        console.log('server side got headers',req.headers['Authorization']);
+        const token = req.headers['x-access-token'] || req.headers['Authorization'];
+        console.log('token received',token);
         if (!token) {
             return res.status(403).send({auth: false, message: 'No token provided.', resultCode: 10});
         }
