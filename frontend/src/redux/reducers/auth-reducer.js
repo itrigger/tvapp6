@@ -1,6 +1,7 @@
 import {authAPI} from "../../api/api";
 import {Notify} from "../../components/common/Notificator/notificator";
 import {stopSubmit} from "redux-form";
+import setAuthToken from "../../context/AuthContext";
 
 const SET_USER_DATA = 'auth/SET_USER_DATA';
 const SET_AUTH_FALSE = 'auth/SET_AUTH_FALSE';
@@ -50,6 +51,7 @@ export const getMe = () => (dispatch) => {
             if (data.resultCode === 0) {
                 let {_id, name, email, password} = data.user;
                 dispatch(setUserDataAC(_id, name, email, password));
+
                 Notify('TVApp', 'Вы авторизованы', 'success');
             } else {
                 Notify('TVApp', 'Вы не авторизованы', 'danger');
@@ -65,7 +67,14 @@ export const goLogin = (email, password) => async (dispatch) => {
     let data = await authAPI.login(email, password);
 
     if (data.resultCode === 0) {
+
+        let userId = data.user._id;
+        let token = data.token;
+        localStorage.setItem('token', JSON.stringify({token, userId}));
+        console.log('token in storage',localStorage.getItem('token'));
+        setAuthToken(token);
         dispatch(getMe());
+        //{"auth":true,"token":"dsfs","resultCode":0,"user":{"_id":"5dc15cf977f678007c213fbc","name":"trigger","email":"test@test.ru","password":"0"}}
         /* } else if(data.resultCode === 3) {
              Notify('TVApp', 'Неправильный пароль', 'warning');
              let action = stopSubmit('login', {_error: 'Проверьте еще раз введенные данные'});

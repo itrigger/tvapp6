@@ -1,9 +1,13 @@
 import {myConfig} from "../config/config";
 import * as axios from "axios";
+import setAuthToken from "../context/AuthContext";
+
+
 
 const instance = axios.create({
     withCredentials: true,
-    baseURL: myConfig.API_URL
+    baseURL: myConfig.API_URL/*,
+    headers: {Authorization: token}*/
 });
 
 
@@ -47,7 +51,15 @@ export const authAPI = {
     },
     login(email, password) {
         return instance.post(`/login`, email, password)
-            .then(response => {console.log(response.data); return response.data;});
+            .then(response => {
+                console.log(response.data);
+                return response.data;});
+    },
+    logout() {
+        // Remove token from local storage
+        localStorage.removeItem("jwtToken");
+        // Remove auth header for future requests
+        setAuthToken(false);
     }
 };
 

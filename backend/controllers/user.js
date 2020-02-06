@@ -81,7 +81,7 @@ exports.APIlogin = function (req, res) {
             expiresIn: 86400 // expires in 24 hours 86400
         });
 
-        localStorage.setItem('token', token);
+       localStorage.setItem('token', token);
         //console.log(localStorage.getItem('token'));
         user.password = '0';
         res.status(200).send({ auth: true, token: token, resultCode, user});
@@ -89,6 +89,7 @@ exports.APIlogin = function (req, res) {
 };
 
 exports.APIlogout = function (req, res) {
+    localStorage.setItem('token', null);
     res.status(200).send({ auth: false, token: null });
 };
 

@@ -16,6 +16,7 @@
     "globalize": "^1.4.2",
     "html-react-parser": "^0.9.1",
     "jquery": "^3.4.1",
+    "jwt-decode": "^2.2.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.27",
     "prop-types": "^15.7.2",
