@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Route, withRouter} from 'react-router-dom';
+import {Redirect, Route, withRouter} from 'react-router-dom';
 import {compose} from "redux";
 import {connect} from 'react-redux';
 import ReactNotifications from 'react-notifications-component';
@@ -13,6 +13,11 @@ import Footer from "./components/Footer/Footer";
 import MainpageContainer from "./components/Mainpage/MainpageContainer";
 import LoginContainer from "./components/Login/LoginContainer";
 import PlayContainer from "./components/Play/PlayContainer";
+import setAuthToken from "./context/AuthContext";
+import {goLogout, setAuthFalse} from "./redux/reducers/auth-reducer";
+import {withAuthRedirect} from "./hoc/withAuthRedirect";
+import Logout from "./components/Logout/Logout";
+
 
 const TVsContainer = React.lazy(()=> import("./components/TVs/TVsContainer"));
 const TVAddContainer  = React.lazy(()=> import("./components/TVs/add/TVAddContainer"));
@@ -75,6 +80,7 @@ class App extends Component {
                 </React.Suspense>
                 {/*LOGIN*/}
                 <Route path="/login" render={() => <LoginContainer/>}/>
+                <Route path="/logout" exact render={()=> <Logout />}/>
                 {/*PLAY PAGE*/}
                 <Route path="/play/:id?" render={() => <PlayContainer/>}/>
                 <Footer/>

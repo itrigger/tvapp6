@@ -6,8 +6,7 @@ import setAuthToken from "../context/AuthContext";
 
 const instance = axios.create({
     withCredentials: true,
-    baseURL: myConfig.API_URL/*,
-    headers: {Authorization: token}*/
+    baseURL: myConfig.API_URL
 });
 
 
@@ -56,8 +55,6 @@ export const authAPI = {
                 return response.data;});
     },
     logout() {
-        // Remove token from local storage
-        localStorage.removeItem("jwtToken");
         // Remove auth header for future requests
         setAuthToken(false);
     }

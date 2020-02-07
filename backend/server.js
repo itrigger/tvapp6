@@ -31,7 +31,7 @@ app.use(methodOverride('_method'));
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.setHeader(
         'Access-Control-Allow-Headers',
         'Origin, X-Requested-With, Content-Type, Accept, Authorization'
@@ -51,6 +51,7 @@ app.use('*', cors({
 
 const config = require('./config');
 global.__root   = __dirname + '/';
+
 app.get('/api', function (req, res) {
     res.status(200).send('API works.');
 });
@@ -99,7 +100,7 @@ app.get('/api/slides/',VerifyToken, slidesController.APIall); /*Список в�
 app.post('/api/slides/',VerifyToken, slidesController.APIadd); /*Добавить слайд*/
 app.put('/api/slides/:id',VerifyToken, slidesController.APIupdate); /**/
 app.get('/api/slides/:id',VerifyToken, slidesController.APIfindById); /*Открыть один конкретный слайд*/
-app.delete('/api/slides/:id', slidesController.APIdelete); /*Удалить слайд*/
+app.delete('/api/slides/:id', VerifyToken, slidesController.APIdelete); /*Удалить слайд*/
 /*Роуты для ТВ экранов*/
 app.get('/api/tvs/all',VerifyToken, tvsController.APIall); /*Получить все экраны*/
 app.get('/api/tvs/:id', VerifyToken, tvsController.APIfindById);
@@ -113,7 +114,7 @@ app.post('/api/places', VerifyToken, placesController.APIcreate);
 app.put('/api/places/:id', VerifyToken, placesController.APIupdate);
 app.delete('/api/places/:id', VerifyToken, placesController.APIdelete);
 /*Роуты для воспроизведения и апдейта*/
-app.get('/api/play/', showController.findByPlaceAndNum); /*Воспроизвести слайды на выбранном экране*/
+app.get('/api/play/', VerifyToken, showController.findByPlaceAndNum); /*Воспроизвести слайды на выбранном экране*/
 app.get('/api/update/', VerifyToken, slidesController.reload); /*Обновить без перезагрузки через Pusher*/
 
 

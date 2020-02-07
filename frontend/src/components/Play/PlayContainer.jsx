@@ -3,6 +3,16 @@ import {connect} from 'react-redux';
 import Play from "./Play";
 import {getSlides, getSlidesByID, setSlides} from "../../redux/reducers/playandupdate";
 import Pusher from "pusher-js";
+import {compose} from "redux";
+import {
+    getTVs,
+    setCurrentPage,
+    setTotalTVsCount,
+    toggleIsFetching,
+    toggleIsTVsUpdating
+} from "../../redux/reducers/tvs-reducer";
+import {withRouter} from "react-router-dom";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 const queryString = require('query-string');
 
 class PlayContainer extends React.Component {
@@ -31,4 +41,8 @@ let mapStateToProps = (state) => ({
     slides: state.playandupdate.slides
 });
 
-export default connect(mapStateToProps, {getSlides, getSlidesByID, setSlides})(PlayContainer);
+export default compose(
+    connect(mapStateToProps,  {getSlides, getSlidesByID, setSlides}),
+    withRouter,
+    withAuthRedirect
+)(PlayContainer);

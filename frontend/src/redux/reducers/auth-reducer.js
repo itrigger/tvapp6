@@ -46,7 +46,7 @@ export const setAuthFalse = () => ({
 
 /*thunk*/
 export const getMe = () => (dispatch) => {
-    return authAPI.me().then(data => {
+/*    return authAPI.me().then(data => {
         if (data) {
             if (data.resultCode === 0) {
                 let {_id, name, email, password} = data.user;
@@ -59,7 +59,7 @@ export const getMe = () => (dispatch) => {
         } else {
             Notify('TVApp', 'Сервер не доступен', 'danger');
         }
-    })
+    })*/
 };
 /*thunk*/
 export const goLogin = (email, password) => async (dispatch) => {
@@ -68,28 +68,27 @@ export const goLogin = (email, password) => async (dispatch) => {
 
     if (data.resultCode === 0) {
 
-        let userId = data.user._id;
+        //let userId = data.user._id;
         let token = data.token;
-        localStorage.setItem('token', JSON.stringify({token, userId}));
-        console.log('token in storage',localStorage.getItem('token'));
+
         setAuthToken(token);
-        dispatch(getMe());
-        //{"auth":true,"token":"dsfs","resultCode":0,"user":{"_id":"5dc15cf977f678007c213fbc","name":"trigger","email":"test@test.ru","password":"0"}}
-        /* } else if(data.resultCode === 3) {
-             Notify('TVApp', 'Неправильный пароль', 'warning');
-             let action = stopSubmit('login', {_error: 'Проверьте еще раз введенные данные'});
-             dispatch(action);
-         } else if(data.resultCode === 2){
-             Notify('TVApp', 'Пользователь не найден', 'warning');
-             let action = stopSubmit('login', {_error: 'Проверьте еще раз введенные данные'});
-             dispatch(action);
-         }*/
+        let {_id, name, email, password} = data.user;
+        dispatch(setUserDataAC(_id, name, email, password));
+
+        Notify('TVApp', 'Вы авторизованы', 'success');
+
     } else {
         dispatch(stopSubmit('login', {_error: 'Проверьте еще раз введенные данные'}));
         Notify('TVApp', 'Ошибка', 'danger');
     }
 
 };
+export const goLogout = () => async (dispatch) => {
+        setAuthToken(null);
+        dispatch(setUserDataAC(null, null, null, null));
+        dispatch(setAuthFalse());
 
+        Notify('TVApp', 'Вы вышли', 'success');
+};
 
 export default authReducer;

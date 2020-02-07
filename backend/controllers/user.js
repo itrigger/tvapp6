@@ -1,13 +1,7 @@
 const User = require('../models/user');
-
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const config = require('../config');
-
-const LocalStorage = require('node-localstorage').LocalStorage,
-    localStorage = new LocalStorage('./scratch');
-
-//router.use(bodyParser.urlencoded({ extended: true }));
 
 
 // CREATES A NEW USER
@@ -32,7 +26,7 @@ exports.APIadd = function(req, res) {
 };
 
 exports.APIgetMe = function(req, res, next) {
-    let token = localStorage.getItem('token');
+    const token = req.headers.authorization.split(' ')[1];
 
     if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
 
@@ -81,8 +75,6 @@ exports.APIlogin = function (req, res) {
             expiresIn: 86400 // expires in 24 hours 86400
         });
 
-       localStorage.setItem('token', token);
-        //console.log(localStorage.getItem('token'));
         user.password = '0';
         res.status(200).send({ auth: true, token: token, resultCode, user});
     });
