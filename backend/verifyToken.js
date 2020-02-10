@@ -3,7 +3,7 @@ const config = require('./config'); // get our config file
 
 function verifyToken(req, res, next) {
     try {
-        //console.log('token came',req.headers.authorization);
+        /*console.log('token came',req.headers.authorization);*/
         const token = req.headers.authorization.split(' ')[1];
         if (!token) {
             return res.status(403).send({auth: false, message: 'No token provided.', resultCode: 10});

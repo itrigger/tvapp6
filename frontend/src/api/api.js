@@ -1,7 +1,5 @@
 import {myConfig} from "../config/config";
 import * as axios from "axios";
-import setAuthToken from "../context/AuthContext";
-
 
 
 const instance = axios.create({
@@ -51,12 +49,7 @@ export const authAPI = {
     login(email, password) {
         return instance.post(`/login`, email, password)
             .then(response => {
-                console.log(response.data);
                 return response.data;});
-    },
-    logout() {
-        // Remove auth header for future requests
-        setAuthToken(false);
     }
 };
 

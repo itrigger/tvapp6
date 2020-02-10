@@ -1,6 +1,9 @@
 import React from 'react';
 import {Redirect} from "react-router-dom";
 import {connect} from "react-redux";
+import {getMe, setUserDataAC} from "../redux/reducers/auth-reducer";
+import axios from "axios";
+import setAuthToken from "../context/AuthContext";
 
 let mapStateToPropsForRedirect = (state) => ({
     isAuth: state.authReducer.isAuth
@@ -9,16 +12,23 @@ let mapStateToPropsForRedirect = (state) => ({
 export const withAuthRedirect = (Component) => {
 
     class RedirectComponent extends React.Component {
-        render(){
-            if (!this.props.isAuth) return <Redirect to={'/login'} />
 
-            return <Component {...this.props} />
+        render(){
+            const storedData = JSON.parse(localStorage.getItem('userData'));
+            if (storedData && storedData.token) {
+                console.log('has stored token');
+                setAuthToken(storedData.token);
+                getMe();
+                return <Component {...this.props} />
+            } else {
+                return <Redirect to={'/login'} />
+            }
+
         }
     }
 
-    let ConnectedAuthRedirectComponent = connect(mapStateToPropsForRedirect)(RedirectComponent);
-
-    return ConnectedAuthRedirectComponent;
+    console.log('withAuthRedirect');
+    return connect(mapStateToPropsForRedirect)(RedirectComponent);
 
 };
 
@@ -33,8 +43,7 @@ export const loginSuccessRedirect = (Component) => {
         }
     }
 
-    let ConnectedloginSuccessRedirect = connect(mapStateToPropsForRedirect)(RedirectComponent);
 
-    return ConnectedloginSuccessRedirect;
+    return connect(mapStateToPropsForRedirect)(RedirectComponent);
 
 };

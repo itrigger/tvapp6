@@ -46,20 +46,10 @@ export const setAuthFalse = () => ({
 
 /*thunk*/
 export const getMe = () => (dispatch) => {
-/*    return authAPI.me().then(data => {
-        if (data) {
-            if (data.resultCode === 0) {
-                let {_id, name, email, password} = data.user;
-                dispatch(setUserDataAC(_id, name, email, password));
-
-                Notify('TVApp', 'Вы авторизованы', 'success');
-            } else {
-                Notify('TVApp', 'Вы не авторизованы', 'danger');
-            }
-        } else {
-            Notify('TVApp', 'Сервер не доступен', 'danger');
-        }
-    })*/
+    const storedData = JSON.parse(localStorage.getItem('userData'));
+    if (storedData && storedData.userId) {
+        dispatch(setUserDataAC(storedData.userId, storedData.name, '', ''));
+    }
 };
 /*thunk*/
 export const goLogin = (email, password) => async (dispatch) => {
@@ -72,6 +62,9 @@ export const goLogin = (email, password) => async (dispatch) => {
         let token = data.token;
 
         setAuthToken(token);
+
+        localStorage.setItem("userData", JSON.stringify({userId: data.user._id, token: data.token, name: data.user.name}))
+
         let {_id, name, email, password} = data.user;
         dispatch(setUserDataAC(_id, name, email, password));
 
@@ -87,8 +80,8 @@ export const goLogout = () => async (dispatch) => {
         setAuthToken(null);
         dispatch(setUserDataAC(null, null, null, null));
         dispatch(setAuthFalse());
-
-        Notify('TVApp', 'Вы вышли', 'success');
+        localStorage.removeItem('userData');
+        Notify('TVApp', 'Вы вышли', 'warning');
 };
 
 export default authReducer;
