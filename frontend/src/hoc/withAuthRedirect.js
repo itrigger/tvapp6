@@ -1,8 +1,7 @@
 import React from 'react';
 import {Redirect} from "react-router-dom";
 import {connect} from "react-redux";
-import {getMe, setUserDataAC} from "../redux/reducers/auth-reducer";
-import axios from "axios";
+import {getMe} from "../redux/reducers/auth-reducer";
 import setAuthToken from "../context/AuthContext";
 
 let mapStateToPropsForRedirect = (state) => ({

@@ -1,6 +1,8 @@
 import {scheduleAPI} from "../../api/api";
 import {Notify} from "../../components/common/Notificator/notificator";
 import {setAuthFalse} from "./auth-reducer";
+import {Redirect} from "react-router-dom";
+import React from "react";
 
 
 const SET_SCHEDULES = 'schedule/SET_SCHEDULES';
@@ -94,6 +96,10 @@ export const getSchedules = (currentPage, pageSize) => async (dispatch) => {
         Notify('TVAPP', 'Ошибка получения данных', 'danger');
         dispatch(setAuthFalse());
         dispatch(toggleIsFetching(false));
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
 };
@@ -111,6 +117,10 @@ export const getSchedule = (id) => async (dispatch) => {
         Notify('TVAPP', 'Ошибка получения данных', 'danger');
         dispatch(setAuthFalse());
         dispatch(toggleIsFetching(false));
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
 };
@@ -127,8 +137,13 @@ export const putSchedule = (id, schedule) => async (dispatch) => {
         Notify('TVAPP', 'Расписание обновлено', 'success');
         dispatch(toggleIsSchedulesUpdating(false, id));
     } else {
-        Notify('TVAPP', 'Ошибка', 'danger');
+        Notify('TVAPP', 'Ошибка получения данных', 'danger');
         dispatch(setAuthFalse());
+        dispatch(toggleIsSchedulesUpdating(false, id));
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
 };
@@ -137,13 +152,17 @@ export const putSchedule = (id, schedule) => async (dispatch) => {
 export const createSchedule = (schedule) => async (dispatch) => {
 
     let data = await scheduleAPI.createSchedule(schedule);
-    console.log(schedule.starttime);
+    //console.log(schedule.starttime);
     if (data.resultCode === 0) {
         Notify('TVAPP', 'Расписание добавлено', 'success');
         dispatch(setSchedule(schedule));
-    } else {
-        Notify('TVAPP', 'Ошибка', 'danger');
+    }  else {
+        Notify('TVAPP', 'Ошибка получения данных', 'danger');
         dispatch(setAuthFalse());
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
 };
@@ -155,9 +174,13 @@ export const deleteSchedule = (id) => async (dispatch) => {
     if (data.resultCode === 0) {
         Notify('TVAPP', 'Расписание удалено', 'success');
         dispatch(deleteScheduleAC(id));
-    } else {
-        Notify('TVAPP', 'Ошибка', 'danger');
+    }  else {
+        Notify('TVAPP', 'Ошибка получения данных', 'danger');
         dispatch(setAuthFalse());
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
 };

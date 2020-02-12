@@ -60,7 +60,7 @@ app.get('/api', function (req, res) {
 //https://www.freecodecamp.org/news/securing-node-js-restful-apis-with-json-web-tokens-9f811a92bb52/
 
 
-app.get('/add_slide/', function (req, res) {
+/*app.get('/add_slide/', function (req, res) {
     res.render('slide_add', {
         // id: req.params.id+
     });
@@ -79,7 +79,7 @@ app.get('/add_schedule/', function (req, res) {
     res.render('schedule_add', {
         // id: req.params.id
     });
-});
+});*/
 
 
 /*Роуты для API (СДЕЛАТЬ ВЕРСИЮ 1,0)*/
@@ -89,17 +89,17 @@ app.post('/api/login', UserController.APIlogin); /*войти*/
 app.get('/api/logout', UserController.APIlogout); /*выйти*/
 
 
-app.get('/login', function (req, res) {
+/*app.get('/login', function (req, res) {
     res.render('auth_login', {
 
     });
-});
+});*/
 
 
 app.get('/api/slides/',VerifyToken, slidesController.APIall); /*Список всех слайдов постранично*/
 app.post('/api/slides/',VerifyToken, slidesController.APIadd); /*Добавить слайд*/
 app.put('/api/slides/:id',VerifyToken, slidesController.APIupdate); /**/
-app.get('/api/slides/:id',VerifyToken, slidesController.APIfindById); /*Открыть один конкретный слайд*/
+app.get('/api/slides/:id', slidesController.APIfindById); /*Открыть один конкретный слайд*/
 app.delete('/api/slides/:id', VerifyToken, slidesController.APIdelete); /*Удалить слайд*/
 /*Роуты для ТВ экранов*/
 app.get('/api/tvs/all',VerifyToken, tvsController.APIall); /*Получить все экраны*/
@@ -114,40 +114,40 @@ app.post('/api/places', VerifyToken, placesController.APIcreate);
 app.put('/api/places/:id', VerifyToken, placesController.APIupdate);
 app.delete('/api/places/:id', VerifyToken, placesController.APIdelete);
 /*Роуты для воспроизведения и апдейта*/
-app.get('/api/play/', VerifyToken, showController.findByPlaceAndNum); /*Воспроизвести слайды на выбранном экране*/
+app.get('/api/play/', showController.findByPlaceAndNum); /*Воспроизвести слайды на выбранном экране*/
 app.get('/api/update/', VerifyToken, slidesController.reload); /*Обновить без перезагрузки через Pusher*/
 
 
 
 /*Роуты для локаций*/
-app.get('/places', VerifyToken, placesController.all);
+/*app.get('/places', VerifyToken, placesController.all);
 app.get('/places/:id', VerifyToken, placesController.findById);
 app.post('/places', VerifyToken, placesController.create);
 app.put('/places/:id', VerifyToken, placesController.update);
-app.delete('/places/:id', VerifyToken, placesController.delete);
+app.delete('/places/:id', VerifyToken, placesController.delete);*/
 
-/*Роуты для воспроизведения и апдейта*/
-app.get('/play/:place', VerifyToken, showController.findByPlaceAndNum, scheduleController.test); /*Воспроизвести слайды на выбранном экране*/
-app.get('/update/:channel', VerifyToken, slidesController.reload); /*Обновить без перезагрузки через Pusher*/
+// /*Роуты для воспроизведения и апдейта*/
+// app.get('/play/:place', VerifyToken, showController.findByPlaceAndNum, scheduleController.test); /*Воспроизвести слайды на выбранном экране*/
+// app.get('/update/:channel', VerifyToken, slidesController.reload); /*Обновить без перезагрузки через Pusher*/
 
 /*Роуты для слайдов*/
-app.get('/slides', VerifyToken, slidesController.all); /*OK Посмотреть все слайды*/
-app.get('/slides/:id', VerifyToken, slidesController.findById); /*OK Открыть один конкретный слайд*/
-app.post('/slides', VerifyToken, slidesController.create); /*OK Создать новый слайд*/
-app.put('/slides/:id', VerifyToken, slidesController.update); /*OK Обновить слайд*/
-app.delete('/slides/:id', VerifyToken, slidesController.delete); /*OK Удалить слайд*/
+/*app.get('/slides', VerifyToken, slidesController.all); /!*OK Посмотреть все слайды*!/
+app.get('/slides/:id', VerifyToken, slidesController.findById); /!*OK Открыть один конкретный слайд*!/
+app.post('/slides', VerifyToken, slidesController.create); /!*OK Создать новый слайд*!/
+app.put('/slides/:id', VerifyToken, slidesController.update); /!*OK Обновить слайд*!/
+app.delete('/slides/:id', VerifyToken, slidesController.delete); /!*OK Удалить слайд*!/*/
 
 /*Роуты для ТВ экранов*/
-app.get('/',  tvsController.indexall);
-app.get('/tvs', VerifyToken, tvsController.all);
-app.get('/tvs/:id', VerifyToken, tvsController.findById);
-app.post('/tvs', VerifyToken, tvsController.create);
-app.put('/tvs/:id', VerifyToken, tvsController.update);
-app.delete('/tvs/:id', VerifyToken, tvsController.delete);
+// app.get('/',  tvsController.indexall);
+// app.get('/tvs', VerifyToken, tvsController.all);
+// app.get('/tvs/:id', VerifyToken, tvsController.findById);
+// app.post('/tvs', VerifyToken, tvsController.create);
+// app.put('/tvs/:id', VerifyToken, tvsController.update);
+// app.delete('/tvs/:id', VerifyToken, tvsController.delete);
 
 /*Роуты для шоу*/
 app.get('/api/show', VerifyToken, showController.APIall); /*Список всех шоу*/
-app.get('/api/show/:id', VerifyToken, showController.APIfindById); /*Поиск шоу по ИД*/
+app.get('/api/show/:id', showController.APIfindById); /*Поиск шоу по ИД*/
 app.post('/api/show', VerifyToken, showController.APIcreate); /*Создание нового шоу*/
 app.put('/api/show/:id', VerifyToken, showController.APIupdate); /*Обновление шоу по ИД*/
 app.delete('/api/show/:id', VerifyToken, showController.APIdelete); /*Удаление шоу по ИД*/

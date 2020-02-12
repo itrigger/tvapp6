@@ -1,6 +1,8 @@
 import {placesAPI} from "../../api/api";
 import {Notify} from "../../components/common/Notificator/notificator";
 import {setAuthFalse} from "./auth-reducer";
+import {Redirect} from "react-router-dom";
+import React from "react";
 
 
 const ACTIVE_PLACE_ON = 'place/ACTIVE_PLACE_ON';
@@ -112,6 +114,10 @@ export const getPlaces = (currentPage, pageSize) => async (dispatch) => {
         Notify('TVAPP', 'Ошибка получения данных', 'danger');
         dispatch(setAuthFalse());
         dispatch(toggleIsFetching(false));
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
 };
@@ -129,6 +135,10 @@ export const getPlace = (id) => async (dispatch) => {
         Notify('TVAPP', 'Ошибка получения данных', 'danger');
         dispatch(setAuthFalse());
         dispatch(toggleIsFetching(false));
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
 };
@@ -142,6 +152,14 @@ export const putPlaceActive = (id, place, active) => async (dispatch) => {
     if (data.resultCode === 0) {
         Notify('TVAPP', 'Точка обновлена', 'success');
         dispatch(toggleIsPlacesUpdating(false, id));
+    } else {
+        Notify('TVAPP', 'Ошибка получения данных', 'danger');
+        dispatch(setAuthFalse());
+        dispatch(toggleIsPlacesUpdating(false, id));
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
     active ? dispatch(activePlaceOff(id)) : dispatch(activePlaceOn(id));
@@ -160,6 +178,11 @@ export const putPlace = (id, place) => async (dispatch) => {
     } else {
         Notify('TVAPP', 'Ошибка', 'danger');
         dispatch(setAuthFalse());
+        dispatch(toggleIsPlacesUpdating(false, id));
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
 };
@@ -175,6 +198,10 @@ export const createPlace = (place) => async (dispatch) => {
     } else {
         Notify('TVAPP', 'Ошибка', 'danger');
         dispatch(setAuthFalse());
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
 };
@@ -189,6 +216,10 @@ export const deletePlace = (id) => async (dispatch) => {
     } else {
         Notify('TVAPP', 'Ошибка', 'danger');
         dispatch(setAuthFalse());
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
 };

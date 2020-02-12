@@ -1,6 +1,8 @@
 import {showAPI} from "../../api/api";
 import {Notify} from "../../components/common/Notificator/notificator";
 import {setAuthFalse} from "./auth-reducer";
+import {Redirect} from "react-router-dom";
+import React from "react";
 
 
 const SET_SHOWS = 'show/SET_SHOWS';
@@ -84,10 +86,14 @@ export const getShows = (currentPage, pageSize) => async (dispatch) => {
         dispatch(setShows(data.items));
         dispatch(setTotalShowsCount(data.count));
         dispatch(toggleIsFetching(false));
-    } else {
+    }  else {
         Notify('TVAPP', 'Ошибка получения данных', 'danger');
         dispatch(setAuthFalse());
         dispatch(toggleIsFetching(false));
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
 };
@@ -101,10 +107,14 @@ export const getShow = (id) => async (dispatch) => {
     if (data.resultCode === 0) {
         dispatch(setShow(data.item));
         dispatch(toggleIsFetching(false));
-    } else {
+    }  else {
         Notify('TVAPP', 'Ошибка получения данных', 'danger');
         dispatch(setAuthFalse());
         dispatch(toggleIsFetching(false));
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
 };
@@ -120,9 +130,14 @@ export const putShow = (id, show) => async (dispatch) => {
     if (data.resultCode === 0) {
         Notify('TVAPP', 'Шоу обновлено', 'success');
         dispatch(toggleIsShowsUpdating(false, id));
-    } else {
-        Notify('TVAPP', 'Ошибка', 'danger');
+    }  else {
+        Notify('TVAPP', 'Ошибка получения данных', 'danger');
         dispatch(setAuthFalse());
+        dispatch(toggleIsShowsUpdating(false, id));
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
 };
@@ -135,9 +150,13 @@ export const createShow = (show) => async (dispatch) => {
     if (data.resultCode === 0) {
         Notify('TVAPP', 'Шоу добавлено', 'success');
         dispatch(setShow(show));
-    } else {
-        Notify('TVAPP', 'Ошибка', 'danger');
+    }  else {
+        Notify('TVAPP', 'Ошибка получения данных', 'danger');
         dispatch(setAuthFalse());
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
 };
@@ -149,9 +168,13 @@ export const deleteShow = (id) => async (dispatch) => {
     if (data.resultCode === 0) {
         Notify('TVAPP', 'Шоу удалено', 'success');
         dispatch(deleteShowAC(id));
-    } else {
-        Notify('TVAPP', 'Ошибка', 'danger');
+    }  else {
+        Notify('TVAPP', 'Ошибка получения данных', 'danger');
         dispatch(setAuthFalse());
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
 };

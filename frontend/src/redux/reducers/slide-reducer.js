@@ -1,6 +1,8 @@
 import {slidesAPI} from "../../api/api";
 import {Notify} from "../../components/common/Notificator/notificator";
 import {setAuthFalse} from "./auth-reducer";
+import {Redirect} from "react-router-dom";
+import React from "react";
 
 const ACTIVE_ON = 'slide/ACTIVE_ON';
 const ACTIVE_OFF = 'slide/ACTIVE_OFF';
@@ -108,6 +110,14 @@ export const getSlide = (id) => async (dispatch) => {
     if (data.resultCode === 0) {
         dispatch(toggleIsFetching(false));
         dispatch(setSlide(data.slide));
+    }else {
+        Notify('TVAPP', 'Ошибка получения данных', 'danger');
+        dispatch(setAuthFalse());
+        dispatch(toggleIsFetching(false));
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
 };
@@ -122,9 +132,14 @@ export const getSlides = (currentPage, pageSize) => async (dispatch) => {
         dispatch(setSlides(data.items));
         dispatch(setTotalSlidesCount(data.count));
         dispatch(toggleIsFetching(false));
-    } else {
+    }  else {
+        Notify('TVAPP', 'Ошибка получения данных', 'danger');
         dispatch(setAuthFalse());
         dispatch(toggleIsFetching(false));
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
 };
@@ -138,6 +153,14 @@ export const putSlideActive = (id, slide, active) => async (dispatch) => {
     if (data.resultCode === 0) {
         Notify('TVAPP', 'Видимость слайда обновлена', 'success');
         dispatch(toggleIsSlidesUpdating(false, id));
+    } else {
+        Notify('TVAPP', 'Ошибка получения данных', 'danger');
+        dispatch(setAuthFalse());
+        dispatch(toggleIsSlidesUpdating(false, id));
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
     active ? dispatch(activeOff(id)) : dispatch(activeOn(id));
 
@@ -152,9 +175,14 @@ export const putSlide = (id, slide) => async (dispatch) => {
     if (data.resultCode === 0) {
         Notify('TVAPP', 'Слайд обновлен', 'success');
         dispatch(toggleIsSlidesUpdating(false, id));
-    } else {
-        Notify('TVAPP', 'Ошибка', 'danger');
+    }  else {
+        Notify('TVAPP', 'Ошибка получения данных', 'danger');
         dispatch(setAuthFalse());
+        dispatch(toggleIsSlidesUpdating(false, id));
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
 };
@@ -167,8 +195,12 @@ export const createSlide = (slide) => async (dispatch) => {
         Notify('TVAPP', 'Слайд добавлен', 'success');
         dispatch(setSlide(slide));
     } else {
-        Notify('TVAPP', 'Ошибка', 'danger');
+        Notify('TVAPP', 'Ошибка получения данных', 'danger');
         dispatch(setAuthFalse());
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
 };
@@ -180,9 +212,13 @@ export const deleteSlide = (id) => async (dispatch) => {
     if (data.resultCode === 0) {
         Notify('TVAPP', 'Слайд удален', 'success');
         dispatch(deleteSlideAC(id));
-    } else {
-        Notify('TVAPP', 'Ошибка', 'danger');
+    }  else {
+        Notify('TVAPP', 'Ошибка получения данных', 'danger');
         dispatch(setAuthFalse());
+        if(data.resultCode === 10){
+            localStorage.removeItem('userData');
+            return <Redirect to={'/login'} />
+        }
     }
 
 };
