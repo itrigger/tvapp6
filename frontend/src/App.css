@@ -1,3 +1,5 @@
+@import url('//netdna.bootstrapcdn.com/twitter-bootstrap/2.0.4/css/bootstrap-combined.min.css');
+
 .App {
  }
 
@@ -73,4 +75,19 @@ form select
 .rw-widget-container,.rw-popup-container{max-width:450px;}
 tr.green td{
   background-color: #185818;
+}
+
+#myCarousel {
+  margin-top: 40px;
+}
+
+.carousel-linked-nav,
+.item img {
+  display: block;
+  margin: 0 auto;
+}
+
+.carousel-linked-nav {
+  width: 120px;
+  margin-bottom: 20px;
 }
