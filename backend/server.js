@@ -95,8 +95,8 @@ app.get('/api/logout', UserController.APIlogout); /*выйти*/
     });
 });*/
 
-
-app.get('/api/slides/',VerifyToken, slidesController.APIall); /*Список всех слайдов постранично*/
+/**//*Добавить верификацию*//**/
+app.get('/api/slides/', slidesController.APIall); /*Список всех слайдов постранично*/
 app.post('/api/slides/',VerifyToken, slidesController.APIadd); /*Добавить слайд*/
 app.put('/api/slides/:id',VerifyToken, slidesController.APIupdate); /**/
 app.get('/api/slides/:id', slidesController.APIfindById); /*Открыть один конкретный слайд*/

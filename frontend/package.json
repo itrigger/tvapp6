@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
-  "author": "",
+  "author": "Konstantin",
   "license": "ISC",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
@@ -15,7 +15,7 @@
     "bootswatch": "^4.3.1",
     "globalize": "^1.4.2",
     "html-react-parser": "^0.9.1",
-    "jquery": "^3.4.1",
+    "jquery": "1.7.2",
     "jwt-decode": "^2.2.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.27",
