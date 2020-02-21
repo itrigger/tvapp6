@@ -2,19 +2,56 @@ import {tvsAPI} from "../../api/api";
 import {Notify} from "../../components/common/Notificator/notificator";
 import {setAuthFalse} from "./auth-reducer";
 import {Redirect} from "react-router-dom";
-import React from "react";
+
 
 const ACTIVE_TV_ON = 'tvs/ACTIVE_TV_ON';
+type ActiveTvOnActionType = {type: typeof ACTIVE_TV_ON}
 const ACTIVE_TV_OFF = 'tvs/ACTIVE_TV_OFF';
+type ActiveTvOffActionType = {type: typeof ACTIVE_TV_OFF}
 const SET_TVS = 'tvs/SET_TVS';
+type SetTvsActionType = {type: typeof SET_TVS}
 const SET_TV = 'tvs/SET_TV';
+type SetTvActionType = {type: typeof SET_TV}
 const DELETE_TV = 'tvs/DELETE_TV';
+type DeleteTvActionType = {type: typeof DELETE_TV}
 const SET_CURRENT_PAGE = 'tvs/SET_CURRENT_PAGE';
+type SetCurrentPageActionType = {type: typeof SET_CURRENT_PAGE}
 const SET_TOTAL_TVS_COUNT = 'tvs/SET_TOTAL_TVS_COUNT';
+type SetTotalTvsCountActionType = {type: typeof SET_TOTAL_TVS_COUNT}
 const TOGGLE_IS_FETCHING = 'tvs/TOGGLE_IS_FETCHING';
+type ToggleIsFetchingActionType = {type: typeof TOGGLE_IS_FETCHING}
 const TOGGLE_IS_TVS_UPDATING = 'tvs/TOGGLE_IS_TVS_UPDATING';
+type ToggleIsTvsUpdatingActionType = {type: typeof TOGGLE_IS_TVS_UPDATING}
 
-let initialState = {
+type tvType = {
+    _id: any | null
+    name: string | null
+    place: string | null
+    number: number | null
+    channel: string | null
+    show: string | null
+    isactive: string | null
+}
+
+export type InitialStateType = {
+    tvs: Array<String>
+    pageSize: number
+    totalTVsCount: number
+    currentPage: number
+    tv: {
+        _id: null,
+        name: null,
+        place: null,
+        number: null,
+        channel: null,
+        show: null,
+        isactive: null
+    },
+    isFetching: boolean  | null
+    isTVsUpdating: Array<string>
+}
+
+let initialState:InitialStateType = {
     tvs: [],
     pageSize: 4,
     totalTVsCount: 0,
@@ -32,7 +69,7 @@ let initialState = {
     isTVsUpdating: []
 }
 
-const tvsReducer = (state = initialState, action) => {
+const tvsReducer = (state = initialState, action: any):InitialStateType => {
 
     switch (action.type) {
         case ACTIVE_TV_ON:
@@ -91,19 +128,22 @@ const tvsReducer = (state = initialState, action) => {
             return state;
     }
 };
+type SetTvsTypeAction ={
+    type: typeof SET_TVS
+}
+export const setTVs = (tvs:Array<string>) => { return {type: SET_TVS, tvs}};
+export const setTV = (tv:tvType) => { return {type: SET_TV, tv}};
+export const activeTVOn = (tvId:string) => { return {type: ACTIVE_TV_ON, tvId}};
+export const activeTVOff = (tvId:string) => { return {type: ACTIVE_TV_OFF, tvId}};
+export const setCurrentPage = (currentPage:number) => { return {type: SET_CURRENT_PAGE, currentPage}};
+export const setTotalTVsCount = (totalTVsCount:number) => { return {type: SET_TOTAL_TVS_COUNT, totalTVsCount}};
+export const toggleIsFetching = (isFetching:boolean) => { return {type: TOGGLE_IS_FETCHING, isFetching}};
+export const toggleIsTVsUpdating = (isFetching:string, tvID:string) => { return {type: TOGGLE_IS_TVS_UPDATING, isFetching, tvID}};
+export const deleteTVAC = (id:string) => { return {type: DELETE_TV, id}};
 
-export const setTVs = (tvs) => { return {type: SET_TVS, tvs}};
-export const setTV = (tv) => { return {type: SET_TV, tv}};
-export const activeTVOn = (tvId) => { return {type: ACTIVE_TV_ON, tvId}};
-export const activeTVOff = (tvId) => { return {type: ACTIVE_TV_OFF, tvId}};
-export const setCurrentPage = (currentPage) => { return {type: SET_CURRENT_PAGE, currentPage}};
-export const setTotalTVsCount = (totalTVsCount) => { return {type: SET_TOTAL_TVS_COUNT, totalTVsCount}};
-export const toggleIsFetching = (isFetching) => { return {type: TOGGLE_IS_FETCHING, isFetching}};
-export const toggleIsTVsUpdating = (isFetching, tvID) => { return {type: TOGGLE_IS_TVS_UPDATING, isFetching, tvID}};
-export const deleteTVAC = (id) => { return {type: DELETE_TV, id}};
 
-export const getTVs = (currentPage, pageSize) => {
-    return async (dispatch) => {
+export const getTVs = (currentPage:number, pageSize:number) => {
+    return async (dispatch:any) => {
         dispatch(toggleIsFetching(true));
         let data = await tvsAPI.getTVs(currentPage, pageSize);
         if (data.resultCode === 0) {
