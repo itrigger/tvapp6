@@ -33,41 +33,26 @@ type tvType = {
     isactive: string | null
 }
 
-export type InitialStateType = {
-    tvs: Array<String>
-    pageSize: number
-    totalTVsCount: number
-    currentPage: number
+
+let initialState = {
+    tvs: [] as Array<tvType> | null,
+    pageSize: 4 as number | null,
+    totalTVsCount: 0 as number | null,
+    currentPage: 1 as number | null,
     tv: {
-        _id: null,
-        name: null,
-        place: null,
-        number: null,
-        channel: null,
-        show: null,
-        isactive: null
+        _id: null as any | null,
+        name: null as string | null,
+        place: null as string | null,
+        number: null as string | null,
+        channel: null as string | null,
+        show: null as string | null,
+        isactive: null as string | null
     },
-    isFetching: boolean  | null
-    isTVsUpdating: Array<string>
+    isFetching: false as boolean | null,
+    isTVsUpdating: [] as Array<string> | null
 }
 
-let initialState:InitialStateType = {
-    tvs: [],
-    pageSize: 4,
-    totalTVsCount: 0,
-    currentPage: 1,
-    tv: {
-        _id: null,
-        name: null,
-        place: null,
-        number: null,
-        channel: null,
-        show: null,
-        isactive: null
-    },
-    isFetching: false,
-    isTVsUpdating: []
-}
+export type InitialStateType = typeof initialState;
 
 const tvsReducer = (state = initialState, action: any):InitialStateType => {
 
@@ -130,15 +115,26 @@ const tvsReducer = (state = initialState, action: any):InitialStateType => {
 };
 type SetTvsTypeAction ={
     type: typeof SET_TVS
+    tvs: Array<tvType>
 }
-export const setTVs = (tvs:Array<string>) => { return {type: SET_TVS, tvs}};
-export const setTV = (tv:tvType) => { return {type: SET_TV, tv}};
-export const activeTVOn = (tvId:string) => { return {type: ACTIVE_TV_ON, tvId}};
+export const setTVs = (tvs:Array<tvType>):SetTvsTypeAction => { return {type: SET_TVS, tvs}};
+type SetTvTypeAction ={
+    type: typeof SET_TV
+    tv: Array<tvType>
+}
+export const setTV = (tv:tvType):SetTvTypeAction => { return {type: SET_TV, tv}};
+type ActiveTVOnTypeAction ={
+    type: typeof ACTIVE_TV_ON
+    tvId: any
+}
+export const activeTVOn = (tvId:string):ActiveTVOnTypeAction => { return {type: ACTIVE_TV_ON, tvId}};
+
 export const activeTVOff = (tvId:string) => { return {type: ACTIVE_TV_OFF, tvId}};
 export const setCurrentPage = (currentPage:number) => { return {type: SET_CURRENT_PAGE, currentPage}};
 export const setTotalTVsCount = (totalTVsCount:number) => { return {type: SET_TOTAL_TVS_COUNT, totalTVsCount}};
 export const toggleIsFetching = (isFetching:boolean) => { return {type: TOGGLE_IS_FETCHING, isFetching}};
 export const toggleIsTVsUpdating = (isFetching:string, tvID:string) => { return {type: TOGGLE_IS_TVS_UPDATING, isFetching, tvID}};
+
 export const deleteTVAC = (id:string) => { return {type: DELETE_TV, id}};
 
 
@@ -162,8 +158,8 @@ export const getTVs = (currentPage:number, pageSize:number) => {
     }
 };
 
-export const getTV = (id) => {
-    return async (dispatch) => {
+export const getTV = (id:string) => {
+    return async (dispatch:any) => {
         dispatch(toggleIsFetching(true));
         let data = await tvsAPI.getTV(id);
         if (data.resultCode === 0) {
@@ -181,8 +177,8 @@ export const getTV = (id) => {
     }
 };
 
-export const putTVActive = (id, tv, active) => {
-    return async (dispatch) => {
+export const putTVActive = (id:string, tv:tvType, active:string) => {
+    return async (dispatch:any) => {
         dispatch(toggleIsTVsUpdating(true, id));
         let data = await tvsAPI.putTVActive(id, tv);
         if (data.resultCode === 0) {
@@ -201,8 +197,8 @@ export const putTVActive = (id, tv, active) => {
     }
 };
 
-export const putTV = (id, tv) => {
-    return async (dispatch) => {
+export const putTV = (id:string, tv:tvType) => {
+    return async (dispatch:any) => {
         dispatch(toggleIsTVsUpdating(true, id));
         let data = await tvsAPI.putTV(id, tv);
         if (data.resultCode === 0) {
@@ -221,8 +217,8 @@ export const putTV = (id, tv) => {
 };
 
 
-export const createTV = (tv) => {
-    return async (dispatch) => {
+export const createTV = (tv:tvType) => {
+    return async (dispatch:any) => {
         let data = await tvsAPI.createTV(tv);
         if (data.resultCode === 0) {
             Notify('TVAPP', 'Панель добавлена', 'success');
@@ -238,8 +234,8 @@ export const createTV = (tv) => {
     }
 };
 
-export const deleteTV = (id) => {
-    return async (dispatch) => {
+export const deleteTV = (id:string) => {
+    return async (dispatch:any) => {
         let data = await tvsAPI.deleteTV(id);
         if (data.resultCode === 0) {
             Notify('TVAPP', 'Панель удалена', 'success');
@@ -255,8 +251,8 @@ export const deleteTV = (id) => {
     }
 };
 
-export const reloadTV = (place, number, channel) => {
-    return async (dispatch) => {
+export const reloadTV = (place:string, number:string, channel:string) => {
+    return async (dispatch:any) => {
         let data = await tvsAPI.reloadTV(place, number, channel);
         if (data.resultCode === 0) {
             Notify('TVAPP', 'Панель перезагружена', 'success');
