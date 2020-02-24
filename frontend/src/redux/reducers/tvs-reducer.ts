@@ -1,8 +1,8 @@
 import {tvsAPI} from "../../api/api";
 import {Notify} from "../../components/common/Notificator/notificator";
 import {setAuthFalse} from "./auth-reducer";
-import {Redirect} from "react-router-dom";
-
+import history from '../../context/history';
+import { tvType } from "../../types/types";
 
 const ACTIVE_TV_ON = 'tvs/ACTIVE_TV_ON';
 type ActiveTvOnActionType = {type: typeof ACTIVE_TV_ON}
@@ -23,19 +23,10 @@ type ToggleIsFetchingActionType = {type: typeof TOGGLE_IS_FETCHING}
 const TOGGLE_IS_TVS_UPDATING = 'tvs/TOGGLE_IS_TVS_UPDATING';
 type ToggleIsTvsUpdatingActionType = {type: typeof TOGGLE_IS_TVS_UPDATING}
 
-type tvType = {
-    _id: any | null
-    name: string | null
-    place: string | null
-    number: number | null
-    channel: string | null
-    show: string | null
-    isactive: string | null
-}
 
 
 let initialState = {
-    tvs: [] as Array<tvType> | null,
+    tvs: [] as Array<tvType>,
     pageSize: 4 as number | null,
     totalTVsCount: 0 as number | null,
     currentPage: 1 as number | null,
@@ -49,7 +40,7 @@ let initialState = {
         isactive: null as string | null
     },
     isFetching: false as boolean | null,
-    isTVsUpdating: [] as Array<string> | null
+    isTVsUpdating: [] as Array<string>
 }
 
 export type InitialStateType = typeof initialState;
@@ -118,24 +109,55 @@ type SetTvsTypeAction ={
     tvs: Array<tvType>
 }
 export const setTVs = (tvs:Array<tvType>):SetTvsTypeAction => { return {type: SET_TVS, tvs}};
+
 type SetTvTypeAction ={
     type: typeof SET_TV
     tv: Array<tvType>
 }
-export const setTV = (tv:tvType):SetTvTypeAction => { return {type: SET_TV, tv}};
+export const setTV = (tv:Array<tvType>):SetTvTypeAction => { return {type: SET_TV, tv}};
+
 type ActiveTVOnTypeAction ={
     type: typeof ACTIVE_TV_ON
     tvId: any
 }
-export const activeTVOn = (tvId:string):ActiveTVOnTypeAction => { return {type: ACTIVE_TV_ON, tvId}};
+export const activeTVOn = (tvId:any):ActiveTVOnTypeAction => { return {type: ACTIVE_TV_ON, tvId}};
 
-export const activeTVOff = (tvId:string) => { return {type: ACTIVE_TV_OFF, tvId}};
-export const setCurrentPage = (currentPage:number) => { return {type: SET_CURRENT_PAGE, currentPage}};
-export const setTotalTVsCount = (totalTVsCount:number) => { return {type: SET_TOTAL_TVS_COUNT, totalTVsCount}};
-export const toggleIsFetching = (isFetching:boolean) => { return {type: TOGGLE_IS_FETCHING, isFetching}};
-export const toggleIsTVsUpdating = (isFetching:string, tvID:string) => { return {type: TOGGLE_IS_TVS_UPDATING, isFetching, tvID}};
+type ActiveTVOffTypeAction ={
+    type: typeof ACTIVE_TV_OFF
+    tvId: any
+}
+export const activeTVOff = (tvId:any):ActiveTVOffTypeAction => { return {type: ACTIVE_TV_OFF, tvId}};
 
-export const deleteTVAC = (id:string) => { return {type: DELETE_TV, id}};
+type SetCurrentPageTypeAction ={
+    type: typeof SET_CURRENT_PAGE
+    currentPage: number
+}
+export const setCurrentPage = (currentPage:number):SetCurrentPageTypeAction => { return {type: SET_CURRENT_PAGE, currentPage}};
+
+type SetTotalTVsCountTypeAction ={
+    type: typeof SET_TOTAL_TVS_COUNT
+    totalTVsCount: number
+}
+export const setTotalTVsCount = (totalTVsCount:number):SetTotalTVsCountTypeAction => { return {type: SET_TOTAL_TVS_COUNT, totalTVsCount}};
+
+type ToggleIsFetchingTypeAction ={
+    type: typeof TOGGLE_IS_FETCHING
+    isFetching: boolean
+}
+export const toggleIsFetching = (isFetching:boolean):ToggleIsFetchingTypeAction => { return {type: TOGGLE_IS_FETCHING, isFetching}};
+
+type ToggleIsTVsUpdatingTypeAction ={
+    type: typeof TOGGLE_IS_TVS_UPDATING
+    isFetching: boolean
+    tvID: any
+}
+export const toggleIsTVsUpdating = (isFetching:boolean, tvID:any):ToggleIsTVsUpdatingTypeAction => { return {type: TOGGLE_IS_TVS_UPDATING, isFetching, tvID}};
+
+type deleteTVACTypeAction ={
+    type: typeof DELETE_TV
+    id: any
+}
+export const deleteTVAC = (id:any):deleteTVACTypeAction => { return {type: DELETE_TV, id}};
 
 
 export const getTVs = (currentPage:number, pageSize:number) => {
@@ -152,13 +174,14 @@ export const getTVs = (currentPage:number, pageSize:number) => {
             dispatch(toggleIsFetching(false));
             if(data.resultCode === 10){
                 localStorage.removeItem('userData');
-                return <Redirect to={'/login'} />
+                // @ts-ignore
+                return history.push('/login');
             }
         }
     }
 };
 
-export const getTV = (id:string) => {
+export const getTV = (id:any) => {
     return async (dispatch:any) => {
         dispatch(toggleIsFetching(true));
         let data = await tvsAPI.getTV(id);
@@ -171,7 +194,8 @@ export const getTV = (id:string) => {
             dispatch(toggleIsFetching(false));
             if(data.resultCode === 10){
                 localStorage.removeItem('userData');
-                return <Redirect to={'/login'} />
+                // @ts-ignore
+                return history.push('/login');
             }
         }
     }
@@ -191,7 +215,8 @@ export const putTVActive = (id:string, tv:tvType, active:string) => {
             dispatch(toggleIsTVsUpdating(false, id));
             if(data.resultCode === 10){
                 localStorage.removeItem('userData');
-                return <Redirect to={'/login'} />
+                // @ts-ignore
+                return history.push('/login');
             }
         }
     }
@@ -210,14 +235,15 @@ export const putTV = (id:string, tv:tvType) => {
             dispatch(toggleIsTVsUpdating(false, id));
             if(data.resultCode === 10){
                 localStorage.removeItem('userData');
-                return <Redirect to={'/login'} />
+                // @ts-ignore
+                return history.push('/login');
             }
         }
     }
 };
 
 
-export const createTV = (tv:tvType) => {
+export const createTV = (tv:Array<tvType>) => {
     return async (dispatch:any) => {
         let data = await tvsAPI.createTV(tv);
         if (data.resultCode === 0) {
@@ -228,13 +254,14 @@ export const createTV = (tv:tvType) => {
             dispatch(setAuthFalse());
             if(data.resultCode === 10){
                 localStorage.removeItem('userData');
-                return <Redirect to={'/login'} />
+                // @ts-ignore
+                return history.push('/login');
             }
         }
     }
 };
 
-export const deleteTV = (id:string) => {
+export const deleteTV = (id:any) => {
     return async (dispatch:any) => {
         let data = await tvsAPI.deleteTV(id);
         if (data.resultCode === 0) {
@@ -245,15 +272,16 @@ export const deleteTV = (id:string) => {
             dispatch(setAuthFalse());
             if(data.resultCode === 10){
                 localStorage.removeItem('userData');
-                return <Redirect to={'/login'} />
+                // @ts-ignore
+                return history.push('/login');
             }
         }
     }
 };
 
-export const reloadTV = (place:string, number:string, channel:string) => {
+export const reloadTV = (channel:string) => {
     return async (dispatch:any) => {
-        let data = await tvsAPI.reloadTV(place, number, channel);
+        let data = await tvsAPI.reloadTV(channel);
         if (data.resultCode === 0) {
             Notify('TVAPP', 'Панель перезагружена', 'success');
         } else {
@@ -261,7 +289,8 @@ export const reloadTV = (place:string, number:string, channel:string) => {
             dispatch(setAuthFalse());
             if(data.resultCode === 10){
                 localStorage.removeItem('userData');
-                return <Redirect to={'/login'} />
+                // @ts-ignore
+                return history.push('/login');
             }
         }
     }

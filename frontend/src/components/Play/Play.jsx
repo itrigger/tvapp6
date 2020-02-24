@@ -5,7 +5,7 @@ import $ from 'jquery';
 
 class Play extends React.Component {
     componentDidMount() {
-        this.$el = $(this.el);
+       this.$el = $(this.el);
         let t;
         let start = this.$el.find('.active').attr('data-interval');
         console.error('start',this.$el);
@@ -16,7 +16,7 @@ class Play extends React.Component {
                 .bind(this),
             start - 1000
         );
-        /*t = setTimeout("$('#myCarousel').carousel({interval: 1000});", start-1000);*/
+        t = setTimeout("$('#myCarousel').carousel({interval: 1000});", start-1000);
         this.$el.on('slid.bs.carousel', function () {
 
             clearTimeout(t);

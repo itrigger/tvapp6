@@ -24,25 +24,60 @@ import {
 } from "../../redux/reducers/tvs-selector";
 import {getShowsSel} from "../../redux/reducers/show-selector";
 import {getShows} from "../../redux/reducers/show-reducer";
+import {AppStateType} from "../../redux/redux-store";
+import {tvType} from "../../types/types";
 
 
+type MapStatePropsType ={
+    showName: string
+    isFetching: boolean
+    currentPage: number
+    totalSlidesCount: number
+    pageSize: number
+    tvs: Array<tvType>
+    isTVsUpdating: Array<string>
+}
 
-class TVsContainer extends React.Component {
+
+type MapDispatchPropsType = {
+    getTVs: (currentPage: number, pageSize:number) => void
+    getShows: (currentPage:number, pageSize: number)=>void
+    setCurrentPage: (pageNumber: number) => void
+    deleteTV: (id: any) => void
+    reloadTV: (channel: string) => void
+    activeTVOff: (tvId:any) => void
+    activeTVOn: (tvId:any) => void
+    toggleIsTVsUpdating: (isFetching:boolean, tvID:any) => void
+    putTVActive: (id:string, tv:tvType, active:string) => void
+    setTVs: (tvs:Array<tvType>) => void
+    setTotalTVsCount: (totalTVsCount:number) => void
+    toggleIsFetching: (isFetching:boolean) => void
+}
+
+type OwnProps = {
+    pageNumber: number
+    id: any
+    channel: string
+}
+
+type PropsType = MapStatePropsType & MapDispatchPropsType & OwnProps
+
+class TVsContainer extends React.Component<PropsType> {
 
     componentDidMount() {
         this.props.getTVs(this.props.currentPage, this.props.pageSize);
         this.props.getShows(1,1000);
     }
 
-    onPageChanged = (pageNumber) => {
+    onPageChanged = (pageNumber:number) => {
         this.props.setCurrentPage(pageNumber);
         this.props.getTVs(pageNumber, this.props.pageSize);
     };
 
-    deleteTVOnClick = (id) => {
+    deleteTVOnClick = (id:any) => {
         this.props.deleteTV(id);
     };
-    reloadTVOnClick = (channel) => {
+    reloadTVOnClick = (channel:string) => {
         this.props.reloadTV(channel);
     };
 
@@ -70,7 +105,7 @@ class TVsContainer extends React.Component {
     }
 }
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state:AppStateType):MapStatePropsType => {
     return {
         tvs: getTVsSel(state),
         pageSize: getPageSizeSel(state),
@@ -82,9 +117,26 @@ let mapStateToProps = (state) => {
     }
 };
 
+let mapDispatchToProps = (state:AppStateType):MapDispatchPropsType => {
+    return{
+        activeTVOn,
+        activeTVOff,
+        deleteTV,
+        getTVs,
+        reloadTV,
+        setTVs,
+        setCurrentPage,
+        setTotalTVsCount,
+        toggleIsFetching,
+        toggleIsTVsUpdating,
+        putTVActive,
+        getShows
+    }
+};
 /*Compose служит для комбинации всех оберток над компонентой*/
+
 export default compose(
-    connect(mapStateToProps, {activeTVOn, activeTVOff, deleteTV, getTVs, reloadTV, setTVs, setCurrentPage, setTotalTVsCount, toggleIsFetching, toggleIsTVsUpdating, putTVActive, getShows}),
+    connect<MapStatePropsType, MapDispatchPropsType, OwnProps, AppStateType>(mapStateToProps, mapDispatchToProps),
     withRouter,
     withAuthRedirect
-)(TVsContainer);
+)(TVsContainer)
