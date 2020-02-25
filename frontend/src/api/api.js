@@ -57,6 +57,7 @@ export const authAPI = {
 export const tvsAPI = {
     /*Получаем панели постранично*/
     getTVs(currentPage, pageSize){
+        console.log('tvsAPI getTVs',currentPage, pageSize);
         return instance.get(`/tvs/all?page=${currentPage}&size=${pageSize}`)
             .then(response=>{return response.data})
             .catch(error=>{
