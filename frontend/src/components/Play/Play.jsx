@@ -1,66 +1,55 @@
-import React from 'react';
-import Parser from "html-react-parser";
-import $ from 'jquery';
+import React, {Component} from 'react'
+import Parser from "html-react-parser"
+import Carousel from 'react-elastic-carousel'
 
 
-class Play extends React.Component {
+class Play extends Component {
     componentDidMount() {
-       this.$el = $(this.el);
-        let t;
-        let start = this.$el.find('.active').attr('data-interval');
-        console.error('start',this.$el);
-        t = setTimeout(
-            function() {
-                this.$el.carousel({interval: 1000})
-            }
-                .bind(this),
-            start - 1000
-        );
-        t = setTimeout("$('#myCarousel').carousel({interval: 1000});", start-1000);
-        this.$el.on('slid.bs.carousel', function () {
 
-            clearTimeout(t);
-            let duration = $(this).find('.active').attr('data-interval');
-
-            this.$el.carousel('pause');
-            t = setTimeout(
-                function() {
-                    this.$el.carousel({interval: 1000})
-                }
-                    .bind(this),
-                duration - 1000
-            );
-        });
-
-    }
-    componentWillUnmount() {
-
+        let carItem = document.getElementsByClassName('item');
+        console.log(carItem)
+        for (let i = 0; i < carItem.length; i++) {
+            console.log(carItem.item(i).innerHTML);
+        }
     }
 
     render() {
-        const handleClickLeft = (side) =>{
-            if(side === 'left'){
 
-            }
-        };
+ /*       let start = $('#myCarousel').find('.active').attr('data-interval');
+        t = setTimeout("$('#myCarousel').carousel({interval: 1000});", start-1000);
+        $('#myCarousel').on('slid.bs.carousel', function () {
+            console.log('asdfsdf');
+            clearTimeout(t);
+            let duration = $(this).find('.active').attr('data-interval');
+
+            $('#myCarousel').carousel('pause');
+            t = setTimeout("$('#myCarousel').carousel();", duration-1000);
+        });*/
+
+
 
         return (
-            <div className={"fullscreen"}>
+            <div className={"fullscreen"} id={"myCarousel"}>
                 {this.props.slides.length > 0 ?
-                    <div id="myCarousel" className="carousel slide" ref={el => this.el = el}>
-                        <div className="carousel-inner">
-                            {this.props.slides.map((e,index) =>
-                                <div className={index===0?'item active':'item'} data-interval={e.delay}
-                                     key={e._id}>{!e.slide_content || null ? '' : Parser(e.slide_content)}</div>
+                    <div>
+                        <button onClick={() => this.carousel.slideNext()}>Next</button>
+                        <hr/>
+                        <Carousel itemsToShow={1}
+                                  enableAutoPlay
+                                  ref={ref => (this.carousel = ref)}
+                                  pagination={false}
+                                  showArrows={false}
+                                  onChange={(currentItem, pageIndex) =>
+                                      console.log(pageIndex)
+                                  }
+                        >
+                            {this.props.slides.map((e, index) =>
+                                <div key={e._id} className={index === 0 ? 'item active' : 'item'} data-interval={e.delay}
+                                >{!e.slide_content || null ? '' : Parser(e.slide_content)}</div>
                             )}
-                        </div>
-
-                        {/*<a className="carousel-control left" onClick={() => handleClickLeft('left')} data-slide="prev">&lsaquo;</a>*/}
-                        <a className="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-                        <a className="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+                        </Carousel>
                     </div>
                     : ""}
-
             </div>
         )
     }
