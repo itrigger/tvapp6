@@ -6,6 +6,7 @@ import Pusher from "pusher-js";
 import {compose} from "redux";
 import {withRouter} from "react-router-dom";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import Places from "../Places/Places";
 const queryString = require('query-string');
 
 class PlayContainer extends React.Component {
@@ -26,7 +27,7 @@ class PlayContainer extends React.Component {
 
 
     render() {
-         return <Play slides = {this.props.slides}/>
+         return <Play slides = {this.props.slides} />
     }
 }
 

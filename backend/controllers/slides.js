@@ -97,6 +97,7 @@ exports.create = function (req, res) {
     let screen = {
         slide_num: req.body.slide_num,
         delay: req.body.delay,
+        type: req.body.type,
         isactive: req.body.isactive,
         slide_content: req.body.slide_content
     };
@@ -115,6 +116,7 @@ exports.update = function (req, res) {
         {
             slide_num: req.body.slide_num,
             delay: req.body.delay,
+            type: req.body.type,
             isactive: req.body.isactive,
             slide_content: req.body.slide_content
         },
@@ -176,6 +178,7 @@ exports.APIadd = function (req, res) {
     let screen = {
         slide_num: req.body.slide.slide_num,
         delay: req.body.slide.delay,
+        type: req.body.slide.type,
         isactive: req.body.slide.isactive,
         slide_content: req.body.slide.slide_content
     };
@@ -218,6 +221,7 @@ exports.APIupdate = function (req, res) {
         {
             slide_num: req.body.slide.slide_num,
             delay: req.body.slide.delay,
+            type: req.body.slide.type,
             isactive: req.body.slide.isactive,
             slide_content: req.body.slide.slide_content
         },

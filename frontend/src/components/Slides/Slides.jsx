@@ -39,6 +39,7 @@ let Slides = (props) => {
                                 <th>Контент</th>
                                 <th>Номер слайда</th>
                                 <th>Время показа</th>
+                                <th>Тип содержимого</th>
                                 <th>Активен?</th>
                                 <th></th>
                             </tr>
@@ -47,6 +48,7 @@ let Slides = (props) => {
                                     <td><span className={ss.smallImg}>{!e.slide_content || null ? '' : Parser(e.slide_content)}</span></td>
                                     <td>{e.slide_num}</td>
                                     <td>{e.delay}</td>
+                                    <td>{e.type}</td>
                                     <td>{
                                         e.isactive === '1'
 

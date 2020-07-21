@@ -39,6 +39,9 @@ let SlideUpdateForm = (props) => {
                                 <Field name="delay" component={renderField} type="text" label={"Время показа"} placeholder={"1000"} validate={[required]}/>
                             </div>
                             <div className="form-group">
+                                <Field name="type" component={renderField} type="text" label={"Тип содержимого"} placeholder={"image, video, html"} validate={[required]}/>
+                            </div>
+                            <div className="form-group">
                                 <Field name="slide_content" component={renderField} type="text" label={"Контент слайда"} placeholder={"<img src='' alt=''/>"} validate={[required]}/>
                             </div>
                             <Button type="submit" variant="success"><FontAwesomeIcon icon={faSave}/> Сохранить</Button>

@@ -24,6 +24,7 @@ let initialState = {
         screen_num: null,
         isactive: null,
         delay: null,
+        type: null,
         slide_content: null
 
     },
