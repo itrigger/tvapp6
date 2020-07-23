@@ -8,8 +8,10 @@ const http = require('http');
 const path = require('path');
 const errorhandler = require('errorhandler');
 const MongoClient = require('mongodb').MongoClient;
+const mongoose = require('mongoose');
 const ObjectID = require('mongodb').ObjectID;
-const db = require('./db');
+//const db = require('./db');
+
 const placesController = require('./controllers/places');
 const slidesController = require('./controllers/slides');
 const tvsController = require('./controllers/tvs');
@@ -52,7 +54,7 @@ app.use('*', cors({
 const config = require('./config');
 global.__root   = __dirname + '/';
 
-app.get('/api', function (req, res) {
+app.get('/api/1.0', function (req, res) {
     res.status(200).send('API works.');
 });
 
@@ -83,10 +85,10 @@ app.get('/add_schedule/', function (req, res) {
 
 
 /*Роуты для API (СДЕЛАТЬ ВЕРСИЮ 1,0)*/
-app.post('/api/auth/register', UserController.APIadd); /*создать юзера*/
-app.get('/api/me', VerifyToken, UserController.APIgetMe); /*получить юзера*/
-app.post('/api/login', UserController.APIlogin); /*войти*/
-app.get('/api/logout', UserController.APIlogout); /*выйти*/
+app.post('/api/1.0/auth/register', UserController.APIadd); /*создать юзера*/
+app.get('/api/1.0/me', VerifyToken, UserController.APIgetMe); /*получить юзера*/
+app.post('/api/1.0/login', UserController.APIlogin); /*войти*/
+app.get('/api/1.0/logout', UserController.APIlogout); /*выйти*/
 
 
 /*app.get('/login', function (req, res) {
@@ -96,26 +98,26 @@ app.get('/api/logout', UserController.APIlogout); /*выйти*/
 });*/
 
 /**//*Добавить верификацию*//**/
-app.get('/api/slides/', slidesController.APIall); /*Список всех слайдов постранично*/
-app.post('/api/slides/',VerifyToken, slidesController.APIadd); /*Добавить слайд*/
-app.put('/api/slides/:id',VerifyToken, slidesController.APIupdate); /**/
-app.get('/api/slides/:id', slidesController.APIfindById); /*Открыть один конкретный слайд*/
-app.delete('/api/slides/:id', VerifyToken, slidesController.APIdelete); /*Удалить слайд*/
-/*Роуты для ТВ экранов*/
-app.get('/api/tvs/all',VerifyToken, tvsController.APIall); /*Получить все экраны*/
-app.get('/api/tvs/:id', VerifyToken, tvsController.APIfindById);
-app.post('/api/tvs', VerifyToken, tvsController.APIcreate);
-app.put('/api/tvs/:id', VerifyToken, tvsController.APIupdate);
-app.delete('/api/tvs/:id', VerifyToken, tvsController.APIdelete);
+app.get('/api/1.0/slides/', slidesController.APIall); /*Список всех слайдов постранично*/
+app.post('/api/1.0/slides/',VerifyToken, slidesController.APIadd); /*Добавить слайд*/
+app.put('/api/1.0/slides/:id',VerifyToken, slidesController.APIupdate); /**/
+app.get('/api/1.0/slides/:id', slidesController.APIfindById); /*Открыть один конкретный слайд*/
+app.delete('/api/1.0/slides/:id', VerifyToken, slidesController.APIdelete); /*Удалить слайд*/
+/*Routes for TV screens*/
+app.get('/api/1.0/tvs/all',VerifyToken, tvsController.APIall); /*Get all TV screens*/
+app.get('/api/1.0/tvs/:id', VerifyToken, tvsController.APIfindById); /*Get one TV screen by ID*/
+app.post('/api/1.0/tvs', VerifyToken, tvsController.APIcreate); /*Create TV screen*/
+app.patch('/api/1.0/tvs/:id', VerifyToken, tvsController.APIupdate); /*Update TV screen by ID*/
+app.delete('/api/1.0/tvs/:id', VerifyToken, tvsController.APIdelete); /*Delete TV screen by ID*/
 /*Роуты для локаций*/
-app.get('/api/places/all', VerifyToken, placesController.APIall);
-app.get('/api/places/:id', VerifyToken, placesController.APIfindById);
-app.post('/api/places', VerifyToken, placesController.APIcreate);
-app.put('/api/places/:id', VerifyToken, placesController.APIupdate);
-app.delete('/api/places/:id', VerifyToken, placesController.APIdelete);
+app.get('/api/1.0/places/all', VerifyToken, placesController.APIall);
+app.get('/api/1.0/places/:id', VerifyToken, placesController.APIfindById);
+app.post('/api/1.0/places', VerifyToken, placesController.APIcreate);
+app.put('/api/1.0/places/:id', VerifyToken, placesController.APIupdate);
+app.delete('/api/1.0/places/:id', VerifyToken, placesController.APIdelete);
 /*Роуты для воспроизведения и апдейта*/
-app.get('/api/play/', showController.findByPlaceAndNum); /*Воспроизвести слайды на выбранном экране*/
-app.get('/api/update/', VerifyToken, slidesController.reload); /*Обновить без перезагрузки через Pusher*/
+app.get('/api/1.0/play/', showController.findByPlaceAndNum); /*Воспроизвести слайды на выбранном экране*/
+app.get('/api/1.0/update/', VerifyToken, slidesController.reload); /*Обновить без перезагрузки через Pusher*/
 
 
 
@@ -146,19 +148,19 @@ app.delete('/slides/:id', VerifyToken, slidesController.delete); /!*OK Удал�
 // app.delete('/tvs/:id', VerifyToken, tvsController.delete);
 
 /*Роуты для шоу*/
-app.get('/api/show', VerifyToken, showController.APIall); /*Список всех шоу*/
-app.get('/api/show/:id', showController.APIfindById); /*Поиск шоу по ИД*/
-app.post('/api/show', VerifyToken, showController.APIcreate); /*Создание нового шоу*/
-app.put('/api/show/:id', VerifyToken, showController.APIupdate); /*Обновление шоу по ИД*/
-app.delete('/api/show/:id', VerifyToken, showController.APIdelete); /*Удаление шоу по ИД*/
+app.get('/api/1.0/show', VerifyToken, showController.APIall); /*Список всех шоу*/
+app.get('/api/1.0/show/:id', showController.APIfindById); /*Поиск шоу по ИД*/
+app.post('/api/1.0/show', VerifyToken, showController.APIcreate); /*Создание нового шоу*/
+app.put('/api/1.0/show/:id', VerifyToken, showController.APIupdate); /*Обновление шоу по ИД*/
+app.delete('/api/1.0/show/:id', VerifyToken, showController.APIdelete); /*Удаление шоу по ИД*/
 
 /*Роуты для событий*/
-app.get('/api/schedules', VerifyToken, scheduleController.all);
-//app.get('/api/schedules/:time', VerifyToken, scheduleController.findByTime);
-app.put('/api/schedules/:id', VerifyToken, scheduleController.update);
-app.get('/api/schedules/:id', VerifyToken, scheduleController.findById);
-app.post('/api/schedules', VerifyToken, scheduleController.create);
-app.delete('/api/schedules/:id', VerifyToken, scheduleController.delete);
+app.get('/api/1.0/schedules', VerifyToken, scheduleController.all);
+//app.get('/api/1.0/schedules/:time', VerifyToken, scheduleController.findByTime);
+app.put('/api/1.0/schedules/:id', VerifyToken, scheduleController.update);
+app.get('/api/1.0/schedules/:id', VerifyToken, scheduleController.findById);
+app.post('/api/1.0/schedules', VerifyToken, scheduleController.create);
+app.delete('/api/1.0/schedules/:id', VerifyToken, scheduleController.delete);
 
 /*
 app.use(function (req, res) {
@@ -236,9 +238,9 @@ function runSchedule(){
         });
     });
 }
-
+/*
 runSchedule();
-
+*/
 
 
 if (process.env.NODE_ENV === 'development') {
@@ -256,14 +258,27 @@ function errorNotification(err, str, req) {
     })
 }
 
-db.connect('mongodb://trigger_kst:yakm1712@cluster0-shard-00-00-c2fuc.mongodb.net:27017,cluster0-shard-00-01-c2fuc.mongodb.net:27017,cluster0-shard-00-02-c2fuc.mongodb.net:27017/tvscreens?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority', function (err) {
+/*db.connect('mongodb://trigger_kst:yakm1712@cluster0-shard-00-00-c2fuc.mongodb.net:27017,cluster0-shard-00-01-c2fuc.mongodb.net:27017,cluster0-shard-00-02-c2fuc.mongodb.net:27017/tvscreens?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority', function (err) {
     if (err) {
         return console.log(err);
     }
     app.listen(3012, function () {
         console.log('API app started');
     });
+});*/
+
+mongoose.connect('mongodb://trigger_kst:yakm1712@cluster0-shard-00-00-c2fuc.mongodb.net:27017,cluster0-shard-00-01-c2fuc.mongodb.net:27017,cluster0-shard-00-02-c2fuc.mongodb.net:27017/tvscreens?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority',
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    }
+    );
+
+app.listen(3012, function () {
+    console.log('API app started');
 });
+
+
 
 
 /*
@@ -276,12 +291,15 @@ db.connect('mongodb://trigger_kst:yakm1712@cluster0-shard-00-00-c2fuc.mongodb.ne
 * 4. ++++++ Более наглядное представление экранов
 * 5. ++++++Таймеры и время показа
 * 6. Сделать проверку при ручном обновлении экрана, если экран уже в "активе", то и загружать шоу из актива
+* 7. Сделать обработку ошибок, когда сервер недоступен, выводить экран с лого и пытаться подключиться
 * */
 
 /*
 ERROR CODES
+0 - SUCCESS
 1 - DATABASE ERROR
 2 - NOT FOUND
+3 - NOT MODIFIED
 10- AUTH ERROR
 */
 

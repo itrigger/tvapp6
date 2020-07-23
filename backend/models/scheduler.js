@@ -26,24 +26,26 @@ exports.findById = function(id, cb) {
 /**/
 /**/
 exports.findByTime = function(curtime,  cb) {
-    db.get().collection('scheduler').find().count(function (e, count) {
-        db.get().collection('scheduler').find().toArray(function (err, docs) {
-            let message = {
-                totalCount: 0,
-                schedule: []
-            };
-            for (let i=0;i<count;i++){
-                let t1 = moment(docs[i].starttime).format('D/MM/YYYY, HH:mm');
-                let t2 = moment(curtime).format('D/MM/YYYY, HH:mm');
-                /*t1 >= t2 ? console.log(t1 +' >= ' + t2) : console.log(t1 +' < ' + t2);*/
-                if (t1 < t2){
-                    message.totalCount++;
-                    message.schedule.push(docs[i]);
+
+        db.get().collection('scheduler').find().count(function (e, count) {
+            db.get().collection('scheduler').find().toArray(function (err, docs) {
+                let message = {
+                    totalCount: 0,
+                    schedule: []
+                };
+                for (let i = 0; i < count; i++) {
+                    let t1 = moment(docs[i].starttime).format('D/MM/YYYY, HH:mm');
+                    let t2 = moment(curtime).format('D/MM/YYYY, HH:mm');
+                    /*t1 >= t2 ? console.log(t1 +' >= ' + t2) : console.log(t1 +' < ' + t2);*/
+                    if (t1 < t2) {
+                        message.totalCount++;
+                        message.schedule.push(docs[i]);
+                    }
                 }
-            }
-            cb(err, message);
+                cb(err, message);
+            });
         });
-    });
+
 };
 exports.changeOnlineStatus = function(id, newdata, cb) {
     db.get().collection('scheduler').update({_id: ObjectID(id)},

@@ -1,90 +1,7 @@
-var Tvs = require('../models/tvs');
+const mongoose = require('mongoose');
+const Tvs = require('../models/mongoose/tvs')
 
-exports.all = function(req, res) {
-    Tvs.all(0,10,function(err, docs) {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(500);
-        }
-        res.render('tvs',{
-            tvs:docs.items
-        })
-    });
-};
-exports.indexall = function(req, res) {
-    Tvs.all(0,10,function(err, docs) {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(500);
-        }
-        res.render('index',{
-            tvs:docs.items
-        })
-    });
-};
-exports.findById = function(req, res) {
-    Tvs.findById(req.params.id, function(err, doc) {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(500);
-        }
-        res.render('tvs_edit',{
-            tvs:doc
-        })
-    });
-};
-
-exports.create = function(req, res) {
-    var tv = {
-        place: req.body.tv_place,
-        number: req.body.tv_num,
-        channel: req.body.tv_channel,
-        show: req.body.tv_show,
-        isactive: '1'
-    };
-    Tvs.create(tv, function(err, result) {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(500);
-        }
-        res.redirect('/tvs');
-    });
-};
-
-exports.update = function(req, res) {
-    Tvs.update(
-        req.params.id,
-        {
-            place: req.body.tv_place,
-            number: req.body.tv_number,
-            channel: req.body.tv_channel,
-            show: req.body.tv_show,
-            isactive: req.body.tv_isactive
-        },
-        function(err, result) {
-            if (err) {
-                console.log(err);
-                return res.sendStatus(500);
-            }
-            console.log('Данные успешно обновлены!');
-            res.redirect('/tvs');
-        }
-    );
-};
-
-exports.delete = function(req, res) {
-    Tvs.delete(
-        req.params.id,
-        function(err, result) {
-            if (err) {
-                console.log(err);
-                return res.sendStatus(500);
-            }
-            res.sendStatus(200);
-        }
-    );
-};
-
+/*new version w mongoose*/
 exports.APIall = function(req, res) {
     let pageNo = parseInt(req.query.page);
     let size = parseInt(req.query.size);
@@ -96,97 +13,169 @@ exports.APIall = function(req, res) {
     }
     let skip = size * (pageNo - 1);
     let message = {};
-    Tvs.all(
-        skip,
-        size,
-        function (err, docs) {
-            if (err) {
-                /*return res.sendStatus(500);*/
-                message = {resultCode: 1};
-                return res.send(message);
+    Tvs.find()
+        .skip(skip)
+        .limit(size)
+        .exec()
+        .then(docs => {
+            console.log(docs); /*del in prod*/
+            if (docs){
+                Tvs.countDocuments({},
+                    function (err, count) {
+                        if (err) {
+                           console.log(err);
+                           message = {
+                               message: err,
+                               resultCode: 1
+                           }
+                           res.status(500).send(message);
+                        } else {
+                            if (docs.length > 0) {
+                                message = {
+                                    items: docs,
+                                    totalCount: count,
+                                    resultCode: 0
+                                };
+                                res.status(200).send(message);
+                            } else {
+                                message = {
+                                    message: 'No entries found',
+                                    resultCode: 2
+                                };
+                                res.status(404).send(message);
+                            }
+                        }
+                    });
+
+            } else {
+                message = {
+                    message: 'No entries found',
+                    resultCode: 2
+                };
+                res.status(400).send(message);
             }
+
+        })
+        .catch(err => {
+            console.log(err);
             message = {
-                count: docs.totalCount,
-                items: docs.items,
-                resultCode: 0
-            };
-            res.send(message);
-        });
-};
-
-exports.APIfindById = function(req, res) {
-    let message = {};
-    Tvs.findById(req.params.id, function(err, doc) {
-        if (err) {
-            message = {resultCode: 1};
-            return res.status(500).send(message);
-        }
-        console.log(doc);
-        message = {
-            item: doc,
-            resultCode: 0
-        };
-        res.status(200).send(message);
-    });
-};
-
-exports.APIcreate = function(req, res) {
-    let tv = {
-        name: req.body.name,
-        place: req.body.place,
-        number: req.body.number,
-        channel: req.body.channel,
-        show: req.body.show,
-        isactive: req.body.isactive
-    };
-    Tvs.create(tv, function(err, result) {
-        let data = {
-            resultCode: 1
-        }
-        if (err) {
-            return result.status(500).send(data);
-        }
-        data.resultCode = 0;
-        res.status(200).send(data);
-    });
-};
-
-exports.APIupdate = function(req, res) {
-    let data = {
-        resultCode: 1
-    };
-    Tvs.update(
-        req.params.id,
-        {
-            name: req.body.name,
-            place: req.body.place,
-            number: req.body.number,
-            channel: req.body.channel,
-            show: req.body.show,
-            isactive: req.body.isactive
-        },
-        function(err, result) {
-            if (err) {
-                return result.status(500).send(data);
+                message: err,
+                resultCode: 2
             }
-            data.resultCode = 0;
-            res.status(200).send(data);
-        }
-    );
-};
+            res.status(500).send(message);
+        });
+}
 
+/*new version w mongoose*/
+exports.APIfindById = function(req, res) {
+    const id = req.params.id;
+    let message = {};
+    Tvs.findById(id)
+        .exec()
+        .then(doc => {
+            console.log(doc); /*del in prod*/
+            if (doc){
+                message = {
+                    item: doc,
+                    resultCode: 0
+                };
+                res.status(200).send(message);
+            } else {
+                message = {
+                    message: 'No entries found',
+                    resultCode: 2
+                };
+               res.status(400).send(message);
+            }
+
+        })
+        .catch(err => {
+            console.log(err);
+            message = {
+                message: err,
+                resultCode: 1
+            }
+            res.status(500).send(message);
+        });
+}
+/*new version w mongoose*/
+exports.APIcreate = function(req, res) {
+    const tvs = new Tvs({
+       _id: new mongoose.Types.ObjectId,
+       name: req.body.name,
+       place: req.body.place,
+       number: req.body.number,
+       channel: req.body.channel,
+       show: req.body.show,
+       isactive: req.body.isactive
+    });
+    let message = {};
+    tvs
+        .save()
+        .then(result => {
+            console.log(result);
+            res.status(201).json({
+                message: "Handling POST request to /tvs",
+                createdTvs: tvs
+            })
+        })
+        .catch(err => {
+            console.log(err);
+            message = {
+                message: err,
+                resultCode: 1
+            }
+            res.status(500).send(message);
+        });
+
+}
+/*new mongoose version*/
+exports.APIupdate = function(req, res) {
+    const id = req.params.id;
+    const props = req.body;
+    let message = {};
+    Tvs.update({_id: id}, props)
+        .exec()
+        .then(result=>{
+            console.log(result);
+            if (result.ok > 0){
+                res.status(200).send({resultCode:0, result: result});
+            } else {
+                res.status(200).send({resultCode:3, result:result});
+            }
+
+        })
+        .catch(err => {
+            console.log(err);
+            message = {
+                message: err,
+                resultCode: 1
+            }
+            res.status(500).send(message);
+        });
+}
+
+/*new mongoose*/
 exports.APIdelete = function(req, res) {
-    let data = {
+    const id = req.params.id;
+    let message = {
         resultCode: 1
     }
-    Tvs.delete(
-        req.params.id,
-        function(err, result) {
-            if (err) {
-                return  result.status(500).send(data);
+    Tvs.remove({_id:id})
+        .exec()
+        .then(result => {
+            message = {
+                message: result,
+                resultCode: 0
             }
-            data.resultCode = 0;
             res.status(200).send(data);
-        }
-    );
-};
+        })
+        .catch(err => {
+            console.log(err);
+            message = {
+                message: err,
+                resultCode: 1
+            }
+            res.status(500).send(message);
+        });
+}

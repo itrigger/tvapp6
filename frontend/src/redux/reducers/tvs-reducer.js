@@ -16,7 +16,7 @@ const TOGGLE_IS_TVS_UPDATING = 'tvs/TOGGLE_IS_TVS_UPDATING';
 
 let initialState = {
     tvs: [],
-    pageSize: 4,
+    pageSize: 10,
     totalTVsCount: 0,
     currentPage: 1,
     tv: {

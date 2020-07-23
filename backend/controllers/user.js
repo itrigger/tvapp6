@@ -1,4 +1,5 @@
-const User = require('../models/user');
+const User = require('../models/mongoose/user');
+const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const config = require('../config');
@@ -7,26 +8,41 @@ const config = require('../config');
 // CREATES A NEW USER
 exports.APIadd = function(req, res) {
     let hashedPassword = bcrypt.hashSync(req.body.password, 8);
-    let user = {
+    let message = {};
+    const user = new User({
+        _id: new mongoose.Types.ObjectId,
         name: req.body.name,
         email: req.body.email,
         password: hashedPassword
-    };
-    User.APIadd(user, function(err, result) {
-        if (err) {
-            console.log(err);
-            return res.sendStatus(500);
-        }
-        //res.redirect('/places');
-        let token = jwt.sign({ id: user._id }, config.secret, {
-            expiresIn: 86400 // expires in 24 hours 86400
-        });
-        res.status(200).send({ auth: true, token: token });
-    });
+    })
+    user
+        .save()
+        .then(result => {
+            console.log(result);
+            let token = jwt.sign({ id: user._id }, config.secret, {
+                expiresIn: 86400 // expires in 24 hours 86400
+            });
+            message = {
+                auth: true,
+                token: token,
+                resultCode: 0
+            }
+            res.status(200).send(message);
+        })
+        .catch(
+            err => {
+                console.log(err);
+                message = {
+                    message: err,
+                    resultCode: 1
+                }
+                res.status(500).send(message);
+            }
+        )
 };
 
 exports.APIgetMe = function(req, res, next) {
-
+    let message = {};
     const token = req.headers.authorization.split(' ')[1];
 
     if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
@@ -34,22 +50,31 @@ exports.APIgetMe = function(req, res, next) {
     jwt.verify(token, config.secret, function(err, decoded) {
         if (err) return res.send({ auth: false, message: 'Failed to authenticate token.', resultCode: 1 });
 
-        User.APIgetMe(decoded.id, function (err, user) {
-            let data = {
-                resultCode: 1,
-                user: user
-            }
-            if (err){
-                data.resultCode = 1; //resultCode = 1 ERROR DATABASE
-            }
-            if (!user) {
-                data.resultCode = 2; //resultCode = 2 USER NOT FOUND
-            }
-            user.password = '0';
-            data.resultCode = 0;
-            data.user = user;
-            res.status(200).send(data);
-        });
+        User.findById(decoded.id)
+            .exec()
+            .then(user => {
+                if(user){
+                    user.password = '0';
+                    message = {
+                        resultCode: 0,
+                        user: user
+                    }
+                    res.status(200).send(message);
+                } else {
+                    message = {
+                        message: 'No user found',
+                        resultCode: 2
+                    };
+                    res.status(400).send(message);
+                }
+
+            })
+            .catch(err => {
+                message = {
+                    message: err,
+                    resultCode: 1
+                }
+            })
     });
 };
 

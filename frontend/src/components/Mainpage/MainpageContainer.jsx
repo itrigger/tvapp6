@@ -64,3 +64,7 @@ export default compose(
     withRouter,
     withAuthRedirect
 )(MainpageContainer);
+/*
+* ToDo
+* Разобраться, почему на главной странице не работает пагинация
+* */
