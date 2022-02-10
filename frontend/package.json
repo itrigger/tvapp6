@@ -28,7 +28,7 @@
     "jwt-decode": "^2.2.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.27",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "prop-types": "^15.7.2",
     "pusher-js": "^5.0.3",
     "query-string": "^6.9.0",
